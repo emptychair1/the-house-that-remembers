@@ -45,3 +45,59 @@ The image must genuinely be constructed from sequential digits of π. π is not 
 ### Status
 
 LOCKED.
+
+---
+
+## PAGE 2 · FOREWORD — POSSIBILITY AND CURIOSITY
+
+### Text
+
+Use the complete authoritative foreword text from the manuscript, ending with:
+
+Turn the page curious.
+
+“You want your garden to bloom, and for everything to grow from within itself.”
+
+C. G. Jung · Liber Novus · p. 316
+
+### Opening experience note
+
+Before the foreword begins, include a plain, unobtrusive note communicating both of these points:
+
+- The book may include optional musical accompaniment. Music is not necessary for the experience. Reading without listening is a complete experience, and no essential narrative information is audio-only.
+- The animated visual experience includes flashing/strobing imagery. Readers with photosensitive epilepsy, a history of seizures, or sensitivity to flashing imagery should not use the animated visual experience.
+
+Final wording may be polished later without changing those meanings.
+
+### Visual / behavior
+
+- This page is intentionally quiet and static.
+- NO music.
+- NO E-Ink behavior or simulation on the foreword body.
+- NO animation through the body text.
+- NO visual foreshadowing of the later strobe treatment.
+- Let the reader encounter the foreword as straightforward prose.
+- Preserve the larger book's monochrome presentation.
+
+### Ending sequence
+
+1. Foreword reaches: “Turn the page curious.”
+2. Jung quotation/source follows as in the manuscript.
+3. Leave generous negative space.
+4. Josh's real handwritten signature writes itself onto the page stroke by stroke at human writing speed.
+5. The completed signature remains.
+6. No author label, credentials, explanatory caption, or formal sign-off is added.
+
+### Intent
+
+The signature communicates personal presence, not importance or authority.
+
+The restraint of Page 2 is deliberate. Do not introduce E-Ink motion or musical behavior here. The reader should not encounter that aggressive visual language until the later Act I treatment, making that transition substantially more brutal.
+
+### Asset dependency
+
+Josh's real handwritten signature is required and must be tracked in ASSET-MAP.md when supplied.
+
+### Status
+
+LOCKED. Signature binary still required.
