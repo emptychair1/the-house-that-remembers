@@ -1,19 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package xmlns="http://www.idpf.org/2007/opf" unique-identifier="book-id" version="3.0" prefix="rendition: http://www.idpf.org/vocab/rendition/#">
-  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
-    <dc:identifier id="book-id">urn:uuid:house-that-remembers-proof</dc:identifier>
-    <dc:title>The House That Remembers</dc:title>
-    <dc:creator>Joshua Daniels</dc:creator>
-    <dc:language>en</dc:language>
-    <meta property="dcterms:modified">2026-09-25T19:55:00Z</meta>
-    <meta property="rendition:layout">pre-paginated</meta>
-    <meta property="rendition:orientation">portrait</meta>
-    <meta property="rendition:spread">none</meta>
-  </metadata>
-  <manifest>
-    <item id="css" href="css/book.css" media-type="text/css"/>
-    <item id="nav" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav"/>
-    <item id="proof" href="pages/000-proof.xhtml" media-type="application/xhtml+xml"/>
-  </manifest>
-  <spine page-progression-direction="ltr"><itemref idref="proof"/></spine>
-</package>
+<package xmlns="http://www.idpf.org/2007/opf" unique-identifier="book-id" version="3.0" prefix="rendition: http://www.idpf.org/vocab/rendition/#"><metadata xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:identifier id="book-id">urn:uuid:house-that-remembers-proof</dc:identifier><dc:title>The House That Remembers</dc:title><dc:creator>Joshua Daniels</dc:creator><dc:language>en</dc:language><meta property="dcterms:modified">2026-09-25T20:05:00Z</meta><meta property="rendition:layout">pre-paginated</meta><meta property="rendition:orientation">portrait</meta><meta property="rendition:spread">none</meta></metadata><manifest><item id="css" href="css/book.css" media-type="text/css"/><item id="nav" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav"/><item id="proof" href="pages/000-proof.xhtml" media-type="application/xhtml+xml"/><item id="josh" href="pages/001-josh-portrait.xhtml" media-type="application/xhtml+xml"/><item id="chapter1" href="pages/002-chapter-one.xhtml" media-type="application/xhtml+xml"/><item id="josh-img" href="images/josh-portrait.png" media-type="image/png"/></manifest><spine page-progression-direction="ltr"><itemref idref="proof"/><itemref idref="josh"/><itemref idref="chapter1"/></spine></package>
