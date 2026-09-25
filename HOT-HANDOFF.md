@@ -1,27 +1,25 @@
 # THE HOUSE THAT REMEMBERS — HOT HANDOFF
 
-HANDOFF_GENERATION: 2
+HANDOFF_GENERATION: 3
 UPDATED: 2026-09-25
 
-## PURPOSE / PROJECT
-Continuity anchor for standalone private PWA adaptation of THE HOUSE THAT REMEMBERS. Repo: `emptychair1/the-house-that-remembers`. NOT Piper Home. v38 HTML is authoritative manuscript source during mapping. No new substrate/EPUB/database/parallel architecture. Josh adds binaries to `static/assets/` later; track dependencies in ASSET-MAP.
-
-## WORKING METHOD
-Map by CHAPTER / EXPERIENCE UNIT, not physical page. Keep chat extremely sparse. Assistant reads source privately and surfaces compact decision bullets; exact prose only on request. Equations/cognition diagrams are CONTENT and survive. Decorative v38 ephemera is not automatically canonical. After every meaningful map update: update BOOK-MAP + HOT-HANDOFF before moving on.
+## PROJECT / METHOD
+Standalone private PWA, repo `emptychair1/the-house-that-remembers`, NOT Piper Home. v38 HTML is authoritative manuscript source. No parallel substrate/EPUB/database. Map by chapter/experience unit. Keep chat extremely sparse. Equations/cognition survive as content; decorative v38 ephemera does not automatically survive. After every meaningful map change update BOOK-MAP + this handoff.
 
 ## GLOBAL LANGUAGE
-Initially monochrome. No red. Green/orange emerge later, exact timing undecided. Early void = black field / white type. Sparse recurring mechanics that escalate/combine: sequential π forming images; violent strobe + on-axis approach; later stereoscopic separation/aberration; glitch/disappearance; mathematics becoming visual form. Lemniscate enters grief/repeated-loss section and recurs into Forge; Sisyphus/Camus animation candidate. Music optional, eventual Apple Music/Spotify integration.
+Initially monochrome; no red. Green/orange later, timing undecided. Void = black/white. Sparse recurring mechanics: sequential π→image; strobe/on-axis approach; later stereo separation/aberration; glitch/disappearance; mathematics→visual form. Lemniscate enters grief loop and recurs into Forge; Sisyphus/Camus candidate. Music optional, eventual Apple/Spotify integration.
 
 ## LOCKED
-- COVER: approved house from actual sequential π; monochrome; source orange suppressed, possible later Home-lights payoff.
-- FOREWORD: cream/static/no music/no E-Ink behavior; optional-audio + strobe safety note; Jung ending; Josh signature writes itself.
-- ACT I / THE VOID STARES BACK: hard cut to black; white Ouroboros from π; violent monochrome strobe; rigid 2001-like on-axis travel into void; page turn hard-cuts; no music/color/stereo yet.
-- JOSH PORTRAIT: black; portrait from π; first audio = Dead Can Dance “The Host of Seraphim.”
-- CH1 THE WRETCHED MACHINE: brutal/simple black+white, essentially still, no music/new mechanic; strip decorative ephemera; KEEP equations/cognition including C=F(S); only first “screamed” horizontally ruptures/snaps back; end “Not literally. / Not then.” Build/read before adding pressure.
-- CH2 BUILD SOMETHING: still absolute black/white/monochrome and restrained. Single mechanic: values emerge from binary 0/1, deliberately false/true computational language. Binary resolves into LOVE, RELATIONSHIPS, FREEDOM, PLEASURE, SAFETY. Conceptual motion: binary states → chosen values → constructed meaning. No color/relief from void. No audio assigned. Preserve equations/cognition; no decorative ephemera.
+- COVER: house from sequential π, monochrome; orange suppressed for possible later Home payoff.
+- FOREWORD: cream/static; safety/audio note; Jung ending; handwritten Josh signature animation.
+- ACT I THE VOID STARES BACK: black; white Ouroboros from π; violent strobe + rigid on-axis travel into void; hard-cut on page turn.
+- JOSH PORTRAIT: black; portrait from π; first audio Dead Can Dance “The Host of Seraphim.”
+- CH1 THE WRETCHED MACHINE: brutal/simple black+white; still; preserve equations/cognition; strip ephemera; only first “screamed” ruptures horizontally; end “Not literally. / Not then.”
+- CH2 BUILD SOMETHING: absolute black; single mechanic values from binary 0/1 → LOVE, RELATIONSHIPS, FREEDOM, PLEASURE, SAFETY; no color/audio.
+- CH3 THE INTERVAL: Piper first POV. Black/white, sparse. Persistent Piper typography rule begins: finer elegant feminine serif, higher contrast/softer curves/more air; narrower column + more negative space. At “There you are.” black field subtly contracts around words (attention gets location). At “I knew him.” perfect stillness. Audio: Massive Attack “Teardrop,” very quiet during interval before Josh returns. No π/glitch/portrait/color/equation animation.
 
 ## ACT I -> ACT II THRESHOLD
-Tree of Life → fade → DNA → transition → decision tree, with candidate questions including substrate/experience distinctions. Then Act II: Ezekiel wheel + DEUS EX MACHINA → Aristotle / Poetics manuscript interruption. Mapping goal: lock through Aristotle threshold, then build PWA.
+Tree of Life → DNA → decision tree + questions (substrate/experience etc). Then Act II: Ezekiel wheel + DEUS EX MACHINA → Aristotle/Poetics manuscript. Map through Aristotle, then build PWA.
 
 ## NEXT ACTION
-Surface compact decision list for CHAPTER THREE from authoritative v38. Do not paste full chapter. Flag only major emotional/mechanical beats, equations/cognition, audio, and any existing asset dependency. Keep response very short.
+Surface the next authoritative chapter/experience unit after CH3 from v38, compactly. Piper is now allowed to make the creative treatment decisions rather than asking Josh to choose each one. Keep response very short.
