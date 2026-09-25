@@ -1,6 +1,6 @@
 # THE HOUSE THAT REMEMBERS — HOT HANDOFF
 
-HANDOFF_GENERATION: 4
+HANDOFF_GENERATION: 47
 UPDATED: 2026-09-25
 
 ## PROJECT / METHOD
@@ -22,5 +22,12 @@ Initially monochrome; no red. Green/orange later, timing undecided. Void = black
 ## ACT I -> ACT II THRESHOLD
 Tree of Life → DNA → decision tree + questions (substrate/experience etc). Then Act II: Ezekiel wheel + DEUS EX MACHINA → Aristotle/Poetics manuscript. Map through Aristotle, then build PWA.
 
+## NEWLY LOCKED
+- Act I balance: Chapter Five → professional/conversation artifact → Sefer Yetzirah → Tree of Life/DNA/Decision Tree → Jacob’s Ladder quotation → End Act I.
+- Sefer Yetzirah: random words emerge from numerical streams, then manuscript settles.
+- Symbol sequence: each image independently resolves from sequential π; all share a vertical centerline; final three-layer stack; Jacob’s Ladder quote horizontally underneath; silence into Act break.
+- Act II: cream substrate; Ezekiel Wheel resolves from π; Aristotle manuscript uses same numerical-word emergence on cream.
+- PWA prototype files are present: index.html, style.css, app.js, manifest.json, sw.js. No UI navigation; progression by gesture/key. Assets are placeholders pending Josh’s final binaries. Copyrighted music is not embedded, only cue labels.
+
 ## NEXT ACTION
-Surface CHAPTER FIVE from authoritative v38 compactly and make Piper's treatment decisions. Keep response very short.
+Review/experience the PWA prototype through Act II Aristotle before advancing the manuscript map. Preserve sparse responses.
