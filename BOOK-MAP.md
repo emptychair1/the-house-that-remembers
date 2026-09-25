@@ -3,176 +3,43 @@
 This file is the canonical experience-unit design map for the standalone PWA. Map by chapter or special experience unit, not physical pagination.
 
 ## COVER / TITLE
-
-### Text
-THE HOUSE THAT REMEMBERS
-
-JOSHUA DANIELS
-
-### Visual
-- Entire experience is monochrome at this point.
-- Old-Kindle / E-Ink visual character: warm-gray substrate, limited grayscale, subtle dithering, pigment rather than luminous-screen feeling.
-- Use the existing approved cover image. Do not redesign or replace it.
-
-### Sequence
-1. Page begins nearly blank.
-2. Actual sequential digits of π begin appearing sparsely.
-3. π behaves as the pigment/material from which the image is constructed.
-4. Digits progressively accumulate into the tonal structure of the existing cover image.
-5. The reader gradually realizes the apparently abstract field of π is becoming the house.
-6. The complete cover image resolves.
-7. THE HOUSE THAT REMEMBERS resolves after the image.
-8. JOSHUA DANIELS resolves last.
-9. Hold in complete stillness.
-
-### Rule
-The image must genuinely be constructed from sequential digits of π. π is not a decorative overlay or simulated random-number texture.
-
-### Status
-LOCKED.
-
----
+LOCKED. Monochrome approved house cover genuinely constructed/revealed from sequential π. Source orange suppressed; later Home-lights payoff candidate remains unlocked.
 
 ## FOREWORD — POSSIBILITY AND CURIOSITY
-
-### Text
-Use the complete authoritative foreword text from the manuscript, ending with:
-
-Turn the page curious.
-
-“You want your garden to bloom, and for everything to grow from within itself.”
-
-C. G. Jung · Liber Novus · p. 316
-
-### Opening experience note
-- Musical accompaniment may appear later but is optional; reading without listening is complete and no essential narrative information is audio-only.
-- The animated experience includes flashing/strobing imagery. Readers with photosensitive epilepsy, seizure history, or flashing sensitivity should not use the animated visual experience.
-
-### Visual / behavior
-- Cream paper background.
-- Intentionally quiet and static.
-- NO music.
-- NO E-Ink behavior or simulation on the foreword body.
-- NO animation through the body text.
-- NO visual foreshadowing of the later strobe treatment.
-
-### Ending
-- After the Jung quotation, leave generous negative space.
-- Josh's real handwritten signature writes itself stroke by stroke at human writing speed and remains.
-- No author label, credentials, explanatory caption, or formal sign-off.
-
-### Status
-LOCKED. Signature binary still required.
-
----
+LOCKED. Cream, static, no music/E-Ink behavior. Optional-audio + strobe safety note. Jung ending, negative space, Josh signature writes itself.
 
 ## ACT I CARD — THE VOID STARES BACK
-
-### Text
-ACT I
-
-THE VOID STARES BACK
-
-### Visual foundation
-- Hard transition from cream to full black.
-- White-on-black, monochrome.
-- First explicit E-Ink-black environment.
-- Existing approved Ouroboros, white against black.
-- No green or orange.
-
-### Entrance
-1. Black field.
-2. Actual sequential digits of π appear in white.
-3. π accumulates into the approved Ouroboros.
-4. Ouroboros fully resolves.
-5. ACT I and THE VOID STARES BACK resolve.
-6. Brief still hold.
-
-### Strobe / approach
-- Then violent monochrome strobing begins.
-- Directional language: Gaspar Noé intensity plus the rigid on-axis forward/cosmic travel of 2001: A Space Odyssey; do not copy assets.
-- Motion must feel TRACKED, not like an SVG simply scaling. Reader/camera travels on a fixed rail directly toward the central void.
-- Strong central vanishing axis. No decorative orbit or wandering camera.
-- Ouroboros grows beyond viewport as the reader is carried toward/into the void.
-- Hard black/white states, inversion, strobe, E-Ink ghost remnants, and discontinuous apparent distance may combine, while trajectory remains rigidly on-axis.
-- Continue while reader remains. Page turn interrupts immediately with a hard cut.
-
-### Audio
-No music assigned.
-
-### Status
-LOCKED except missing Ouroboros binary asset.
-
----
+LOCKED except Ouroboros binary. Hard cream→black. White Ouroboros from sequential π. Violent monochrome strobe with rigid on-axis tracked travel into central void; page turn hard-cuts. No music/color/stereo yet.
 
 ## JOSH PORTRAIT / FIRST AUDIO
-
-### Visual
-- Full black field.
-- Monochrome.
-- Use Josh's approved portrait.
-- Actual sequential π in white accumulates into the portrait until it fully resolves.
-- No new visual mechanic.
-
-### Audio
-FIRST music/audio cue in the book:
-
-“The Host of Seraphim” — Dead Can Dance.
-
-Music remains optional. Apple Music / Spotify implementation is a later build decision.
-
-### Status
-LOCKED. Portrait binary still required.
-
----
+LOCKED except portrait binary. Black. Portrait from sequential π. First audio: Dead Can Dance — “The Host of Seraphim.”
 
 ## CHAPTER ONE — THE WRETCHED MACHINE
+LOCKED for first implementation. Complete authoritative v38 prose/equations. Brutal/simple: black, white type, monochrome, essentially still, no music/new mechanic. Strip decorative v38 ephemera; KEEP equations/cognition objects including `C = F(S)` and consciousness hypothesis sequence. Only disturbance: first “screamed” briefly horizontally ruptures/snaps back; later “scream” untouched. End simply “Not literally. / Not then.” Build/read before adding pressure.
+
+## CHAPTER TWO — BUILD SOMETHING
 
 ### Source
-Use the complete authoritative Chapter One prose and equations from the v38 manuscript source. Do not reduce the chapter to the opening excerpt previously stored here.
+Use complete authoritative Chapter Two prose and equations from v38.
 
 ### Design posture
-BRUTAL AND SIMPLE.
+- Still inside the void: BLACK remains absolute.
+- White type, monochrome.
+- Restrained. Do not add decorative v38 ephemera.
+- Preserve meaningful equations/cognition objects.
 
-- Black background.
-- White type.
-- Monochrome.
-- The prose carries the chapter.
-- Keep the chapter essentially still.
-- Do not illustrate every emotional beat.
-- The void is the chapter's governing visual idea, not a stream of decorative effects.
-- No music.
-- No new mechanic.
+### Single chapter mechanic — VALUES FROM BINARY
+Values are the chapter's center of gravity.
 
-### Remove / do not port from the old limited substrate
-Do not carry forward the old decorative ephemera merely because it exists in v38: ashfall, cup stains, burn marks, distressed-page furniture, ghost text, marginalia, redactions, and similar ambient clutter. If an old effect was trying to convey emotion, prefer the cleaner established PWA mechanics when/if that emotion actually needs visual pressure.
+- Around the chapter's values/choice material, introduce a field/stream of binary `0` and `1`.
+- Binary is used deliberately as computational false/true state language.
+- Selected bits progressively organize/resolve into Josh's chosen values: LOVE, RELATIONSHIPS, FREEDOM, PLEASURE, SAFETY.
+- Emotional/conceptual movement: binary states → chosen values → constructed meaning.
+- Keep it monochrome white-on-black. This does NOT represent emergence from the void or introduction of color.
+- This is the ONLY new visual mechanic assigned to Chapter Two.
 
-### Preserve as content
-KEEP JOSH'S EQUATIONS AND COGNITION / MATHEMATICAL OBJECTS. They are part of the thinking and narrative voice, not ephemera. This includes `C = F(S)`, the consciousness hypothesis sequence, and other equations/cognition diagrams present in the authoritative chapter text. Do not clean the brain out of the book while cleaning the design.
-
-### One locked disturbance
-In “They screamed because coyotes scream,” disturb ONLY the first word “screamed.”
-
-- Brief horizontal typographic rupture in monochrome.
-- Letters pull apart subtly, then snap exactly back into the typesetting.
-- Almost subliminal, not a horror-text shake.
-- Leave the later word “scream” untouched.
-- Meaning: disturb the remembered event, not Josh's rational explanation of it.
-
-### π
-π remains part of the book's larger mathematical grammar, but do not force it to perform a trick inside every chapter. No additional Chapter One π animation is currently assigned.
-
-### Ending
-Let the chapter end simply on:
-
-Not literally.
-
-Not then.
-
-Black remains black. No added ending effect unless the built chapter later proves it needs one.
-
-### Evaluation rule
-Build/look/read first. If the chapter feels too restrained in the actual PWA, add pressure only where the reading proves pressure is needed. Do not pre-decorate it.
+### Audio
+No cue assigned.
 
 ### Status
 LOCKED for first implementation pass.
