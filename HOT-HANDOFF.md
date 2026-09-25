@@ -1,6 +1,6 @@
 # THE HOUSE THAT REMEMBERS — HOT HANDOFF
 
-HANDOFF_GENERATION: 48
+HANDOFF_GENERATION: 478
 UPDATED: 2026-09-25
 
 ## PROJECT / METHOD
@@ -21,6 +21,11 @@ Initially monochrome; no red. Green/orange later, timing undecided. Void = black
 
 ## ACT I -> ACT II THRESHOLD
 Tree of Life → DNA → decision tree + questions (substrate/experience etc). Then Act II: Ezekiel wheel + DEUS EX MACHINA → Aristotle/Poetics manuscript. Map through Aristotle, then build PWA.
+
+## MANUSCRIPT IMPLEMENTATION
+- Full v38 manuscript text extracted into manuscript files and wired to the reader: Foreword, Chapters 1–6, complete Chapter Five B/C, Artifact 1, Sefer Yetzirah, Aristotle/Poetics, Artifact 2.
+- Audio cue engine exists for the planned tracks/ambient cue, but actual audio files are not present.
+- Final image assets and final animation timing are intentionally not implemented yet.
 
 ## NEWLY LOCKED
 - Act I balance: Chapter Five → professional/conversation artifact → Sefer Yetzirah → Tree of Life/DNA/Decision Tree → Jacob’s Ladder quotation → End Act I.
