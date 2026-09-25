@@ -221,3 +221,58 @@ Josh portrait binary will be supplied later with the other assets and placed und
 ### Status
 
 LOCKED. Portrait binary still required.
+
+---
+
+## PAGE 5 · CHAPTER ONE — THE WRETCHED MACHINE
+
+### Header
+
+THE WRETCHED MACHINE
+
+Georgia
+
+“Visita Interiora Terrae Rectificando Invenies Occultum Lapidem.”
+
+V.I.T.R.I.O.L. · Azoth tradition
+
+### Opening text
+
+The coyotes knew before I did.
+
+I don't mean that literally.
+
+I should establish that now because later there will be enough uncertainty without manufacturing any.
+
+They were coyotes. Animals in the woods. They did not possess secret knowledge. They were not heralds. They were not speaking to me.
+
+They screamed because coyotes scream.
+
+Still.
+
+I remember them.
+
+### Visual / behavior
+
+- Keep the page essentially still.
+- Do not add atmospheric animation merely because the prose mentions darkness, windows, coyotes, ash, or the trailer.
+- The restraint after the Act I assault and portrait is intentional.
+- The ONLY disturbance in this opening treatment is the first word “screamed” in: “They screamed because coyotes scream.”
+- On that first “screamed,” the letters briefly pull apart horizontally in a subtle monochrome rupture, then snap precisely back into the original typesetting.
+- The effect should be brief enough to feel almost subliminal, not like a conventional horror-text shake.
+- Leave the later word “scream” in the same sentence completely untouched.
+
+### Intent
+
+The distinction matters: “screamed” is the remembered event; “scream” is Josh rationalizing it. Disturb the memory, not the explanation.
+
+### Mechanics
+
+- First extremely restrained typographic rupture.
+- Monochrome only.
+- No new full-page animation system.
+- No music assigned here unless explicitly decided later.
+
+### Status
+
+LOCKED for the opening treatment.
