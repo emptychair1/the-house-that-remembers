@@ -147,7 +147,7 @@ After the completed Act card has been legible and still, the experience becomes 
 - The sequence should feel less like an object simply getting larger and more like the reader is physically being carried toward it on rails.
 - Continue the approach for as long as the reader remains on the page. Do not auto-advance and do not provide a polite visual resolution.
 - Turning the page interrupts the sequence immediately.
-- The transition into the following chapter should be a hard cut, not a fade.
+- The transition into the following page should be a hard cut, not a fade.
 
 ### Interaction rule
 
@@ -166,7 +166,7 @@ The reader controls duration only by deciding when to turn the page. Lingering m
 
 ### Audio
 
-UNDECIDED. Do not infer a cue.
+NO music assigned on this page at present.
 
 ### Asset dependency
 
@@ -174,4 +174,50 @@ Existing approved Ouroboros asset/treatment is required and must be tracked in A
 
 ### Status
 
-LOCKED except audio cue and missing Ouroboros binary asset.
+LOCKED except missing Ouroboros binary asset.
+
+---
+
+## PAGE 4 · JOSH PORTRAIT / FIRST AUDIO
+
+### Visual foundation
+
+- Full black field, continuing the black visual world established by the Act I card.
+- Monochrome only.
+- Use Josh's existing approved portrait as the target composition. Do not redesign or regenerate it.
+
+### Entrance sequence
+
+1. Begin on black.
+2. Actual sequential digits of π appear in white.
+3. π accumulates into Josh's portrait.
+4. The portrait progressively resolves from the numerical field until the approved portrait is fully legible.
+5. Hold the completed portrait without introducing another visual mechanic.
+
+### Audio
+
+This is the FIRST music/audio cue in the book.
+
+Track: “The Host of Seraphim” — Dead Can Dance.
+
+- No music occurs on the foreword.
+- Do not move this cue backward onto the Act I card.
+- Music remains optional as established in the Page 2 experience note.
+- Playback/integration implementation (Apple Music / Spotify) will be decided during build planning; this map records the creative cue, not licensing or playback mechanics.
+
+### Mechanics
+
+- Reuse π → image / π Emergence.
+- Black field continues.
+- No new visual mechanic is introduced here.
+- No color.
+- No stereoscopic separation.
+- No glitch/disappearance.
+
+### Asset dependency
+
+Josh portrait binary will be supplied later with the other assets and placed under `static/assets/`. Track it in ASSET-MAP.md; do not pause page mapping for the binary.
+
+### Status
+
+LOCKED. Portrait binary still required.
