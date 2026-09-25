@@ -1,23 +1,20 @@
 # THE HOUSE THAT REMEMBERS — CANONICAL BOOK MAP
 
-This file is the canonical page-by-page design map for the standalone book experience.
+This file is the canonical experience-unit design map for the standalone PWA. Map by chapter or special experience unit, not physical pagination.
 
-## PAGE 1 · COVER / TITLE
+## COVER / TITLE
 
 ### Text
-
 THE HOUSE THAT REMEMBERS
 
 JOSHUA DANIELS
 
 ### Visual
-
 - Entire experience is monochrome at this point.
 - Old-Kindle / E-Ink visual character: warm-gray substrate, limited grayscale, subtle dithering, pigment rather than luminous-screen feeling.
 - Use the existing approved cover image. Do not redesign or replace it.
 
 ### Sequence
-
 1. Page begins nearly blank.
 2. Actual sequential digits of π begin appearing sparsely.
 3. π behaves as the pigment/material from which the image is constructed.
@@ -28,30 +25,17 @@ JOSHUA DANIELS
 8. JOSHUA DANIELS resolves last.
 9. Hold in complete stillness.
 
-### Mechanics introduced
-
-- E-Ink substrate.
-- π → image / π Emergence.
-- No color.
-- No stereoscopic separation.
-- No disappearance/glitch.
-- No additional motion vocabulary.
-- No music cue currently assigned.
-
 ### Rule
-
 The image must genuinely be constructed from sequential digits of π. π is not a decorative overlay or simulated random-number texture.
 
 ### Status
-
 LOCKED.
 
 ---
 
-## PAGE 2 · FOREWORD — POSSIBILITY AND CURIOSITY
+## FOREWORD — POSSIBILITY AND CURIOSITY
 
 ### Text
-
 Use the complete authoritative foreword text from the manuscript, ending with:
 
 Turn the page curious.
@@ -61,218 +45,134 @@ Turn the page curious.
 C. G. Jung · Liber Novus · p. 316
 
 ### Opening experience note
-
-Before the foreword begins, include a plain, unobtrusive note communicating both of these points:
-
-- The book may include optional musical accompaniment. Music is not necessary for the experience. Reading without listening is a complete experience, and no essential narrative information is audio-only.
-- The animated visual experience includes flashing/strobing imagery. Readers with photosensitive epilepsy, a history of seizures, or sensitivity to flashing imagery should not use the animated visual experience.
-
-Final wording may be polished later without changing those meanings.
+- Musical accompaniment may appear later but is optional; reading without listening is complete and no essential narrative information is audio-only.
+- The animated experience includes flashing/strobing imagery. Readers with photosensitive epilepsy, seizure history, or flashing sensitivity should not use the animated visual experience.
 
 ### Visual / behavior
-
-- This page is intentionally quiet and static.
+- Cream paper background.
+- Intentionally quiet and static.
 - NO music.
 - NO E-Ink behavior or simulation on the foreword body.
 - NO animation through the body text.
 - NO visual foreshadowing of the later strobe treatment.
-- Let the reader encounter the foreword as straightforward prose.
-- Preserve the larger book's monochrome presentation.
 
-### Ending sequence
-
-1. Foreword reaches: “Turn the page curious.”
-2. Jung quotation/source follows as in the manuscript.
-3. Leave generous negative space.
-4. Josh's real handwritten signature writes itself onto the page stroke by stroke at human writing speed.
-5. The completed signature remains.
-6. No author label, credentials, explanatory caption, or formal sign-off is added.
-
-### Intent
-
-The signature communicates personal presence, not importance or authority.
-
-The restraint of Page 2 is deliberate. Do not introduce E-Ink motion or musical behavior here. The reader should not encounter that aggressive visual language until the later Act I treatment, making that transition substantially more brutal.
-
-### Asset dependency
-
-Josh's real handwritten signature is required and must be tracked in ASSET-MAP.md when supplied.
+### Ending
+- After the Jung quotation, leave generous negative space.
+- Josh's real handwritten signature writes itself stroke by stroke at human writing speed and remains.
+- No author label, credentials, explanatory caption, or formal sign-off.
 
 ### Status
-
 LOCKED. Signature binary still required.
 
 ---
 
-## PAGE 3 · ACT I CARD — THE VOID STARES BACK
+## ACT I CARD — THE VOID STARES BACK
 
 ### Text
-
 ACT I
 
 THE VOID STARES BACK
 
 ### Visual foundation
+- Hard transition from cream to full black.
+- White-on-black, monochrome.
+- First explicit E-Ink-black environment.
+- Existing approved Ouroboros, white against black.
+- No green or orange.
 
-- Hard transition away from Page 2's cream paper.
-- Full black background.
-- White-on-black presentation.
-- This is the first explicit E-Ink-black environment.
-- Preserve the existing approved Ouroboros design/treatment; do not redesign it.
-- The Ouroboros itself is white against the black field.
-- No green or orange. The book remains monochrome.
-
-### Entrance sequence
-
-1. Begin on the black field.
+### Entrance
+1. Black field.
 2. Actual sequential digits of π appear in white.
-3. π accumulates into the contours, scales/details, and complete form of the approved Ouroboros.
-4. The reader gradually recognizes that the numerical field is becoming the Ouroboros.
-5. The Ouroboros fully resolves white-on-black.
-6. ACT I resolves.
-7. THE VOID STARES BACK resolves.
-8. Hold briefly in stillness before the attack begins.
+3. π accumulates into the approved Ouroboros.
+4. Ouroboros fully resolves.
+5. ACT I and THE VOID STARES BACK resolve.
+6. Brief still hold.
 
-### Strobe / approach sequence
-
-After the completed Act card has been legible and still, the experience becomes deliberately violent and confrontational.
-
-- THE VOID STARES BACK and the Ouroboros enter a hard monochrome strobing sequence.
-- The visual reference is the confrontational intensity associated with Gaspar Noé combined with the on-axis, inexorable forward travel / cosmic approach language associated with 2001: A Space Odyssey. These are directional references, not assets to copy.
-- The motion must feel TRACKED rather than like ordinary CSS scaling: the reader/camera appears to be traveling forward on a fixed rail directly toward and into the central void.
-- Maintain a strong central vanishing axis. No wandering camera and no decorative orbit.
-- With each phase/burst the void is closer. The sensation is forward propulsion into it.
-- The Ouroboros expands beyond the viewport as the camera advances; the center/void increasingly dominates the frame.
-- Hard black/white states, inversion, strobing, E-Ink-like ghost remnants, and discontinuous apparent distance may combine to make the approach feel unstable and brutal while the underlying trajectory remains rigidly on-axis.
-- The sequence should feel less like an object simply getting larger and more like the reader is physically being carried toward it on rails.
-- Continue the approach for as long as the reader remains on the page. Do not auto-advance and do not provide a polite visual resolution.
-- Turning the page interrupts the sequence immediately.
-- The transition into the following page should be a hard cut, not a fade.
-
-### Interaction rule
-
-The reader controls duration only by deciding when to turn the page. Lingering means being carried farther toward/into the void.
-
-### Mechanics introduced / escalated
-
-- Reuse π → image / π Emergence from Page 1.
-- First black E-Ink field.
-- First violent strobe language.
-- First tracked/on-axis camera-approach illusion.
-- First sustained reader-dependent animation.
-- No color.
-- No stereoscopic separation yet.
-- No glitch/disappearance mechanic yet.
+### Strobe / approach
+- Then violent monochrome strobing begins.
+- Directional language: Gaspar Noé intensity plus the rigid on-axis forward/cosmic travel of 2001: A Space Odyssey; do not copy assets.
+- Motion must feel TRACKED, not like an SVG simply scaling. Reader/camera travels on a fixed rail directly toward the central void.
+- Strong central vanishing axis. No decorative orbit or wandering camera.
+- Ouroboros grows beyond viewport as the reader is carried toward/into the void.
+- Hard black/white states, inversion, strobe, E-Ink ghost remnants, and discontinuous apparent distance may combine, while trajectory remains rigidly on-axis.
+- Continue while reader remains. Page turn interrupts immediately with a hard cut.
 
 ### Audio
-
-NO music assigned on this page at present.
-
-### Asset dependency
-
-Existing approved Ouroboros asset/treatment is required and must be tracked in ASSET-MAP.md when its source is recovered/provided.
+No music assigned.
 
 ### Status
-
 LOCKED except missing Ouroboros binary asset.
 
 ---
 
-## PAGE 4 · JOSH PORTRAIT / FIRST AUDIO
+## JOSH PORTRAIT / FIRST AUDIO
 
-### Visual foundation
-
-- Full black field, continuing the black visual world established by the Act I card.
-- Monochrome only.
-- Use Josh's existing approved portrait as the target composition. Do not redesign or regenerate it.
-
-### Entrance sequence
-
-1. Begin on black.
-2. Actual sequential digits of π appear in white.
-3. π accumulates into Josh's portrait.
-4. The portrait progressively resolves from the numerical field until the approved portrait is fully legible.
-5. Hold the completed portrait without introducing another visual mechanic.
+### Visual
+- Full black field.
+- Monochrome.
+- Use Josh's approved portrait.
+- Actual sequential π in white accumulates into the portrait until it fully resolves.
+- No new visual mechanic.
 
 ### Audio
+FIRST music/audio cue in the book:
 
-This is the FIRST music/audio cue in the book.
+“The Host of Seraphim” — Dead Can Dance.
 
-Track: “The Host of Seraphim” — Dead Can Dance.
-
-- No music occurs on the foreword.
-- Do not move this cue backward onto the Act I card.
-- Music remains optional as established in the Page 2 experience note.
-- Playback/integration implementation (Apple Music / Spotify) will be decided during build planning; this map records the creative cue, not licensing or playback mechanics.
-
-### Mechanics
-
-- Reuse π → image / π Emergence.
-- Black field continues.
-- No new visual mechanic is introduced here.
-- No color.
-- No stereoscopic separation.
-- No glitch/disappearance.
-
-### Asset dependency
-
-Josh portrait binary will be supplied later with the other assets and placed under `static/assets/`. Track it in ASSET-MAP.md; do not pause page mapping for the binary.
+Music remains optional. Apple Music / Spotify implementation is a later build decision.
 
 ### Status
-
 LOCKED. Portrait binary still required.
 
 ---
 
-## PAGE 5 · CHAPTER ONE — THE WRETCHED MACHINE
+## CHAPTER ONE — THE WRETCHED MACHINE
 
-### Header
+### Source
+Use the complete authoritative Chapter One prose and equations from the v38 manuscript source. Do not reduce the chapter to the opening excerpt previously stored here.
 
-THE WRETCHED MACHINE
+### Design posture
+BRUTAL AND SIMPLE.
 
-Georgia
+- Black background.
+- White type.
+- Monochrome.
+- The prose carries the chapter.
+- Keep the chapter essentially still.
+- Do not illustrate every emotional beat.
+- The void is the chapter's governing visual idea, not a stream of decorative effects.
+- No music.
+- No new mechanic.
 
-“Visita Interiora Terrae Rectificando Invenies Occultum Lapidem.”
+### Remove / do not port from the old limited substrate
+Do not carry forward the old decorative ephemera merely because it exists in v38: ashfall, cup stains, burn marks, distressed-page furniture, ghost text, marginalia, redactions, and similar ambient clutter. If an old effect was trying to convey emotion, prefer the cleaner established PWA mechanics when/if that emotion actually needs visual pressure.
 
-V.I.T.R.I.O.L. · Azoth tradition
+### Preserve as content
+KEEP JOSH'S EQUATIONS AND COGNITION / MATHEMATICAL OBJECTS. They are part of the thinking and narrative voice, not ephemera. This includes `C = F(S)`, the consciousness hypothesis sequence, and other equations/cognition diagrams present in the authoritative chapter text. Do not clean the brain out of the book while cleaning the design.
 
-### Opening text
+### One locked disturbance
+In “They screamed because coyotes scream,” disturb ONLY the first word “screamed.”
 
-The coyotes knew before I did.
+- Brief horizontal typographic rupture in monochrome.
+- Letters pull apart subtly, then snap exactly back into the typesetting.
+- Almost subliminal, not a horror-text shake.
+- Leave the later word “scream” untouched.
+- Meaning: disturb the remembered event, not Josh's rational explanation of it.
 
-I don't mean that literally.
+### π
+π remains part of the book's larger mathematical grammar, but do not force it to perform a trick inside every chapter. No additional Chapter One π animation is currently assigned.
 
-I should establish that now because later there will be enough uncertainty without manufacturing any.
+### Ending
+Let the chapter end simply on:
 
-They were coyotes. Animals in the woods. They did not possess secret knowledge. They were not heralds. They were not speaking to me.
+Not literally.
 
-They screamed because coyotes scream.
+Not then.
 
-Still.
+Black remains black. No added ending effect unless the built chapter later proves it needs one.
 
-I remember them.
-
-### Visual / behavior
-
-- Keep the page essentially still.
-- Do not add atmospheric animation merely because the prose mentions darkness, windows, coyotes, ash, or the trailer.
-- The restraint after the Act I assault and portrait is intentional.
-- The ONLY disturbance in this opening treatment is the first word “screamed” in: “They screamed because coyotes scream.”
-- On that first “screamed,” the letters briefly pull apart horizontally in a subtle monochrome rupture, then snap precisely back into the original typesetting.
-- The effect should be brief enough to feel almost subliminal, not like a conventional horror-text shake.
-- Leave the later word “scream” in the same sentence completely untouched.
-
-### Intent
-
-The distinction matters: “screamed” is the remembered event; “scream” is Josh rationalizing it. Disturb the memory, not the explanation.
-
-### Mechanics
-
-- First extremely restrained typographic rupture.
-- Monochrome only.
-- No new full-page animation system.
-- No music assigned here unless explicitly decided later.
+### Evaluation rule
+Build/look/read first. If the chapter feels too restrained in the actual PWA, add pressure only where the reading proves pressure is needed. Do not pre-decorate it.
 
 ### Status
-
-LOCKED for the opening treatment.
+LOCKED for first implementation pass.
