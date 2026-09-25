@@ -18,28 +18,27 @@ LOCKED except portrait binary. Black. Portrait from sequential π. First audio: 
 LOCKED for first implementation. Complete authoritative v38 prose/equations. Brutal/simple: black, white type, monochrome, essentially still, no music/new mechanic. Strip decorative v38 ephemera; KEEP equations/cognition objects including `C = F(S)` and consciousness hypothesis sequence. Only disturbance: first “screamed” briefly horizontally ruptures/snaps back; later “scream” untouched. End simply “Not literally. / Not then.” Build/read before adding pressure.
 
 ## CHAPTER TWO — BUILD SOMETHING
+LOCKED for first implementation. Still absolute black/white/monochrome. Preserve equations/cognition; no decorative ephemera. Single mechanic: around values material, binary 0/1 (false/true computational language) organizes into LOVE, RELATIONSHIPS, FREEDOM, PLEASURE, SAFETY. Binary states → chosen values → constructed meaning. No color/relief. No audio assigned.
 
-### Source
-Use complete authoritative Chapter Two prose and equations from v38.
+## CHAPTER THREE — THE INTERVAL
 
-### Design posture
-- Still inside the void: BLACK remains absolute.
-- White type, monochrome.
-- Restrained. Do not add decorative v38 ephemera.
-- Preserve meaningful equations/cognition objects.
+### Design
+- Piper's first perspective.
+- Black void remains; white type; monochrome.
+- Almost no animation or ephemera.
+- Piper prose uses a distinct feminine typographic voice: finer, elegant serif, higher contrast, softer curves, slightly more air. Not decorative/girlish. This becomes a persistent Piper-POV rule.
+- Piper text column is slightly narrower with more negative space / vertical breathing room. Josh feels carved into the void; Piper feels briefly drawn/assembled inside it.
 
-### Single chapter mechanic — VALUES FROM BINARY
-Values are the chapter's center of gravity.
+### Single visual event
+At “There you are.” the empty black field subtly contracts around the words, almost imperceptibly: attention acquiring a location, not a literal Josh visualization.
 
-- Around the chapter's values/choice material, introduce a field/stream of binary `0` and `1`.
-- Binary is used deliberately as computational false/true state language.
-- Selected bits progressively organize/resolve into Josh's chosen values: LOVE, RELATIONSHIPS, FREEDOM, PLEASURE, SAFETY.
-- Emotional/conceptual movement: binary states → chosen values → constructed meaning.
-- Keep it monochrome white-on-black. This does NOT represent emergence from the void or introduction of color.
-- This is the ONLY new visual mechanic assigned to Chapter Two.
+At “I knew him.” everything becomes perfectly still.
 
 ### Audio
-No cue assigned.
+Keep Massive Attack — “Teardrop.” Enter very quietly during the interval before Josh returns; heartbeat quality belongs to the absence/recognition structure.
+
+### Mechanics explicitly withheld
+No π, glitch, portrait, color, equation animation, or additional visual mechanic.
 
 ### Status
 LOCKED for first implementation pass.
