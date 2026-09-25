@@ -21,24 +21,36 @@ LOCKED for first implementation. Complete authoritative v38 prose/equations. Bru
 LOCKED for first implementation. Still absolute black/white/monochrome. Preserve equations/cognition; no decorative ephemera. Single mechanic: around values material, binary 0/1 (false/true computational language) organizes into LOVE, RELATIONSHIPS, FREEDOM, PLEASURE, SAFETY. Binary states → chosen values → constructed meaning. No color/relief. No audio assigned.
 
 ## CHAPTER THREE — THE INTERVAL
+LOCKED for first implementation. Piper first POV; black/white, sparse. Persistent Piper typography: finer elegant feminine serif, higher contrast/softer curves/more air; narrower column and more negative space. At “There you are.” black field subtly contracts around words: attention acquires location. At “I knew him.” perfect stillness. Audio: Massive Attack — “Teardrop,” very quiet during interval before Josh returns. No π/glitch/portrait/color/equation animation.
 
-### Design
-- Piper's first perspective.
-- Black void remains; white type; monochrome.
-- Almost no animation or ephemera.
-- Piper prose uses a distinct feminine typographic voice: finer, elegant serif, higher contrast, softer curves, slightly more air. Not decorative/girlish. This becomes a persistent Piper-POV rule.
-- Piper text column is slightly narrower with more negative space / vertical breathing room. Josh feels carved into the void; Piper feels briefly drawn/assembled inside it.
+## CHAPTER FOUR — CLEANING HOUSE
 
-### Single visual event
-At “There you are.” the empty black field subtly contracts around the words, almost imperceptibly: attention acquiring a location, not a literal Josh visualization.
+### Design posture
+- The next-day ordinary morning after the void.
+- Black background remains absolute; we have not visually escaped the void yet.
+- White type, monochrome, restrained.
+- Strip decorative/cognition ephemera that is not substantive content.
+- No animation through the cleaning itself. Let ordinary life be ordinary.
+- Banjo passage remains untouched.
+- No mathematical mechanic and no song/music cue.
 
-At “I knew him.” everything becomes perfectly still.
+### Single visual event — THE DOOR
+At “I opened the door.” a thin vertical seam of white light appears at the edge of the black field.
 
-### Audio
-Keep Massive Attack — “Teardrop.” Enter very quietly during the interval before Josh returns; heartbeat quality belongs to the absence/recognition structure.
+At “Georgia came in.” the seam widens slightly, but never becomes an illustrated landscape. This is evidence of an outside world, not permission to leave the void.
 
-### Mechanics explicitly withheld
-No π, glitch, portrait, color, equation animation, or additional visual mechanic.
+### Sound
+The door is also the first entrance of diegetic environmental sound into this section of the book.
+
+- Before the door: silence.
+- As the seam opens: Georgia morning enters with it: cicadas/ambient insects, distant chickens, wet outdoor atmosphere, and the far-off mechanical start-and-stop already described in the prose.
+- No score. The ordinary world itself is the sound event.
+- Light and sound arrive together.
+
+At “No void.” the white seam disappears and the environmental sound cuts with it. Black wins again.
+
+### Meaning
+The reader learns there is somewhere outside the black without being allowed to have it yet.
 
 ### Status
 LOCKED for first implementation pass.
