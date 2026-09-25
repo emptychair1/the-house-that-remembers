@@ -54,3 +54,19 @@ The reader learns there is somewhere outside the black without being allowed to 
 
 ### Status
 LOCKED for first implementation pass.
+
+
+## ACT I BALANCE / CLOSING SEQUENCE
+After Chapter Four, preserve mode balance with: Chapter Five → professional/conversation artifact → Sefer Yetzirah manuscript → symbolic Act I sequence → End of Act One.
+
+### Sefer Yetzirah
+Cream/black manuscript treatment only when manuscript interruption occurs. Numerical stream generates seemingly random words before the manuscript settles. The point is number → language/meaning, not prophecy.
+
+### Act I symbolic sequence
+Each symbol independently resolves from sequential π, then yields to the next while maintaining a common vertical centerline: Tree of Life → DNA → Decision Tree. After all three are stacked, a Jacob’s Ladder quotation appears horizontally beneath them. Hold silence. End Act One.
+
+## ACT II OPENER
+Cream background. Ezekiel’s Wheel resolves from sequential π. Black-on-cream typography. Aristotle manuscript repeats the Sefer Yetzirah numerical-word emergence mechanic, now on cream. Then Aristotle’s manuscript settles into legibility. Core grammar: number → structure → meaning, with substrate reversed from black void to cream manuscript.
+
+## PWA PROTOTYPE
+Reader shell now exists in repo as index.html, style.css, app.js, manifest.json, and sw.js. No visible navigation system is intended; prototype uses gesture/key progression only. Black/white E-Ink language, manuscript cream reversal, π number fields, strobe/on-axis Act I card, binary values, Piper serif, artifacts, Sefer Yetzirah, stacked symbolic sequence, Ezekiel/Act II, Aristotle. Josh portrait/signature/assets remain placeholders until Josh supplies final binaries. Music cues are represented by labels only; no copyrighted recordings embedded.
