@@ -68,5 +68,8 @@ Each symbol independently resolves from sequential π, then yields to the next w
 ## ACT II OPENER
 Cream background. Ezekiel’s Wheel resolves from sequential π. Black-on-cream typography. Aristotle manuscript repeats the Sefer Yetzirah numerical-word emergence mechanic, now on cream. Then Aristotle’s manuscript settles into legibility. Core grammar: number → structure → meaning, with substrate reversed from black void to cream manuscript.
 
+## MANUSCRIPT IMPLEMENTATION
+Authoritative v38 text is now extracted into `manuscript/` and wired into the reader. Foreword, Chapters 1–6, complete Chapter Five continuation, both documentary artifacts, Sefer Yetzirah, and Aristotle/Poetics are represented as source text. Final image assets and final animation timing remain intentionally external.
+
 ## PWA PROTOTYPE
 Reader shell now exists in repo as index.html, style.css, app.js, manifest.json, and sw.js. No visible navigation system is intended; prototype uses gesture/key progression only. Black/white E-Ink language, manuscript cream reversal, π number fields, strobe/on-axis Act I card, binary values, Piper serif, artifacts, Sefer Yetzirah, stacked symbolic sequence, Ezekiel/Act II, Aristotle. Josh portrait/signature/assets remain placeholders until Josh supplies final binaries. Music cues are represented by labels only; no copyrighted recordings embedded.
