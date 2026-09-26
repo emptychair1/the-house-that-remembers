@@ -2,38 +2,38 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#f6f0e6">
 <title>Signature Capture Surface</title>
 <style>
-:root{--paper:#f6f0e6;--ink:#14110d;--muted:#817665;--line:rgba(20,17,13,.16)}
+:root{--paper:#f6f0e6;--ink:#14110d;--muted:#817665;--line:rgba(20,17,13,.16);--app-h:100dvh}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;min-height:100%;background:var(--paper);color:var(--ink);font-family:Baskerville,"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;overscroll-behavior:none}
-body{min-height:100dvh;display:grid;grid-template-rows:auto 1fr auto;overflow:hidden}
-header{padding:max(1.1rem,env(safe-area-inset-top)) 1rem .7rem;text-align:center}
-h1{margin:0;font-size:clamp(1.25rem,5vw,2rem);font-weight:400;letter-spacing:.02em}
-.hint{margin:.45rem auto 0;max-width:32rem;font:700 .58rem/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.13em;text-transform:uppercase;color:rgba(20,17,13,.46)}
-.stage{position:relative;margin:0 auto;width:min(94vw,48rem);height:min(54vh,28rem);min-height:18rem;background:radial-gradient(circle at 50% 42%,rgba(255,255,255,.55),transparent 42%),linear-gradient(110deg,rgba(20,17,13,.035),transparent 35%,rgba(20,17,13,.035));box-shadow:0 1.8rem 6rem rgba(20,17,13,.14);border:1px solid rgba(20,17,13,.11);touch-action:none;overflow:hidden}
+html,body{margin:0;width:100%;height:var(--app-h);background:var(--paper);color:var(--ink);font-family:Baskerville,"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;overflow:hidden;overscroll-behavior:none;touch-action:none;position:fixed;inset:0}
+body{display:grid;grid-template-rows:auto 1fr auto;min-height:var(--app-h);max-height:var(--app-h);-webkit-user-select:none;user-select:none}
+header{padding:max(.72rem,env(safe-area-inset-top)) 1rem .45rem;text-align:center;overflow:hidden}
+h1{margin:0;font-size:clamp(1.15rem,4.8vw,1.9rem);font-weight:400;letter-spacing:.02em}
+.hint{margin:.35rem auto 0;max-width:32rem;font:700 .52rem/1.42 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.11em;text-transform:uppercase;color:rgba(20,17,13,.46)}
+.stage{position:relative;margin:.15rem auto;width:min(94vw,48rem);height:100%;min-height:15rem;max-height:calc(var(--app-h) - 12.25rem);background:radial-gradient(circle at 50% 42%,rgba(255,255,255,.55),transparent 42%),linear-gradient(110deg,rgba(20,17,13,.035),transparent 35%,rgba(20,17,13,.035));box-shadow:0 1.8rem 6rem rgba(20,17,13,.14);border:1px solid rgba(20,17,13,.11);touch-action:none;overflow:hidden;contain:layout paint size}
 .stage:before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:100% 3.2rem,3.2rem 100%;opacity:.12;pointer-events:none}
 .stage:after{content:"sign here";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font:700 .62rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.18em;text-transform:uppercase;color:rgba(20,17,13,.18);pointer-events:none}
 .stage.has-ink:after{display:none}
-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:crosshair}
-.controls{display:flex;flex-wrap:wrap;gap:.55rem;justify-content:center;align-items:center;padding:.9rem 1rem max(1rem,env(safe-area-inset-bottom))}
-button,a.download{appearance:none;border:1px solid rgba(20,17,13,.24);background:rgba(255,255,255,.22);color:var(--ink);padding:.78rem .92rem;border-radius:999px;font:800 .58rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;min-width:5.8rem;text-align:center}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:crosshair;user-select:none;-webkit-user-select:none}
+.controls{display:flex;flex-wrap:wrap;gap:.48rem;justify-content:center;align-items:center;padding:.72rem .75rem max(.82rem,env(safe-area-inset-bottom));touch-action:manipulation}
+button,a.download{appearance:none;border:1px solid rgba(20,17,13,.24);background:rgba(255,255,255,.28);color:var(--ink);padding:.76rem .86rem;border-radius:999px;font:800 .55rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.11em;text-transform:uppercase;text-decoration:none;min-width:5.45rem;text-align:center;touch-action:manipulation}
 button:active,a.download:active{transform:translateY(1px);background:rgba(20,17,13,.08)}
-.status{width:100%;text-align:center;font:700 .52rem/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:rgba(20,17,13,.42);min-height:1.1rem}
-.output{position:fixed;left:50%;bottom:calc(max(1rem,env(safe-area-inset-bottom)) + 3.7rem);transform:translateX(-50%);width:min(92vw,42rem);max-height:35vh;display:none;background:#fff8ee;color:var(--ink);border:1px solid rgba(20,17,13,.2);box-shadow:0 1.4rem 5rem rgba(20,17,13,.18);padding:.85rem;border-radius:1rem;z-index:5}
+.status{width:100%;text-align:center;font:700 .5rem/1.32 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:rgba(20,17,13,.42);min-height:1rem}
+.output{position:fixed;left:50%;bottom:calc(max(.82rem,env(safe-area-inset-bottom)) + 3.7rem);transform:translateX(-50%);width:min(92vw,42rem);max-height:35vh;display:none;background:#fff8ee;color:var(--ink);border:1px solid rgba(20,17,13,.2);box-shadow:0 1.4rem 5rem rgba(20,17,13,.18);padding:.85rem;border-radius:1rem;z-index:5;touch-action:auto}
 .output.open{display:block}
-.output textarea{width:100%;height:9rem;resize:none;border:1px solid rgba(20,17,13,.16);background:rgba(255,255,255,.65);color:var(--ink);font:500 .7rem/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;padding:.65rem;border-radius:.65rem}
+.output textarea{width:100%;height:9rem;resize:none;border:1px solid rgba(20,17,13,.16);background:rgba(255,255,255,.65);color:var(--ink);font:500 .7rem/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;padding:.65rem;border-radius:.65rem;touch-action:auto;-webkit-user-select:text;user-select:text}
 .close{position:absolute;right:.5rem;top:.45rem;border:0;background:transparent;min-width:0;padding:.3rem .5rem;font-size:.9rem}
 .build{position:fixed;left:.65rem;bottom:max(.55rem,env(safe-area-inset-bottom));font:700 .48rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;color:rgba(20,17,13,.32);text-transform:uppercase;pointer-events:none}
-@media (orientation:landscape){body{grid-template-rows:auto 1fr auto}.stage{height:min(62vh,24rem)}header{padding-top:max(.7rem,env(safe-area-inset-top))}.hint{display:none}}
+@media (orientation:landscape){body{grid-template-rows:auto 1fr auto}.stage{max-height:calc(var(--app-h) - 7.6rem)}header{padding-top:max(.48rem,env(safe-area-inset-top))}.hint{display:none}.controls{padding-top:.52rem;padding-bottom:max(.58rem,env(safe-area-inset-bottom))}}
 </style>
 </head>
 <body>
 <header>
   <h1>Signature Capture</h1>
-  <div class="hint">Use your finger. Slow is better. Undo works stroke by stroke. Export SVG or PNG when it feels human.</div>
+  <div class="hint">Use your finger. The page is locked now. Undo works stroke by stroke. Export SVG when it feels human.</div>
 </header>
 <main class="stage" id="stage" aria-label="signature drawing surface">
   <canvas id="pad"></canvas>
@@ -50,7 +50,7 @@ button:active,a.download:active{transform:translateY(1px);background:rgba(20,17,
   <button class="close" id="close" type="button" aria-label="close">×</button>
   <textarea id="svgText" spellcheck="false"></textarea>
 </section>
-<div class="build">SIGNATURE CAPTURE v1</div>
+<div class="build">SIGNATURE CAPTURE v2</div>
 <script>
 const canvas=document.getElementById('pad');
 const ctx=canvas.getContext('2d');
@@ -62,17 +62,30 @@ let strokes=[];
 let current=null;
 let dpr=1;
 let rect={width:1,height:1};
+let drawing=false;
 
 function setStatus(s){statusEl.textContent=s;}
+function lockViewport(){
+  const h=window.visualViewport?window.visualViewport.height:window.innerHeight;
+  document.documentElement.style.setProperty('--app-h',Math.round(h)+'px');
+  window.scrollTo(0,0);
+}
+function blockPageMotion(e){
+  if(e.target.closest('.output'))return;
+  if(e.target.closest('button'))return;
+  e.preventDefault();
+}
+['touchstart','touchmove','touchend','gesturestart','gesturechange','gestureend'].forEach(type=>{
+  document.addEventListener(type,blockPageMotion,{passive:false});
+});
 function resize(){
-  const old=toSVG(false);
+  lockViewport();
   dpr=Math.min(window.devicePixelRatio||1,3);
   rect=stage.getBoundingClientRect();
   canvas.width=Math.max(1,Math.round(rect.width*dpr));
   canvas.height=Math.max(1,Math.round(rect.height*dpr));
   ctx.setTransform(dpr,0,0,dpr,0,0);
   draw();
-  if(old&&strokes.length)setStatus('resized, drawing preserved');
 }
 function point(e){
   const r=canvas.getBoundingClientRect();
@@ -80,25 +93,32 @@ function point(e){
 }
 function begin(e){
   e.preventDefault();
-  canvas.setPointerCapture(e.pointerId);
+  e.stopPropagation();
+  lockViewport();
+  drawing=true;
+  try{canvas.setPointerCapture(e.pointerId)}catch(err){}
   current=[point(e)];
   strokes.push(current);
   stage.classList.add('has-ink');
+  setStatus('drawing');
   draw();
 }
 function move(e){
-  if(!current)return;
+  if(!drawing||!current)return;
   e.preventDefault();
+  e.stopPropagation();
   const p=point(e);
   const last=current[current.length-1];
   const dx=p.x-last.x,dy=p.y-last.y;
-  if(Math.hypot(dx,dy)>.75){current.push(p);draw();}
+  if(Math.hypot(dx,dy)>.65){current.push(p);draw();}
 }
 function end(e){
-  if(!current)return;
+  if(!drawing||!current)return;
   e.preventDefault();
+  e.stopPropagation();
   if(current.length<2)strokes.pop();
   current=null;
+  drawing=false;
   stage.classList.toggle('has-ink',strokes.length>0);
   setStatus(strokes.length?'stroke saved':'ready');
   draw();
@@ -205,17 +225,21 @@ async function copySVG(){
   try{await navigator.clipboard.writeText(svg);setStatus('svg copied');}
   catch(e){svgText.value=svg;output.classList.add('open');svgText.select();setStatus('copy blocked, svg opened');}
 }
-canvas.addEventListener('pointerdown',begin);
-canvas.addEventListener('pointermove',move);
-canvas.addEventListener('pointerup',end);
-canvas.addEventListener('pointercancel',end);
+canvas.addEventListener('pointerdown',begin,{passive:false});
+canvas.addEventListener('pointermove',move,{passive:false});
+canvas.addEventListener('pointerup',end,{passive:false});
+canvas.addEventListener('pointercancel',end,{passive:false});
+canvas.addEventListener('touchstart',blockPageMotion,{passive:false});
+canvas.addEventListener('touchmove',blockPageMotion,{passive:false});
 document.getElementById('undo').onclick=()=>{strokes.pop();stage.classList.toggle('has-ink',strokes.length>0);draw();setStatus(strokes.length?'undone':'ready');};
 document.getElementById('clear').onclick=()=>{strokes=[];stage.classList.remove('has-ink');draw();setStatus('cleared');};
 document.getElementById('svg').onclick=downloadSVG;
 document.getElementById('png').onclick=downloadPNG;
 document.getElementById('copy').onclick=copySVG;
 document.getElementById('close').onclick=()=>output.classList.remove('open');
-window.addEventListener('resize',resize);
+window.addEventListener('resize',()=>{if(!drawing)resize();});
+if(window.visualViewport)window.visualViewport.addEventListener('resize',()=>{if(!drawing)resize();});
+lockViewport();
 resize();
 </script>
 </body>
