@@ -71,16 +71,27 @@ p:first-child::first-letter{
   gap:.55rem;
 }
 .signature-card{
-  width:min(62vw,22rem);
-  min-height:7.2rem;
+  width:min(66vw,24rem);
+  min-height:8.6rem;
   display:grid;
   place-items:center;
   position:relative;
+  overflow:visible;
 }
 .signature-card svg,
 .signature-card img{width:100%;height:auto;display:block;overflow:visible}
 .signature-card img{filter:contrast(1.14) brightness(.78)}
 .signature-card.loaded .fallback{display:none}
+.signature-card.real-signature{
+  width:min(70vw,25rem);
+  min-height:12rem;
+}
+.signature-card.real-signature svg{
+  width:min(58vw,18rem);
+  max-width:none;
+  transform:rotate(-90deg) scale(1.08);
+  transform-origin:50% 50%;
+}
 .signature-caption{
   margin:0;
   font:700 .58rem/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;
@@ -179,7 +190,7 @@ p:first-child::first-letter{
     Accessibility note: Later sections of this book may contain flashing, strobing, high-contrast motion, or rapid visual changes. These effects may trigger seizures or discomfort in people with photosensitive epilepsy or related sensitivities. Reader controls and reduced-motion alternatives are planned before final release.
   </aside>
 </main>
-<div class="build">FOREWORD v1</div>
+<div class="build">FOREWORD v2</div>
 <a class="home-link" href="./">home</a>
 <script>
 const article=document.getElementById('foreword');
@@ -192,7 +203,7 @@ function renderMarkdown(md){
 }
 async function loadForeword(){
   try{
-    const res=await fetch('./manuscript/FOREWORD.md?v=foreword-page-v1',{cache:'no-store'});
+    const res=await fetch('./manuscript/FOREWORD.md?v=foreword-page-v2',{cache:'no-store'});
     if(!res.ok)throw new Error('foreword fetch failed');
     renderMarkdown(await res.text());
   }catch(err){
@@ -200,7 +211,7 @@ async function loadForeword(){
   }
 }
 async function loadSignature(){
-  const url='./assets/signatures/joshua-daniels-signature.svg?v=1';
+  const url='./assets/signatures/joshua-daniels-signature.svg?v=2';
   try{
     const res=await fetch(url,{cache:'no-store'});
     if(!res.ok)throw new Error('signature not found');
