@@ -20,24 +20,23 @@ function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g
 function section(cls,html){const e=document.createElement("section");e.className="unit "+cls;e.innerHTML=html;reader.appendChild(e);return e}
 function ouro(){return '<svg viewBox="0 0 200 200" aria-label="Ouroboros"><circle cx="100" cy="100" r="72" fill="none" stroke="currentColor" stroke-width="12"/><circle cx="100" cy="100" r="54" fill="none" stroke="currentColor" stroke-width="10"/><circle cx="155" cy="100" r="8" fill="currentColor"/></svg>'}
 function piRain(){
- const seq=pi.repeat(260).replace(/\./g,"");
+ const seq=pi.repeat(420).replace(/\./g,"");
  const symbols=["π","∞","∴","∵","Φ","☉","☽","◇","⌁"];
- const rows=92;
- const charsPerRow=96;
+ const rows=160;
+ const charsPerRow=150;
  let n=0;
  let html="";
  for(let r=0;r<rows;r++){
    let text="";
    for(let c=0;c<charsPerRow;c++){
      let ch=seq[n++%seq.length];
-     if((r+c)%47===0)ch=symbols[(r+c)%symbols.length];
+     if((r+c)%73===0)ch=symbols[(r+c)%symbols.length];
      text+=ch;
    }
-   const y=-18+(r*(138/(rows-1)));
-   const delay=((r%13)*.035)+Math.floor(r/13)*.025;
-   const drift=((r%9)-4)*.18;
-   const scale=.86+((r%7)*.025);
-   html+='<div class="pi-wall-row" style="--y:'+y.toFixed(2)+'%;--delay:'+delay.toFixed(3)+'s;--drift:'+drift.toFixed(2)+'rem;--scale:'+scale.toFixed(2)+'">'+esc(text)+'</div>';
+   const y=-34+(r*(188/(rows-1)));
+   const delay=(r%19)*.018;
+   const drift=((r%5)-2)*.08;
+   html+='<div class="pi-wall-row" style="--y:'+y.toFixed(2)+'%;--delay:'+delay.toFixed(3)+'s;--drift:'+drift.toFixed(2)+'rem">'+esc(text)+'</div>';
  }
  return '<div class="pi-wall-sheet">'+html+'</div>';
 }
