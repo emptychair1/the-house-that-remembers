@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#f6f0e6">
+<title>Signature Capture Surface</title>
+<style>
+:root{--paper:#f6f0e6;--ink:#14110d;--muted:#817665;--line:rgba(20,17,13,.16)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;background:var(--paper);color:var(--ink);font-family:Baskerville,"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;overscroll-behavior:none}
+body{min-height:100dvh;display:grid;grid-template-rows:auto 1fr auto;overflow:hidden}
+header{padding:max(1.1rem,env(safe-area-inset-top)) 1rem .7rem;text-align:center}
+h1{margin:0;font-size:clamp(1.25rem,5vw,2rem);font-weight:400;letter-spacing:.02em}
+.hint{margin:.45rem auto 0;max-width:32rem;font:700 .58rem/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.13em;text-transform:uppercase;color:rgba(20,17,13,.46)}
+.stage{position:relative;margin:0 auto;width:min(94vw,48rem);height:min(54vh,28rem);min-height:18rem;background:radial-gradient(circle at 50% 42%,rgba(255,255,255,.55),transparent 42%),linear-gradient(110deg,rgba(20,17,13,.035),transparent 35%,rgba(20,17,13,.035));box-shadow:0 1.8rem 6rem rgba(20,17,13,.14);border:1px solid rgba(20,17,13,.11);touch-action:none;overflow:hidden}
+.stage:before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:100% 3.2rem,3.2rem 100%;opacity:.12;pointer-events:none}
+.stage:after{content:"sign here";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font:700 .62rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.18em;text-transform:uppercase;color:rgba(20,17,13,.18);pointer-events:none}
+.stage.has-ink:after{display:none}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:crosshair}
+.controls{display:flex;flex-wrap:wrap;gap:.55rem;justify-content:center;align-items:center;padding:.9rem 1rem max(1rem,env(safe-area-inset-bottom))}
+button,a.download{appearance:none;border:1px solid rgba(20,17,13,.24);background:rgba(255,255,255,.22);color:var(--ink);padding:.78rem .92rem;border-radius:999px;font:800 .58rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;min-width:5.8rem;text-align:center}
+button:active,a.download:active{transform:translateY(1px);background:rgba(20,17,13,.08)}
+.status{width:100%;text-align:center;font:700 .52rem/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:rgba(20,17,13,.42);min-height:1.1rem}
+.output{position:fixed;left:50%;bottom:calc(max(1rem,env(safe-area-inset-bottom)) + 3.7rem);transform:translateX(-50%);width:min(92vw,42rem);max-height:35vh;display:none;background:#fff8ee;color:var(--ink);border:1px solid rgba(20,17,13,.2);box-shadow:0 1.4rem 5rem rgba(20,17,13,.18);padding:.85rem;border-radius:1rem;z-index:5}
+.output.open{display:block}
+.output textarea{width:100%;height:9rem;resize:none;border:1px solid rgba(20,17,13,.16);background:rgba(255,255,255,.65);color:var(--ink);font:500 .7rem/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;padding:.65rem;border-radius:.65rem}
+.close{position:absolute;right:.5rem;top:.45rem;border:0;background:transparent;min-width:0;padding:.3rem .5rem;font-size:.9rem}
+.build{position:fixed;left:.65rem;bottom:max(.55rem,env(safe-area-inset-bottom));font:700 .48rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;color:rgba(20,17,13,.32);text-transform:uppercase;pointer-events:none}
+@media (orientation:landscape){body{grid-template-rows:auto 1fr auto}.stage{height:min(62vh,24rem)}header{padding-top:max(.7rem,env(safe-area-inset-top))}.hint{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Signature Capture</h1>
+  <div class="hint">Use your finger. Slow is better. Undo works stroke by stroke. Export SVG or PNG when it feels human.</div>
+</header>
+<main class="stage" id="stage" aria-label="signature drawing surface">
+  <canvas id="pad"></canvas>
+</main>
+<div class="controls">
+  <button id="undo" type="button">Undo</button>
+  <button id="clear" type="button">Clear</button>
+  <button id="svg" type="button">SVG</button>
+  <button id="png" type="button">PNG</button>
+  <button id="copy" type="button">Copy SVG</button>
+  <div class="status" id="status">ready</div>
+</div>
+<section class="output" id="output" aria-live="polite">
+  <button class="close" id="close" type="button" aria-label="close">×</button>
+  <textarea id="svgText" spellcheck="false"></textarea>
+</section>
+<div class="build">SIGNATURE CAPTURE v1</div>
+<script>
+const canvas=document.getElementById('pad');
+const ctx=canvas.getContext('2d');
+const stage=document.getElementById('stage');
+const statusEl=document.getElementById('status');
+const output=document.getElementById('output');
+const svgText=document.getElementById('svgText');
+let strokes=[];
+let current=null;
+let dpr=1;
+let rect={width:1,height:1};
+
+function setStatus(s){statusEl.textContent=s;}
+function resize(){
+  const old=toSVG(false);
+  dpr=Math.min(window.devicePixelRatio||1,3);
+  rect=stage.getBoundingClientRect();
+  canvas.width=Math.max(1,Math.round(rect.width*dpr));
+  canvas.height=Math.max(1,Math.round(rect.height*dpr));
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  draw();
+  if(old&&strokes.length)setStatus('resized, drawing preserved');
+}
+function point(e){
+  const r=canvas.getBoundingClientRect();
+  return {x:e.clientX-r.left,y:e.clientY-r.top,t:performance.now(),p:e.pressure||.5};
+}
+function begin(e){
+  e.preventDefault();
+  canvas.setPointerCapture(e.pointerId);
+  current=[point(e)];
+  strokes.push(current);
+  stage.classList.add('has-ink');
+  draw();
+}
+function move(e){
+  if(!current)return;
+  e.preventDefault();
+  const p=point(e);
+  const last=current[current.length-1];
+  const dx=p.x-last.x,dy=p.y-last.y;
+  if(Math.hypot(dx,dy)>.75){current.push(p);draw();}
+}
+function end(e){
+  if(!current)return;
+  e.preventDefault();
+  if(current.length<2)strokes.pop();
+  current=null;
+  stage.classList.toggle('has-ink',strokes.length>0);
+  setStatus(strokes.length?'stroke saved':'ready');
+  draw();
+}
+function smoothPath(points){
+  if(points.length<2)return '';
+  let d=`M ${points[0].x.toFixed(2)} ${points[0].y.toFixed(2)}`;
+  for(let i=1;i<points.length-1;i++){
+    const p=points[i],n=points[i+1];
+    const cx=(p.x+n.x)/2,cy=(p.y+n.y)/2;
+    d+=` Q ${p.x.toFixed(2)} ${p.y.toFixed(2)} ${cx.toFixed(2)} ${cy.toFixed(2)}`;
+  }
+  const last=points[points.length-1];
+  d+=` L ${last.x.toFixed(2)} ${last.y.toFixed(2)}`;
+  return d;
+}
+function bounds(){
+  const pts=strokes.flat();
+  if(!pts.length)return null;
+  let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
+  for(const p of pts){minX=Math.min(minX,p.x);minY=Math.min(minY,p.y);maxX=Math.max(maxX,p.x);maxY=Math.max(maxY,p.y);}
+  const pad=18;
+  minX=Math.max(0,minX-pad);minY=Math.max(0,minY-pad);maxX=Math.min(rect.width,maxX+pad);maxY=Math.min(rect.height,maxY+pad);
+  return {minX,minY,maxX,maxY,w:Math.max(1,maxX-minX),h:Math.max(1,maxY-minY)};
+}
+function draw(){
+  ctx.clearRect(0,0,rect.width,rect.height);
+  ctx.lineCap='round';
+  ctx.lineJoin='round';
+  ctx.strokeStyle='#14110d';
+  ctx.shadowColor='rgba(20,17,13,.20)';
+  ctx.shadowBlur=.55;
+  for(const s of strokes){
+    if(s.length<2)continue;
+    ctx.beginPath();
+    ctx.moveTo(s[0].x,s[0].y);
+    for(let i=1;i<s.length-1;i++){
+      const p=s[i],n=s[i+1];
+      ctx.quadraticCurveTo(p.x,p.y,(p.x+n.x)/2,(p.y+n.y)/2);
+    }
+    const last=s[s.length-1];
+    ctx.lineTo(last.x,last.y);
+    ctx.lineWidth=5.2;
+    ctx.stroke();
+    ctx.lineWidth=2.3;
+    ctx.globalAlpha=.42;
+    ctx.stroke();
+    ctx.globalAlpha=1;
+  }
+}
+function toSVG(crop=true){
+  if(!strokes.length)return '';
+  const b=crop?bounds():{minX:0,minY:0,w:rect.width,h:rect.height};
+  const paths=strokes.filter(s=>s.length>1).map((s,i)=>{
+    const shifted=s.map(p=>({x:p.x-b.minX,y:p.y-b.minY}));
+    return `<path class="sig-stroke sig-${i}" pathLength="1" d="${smoothPath(shifted)}"/>`;
+  }).join('\n  ');
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${b.w.toFixed(2)} ${b.h.toFixed(2)}" role="img" aria-label="Joshua Daniels signature">\n<style>\n.sig-stroke{fill:none;stroke:#14110d;stroke-width:5.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:write 1.15s cubic-bezier(.58,.02,.17,1) forwards;filter:drop-shadow(0 .04rem .035rem rgba(20,17,13,.18))}\n${strokes.map((_,i)=>`.sig-${i}{animation-delay:${(.22+i*.42).toFixed(2)}s}`).join('\n')}\n@keyframes write{to{stroke-dashoffset:0}}\n</style>\n  ${paths}\n</svg>`;
+}
+function showSVG(){
+  const svg=toSVG(true);
+  if(!svg){setStatus('sign first');return;}
+  svgText.value=svg;
+  output.classList.add('open');
+  setStatus('svg ready');
+}
+function downloadSVG(){
+  const svg=toSVG(true);
+  if(!svg){setStatus('sign first');return;}
+  const blob=new Blob([svg],{type:'image/svg+xml'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='joshua-daniels-signature.svg';
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  setStatus('svg downloaded');
+}
+function downloadPNG(){
+  if(!strokes.length){setStatus('sign first');return;}
+  const b=bounds();
+  const out=document.createElement('canvas');
+  const scale=3;
+  out.width=Math.round(b.w*scale);out.height=Math.round(b.h*scale);
+  const o=out.getContext('2d');
+  o.scale(scale,scale);
+  o.lineCap='round';o.lineJoin='round';o.strokeStyle='#14110d';o.shadowColor='rgba(20,17,13,.20)';o.shadowBlur=.55;
+  for(const s of strokes){
+    const shifted=s.map(p=>({x:p.x-b.minX,y:p.y-b.minY}));
+    if(shifted.length<2)continue;
+    o.beginPath();o.moveTo(shifted[0].x,shifted[0].y);
+    for(let i=1;i<shifted.length-1;i++){
+      const p=shifted[i],n=shifted[i+1];o.quadraticCurveTo(p.x,p.y,(p.x+n.x)/2,(p.y+n.y)/2);
+    }
+    const last=shifted[shifted.length-1];o.lineTo(last.x,last.y);o.lineWidth=5.2;o.stroke();
+  }
+  out.toBlob(blob=>{
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='joshua-daniels-signature.png';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+    setStatus('png downloaded');
+  });
+}
+async function copySVG(){
+  const svg=toSVG(true);
+  if(!svg){setStatus('sign first');return;}
+  try{await navigator.clipboard.writeText(svg);setStatus('svg copied');}
+  catch(e){svgText.value=svg;output.classList.add('open');svgText.select();setStatus('copy blocked, svg opened');}
+}
+canvas.addEventListener('pointerdown',begin);
+canvas.addEventListener('pointermove',move);
+canvas.addEventListener('pointerup',end);
+canvas.addEventListener('pointercancel',end);
+document.getElementById('undo').onclick=()=>{strokes.pop();stage.classList.toggle('has-ink',strokes.length>0);draw();setStatus(strokes.length?'undone':'ready');};
+document.getElementById('clear').onclick=()=>{strokes=[];stage.classList.remove('has-ink');draw();setStatus('cleared');};
+document.getElementById('svg').onclick=downloadSVG;
+document.getElementById('png').onclick=downloadPNG;
+document.getElementById('copy').onclick=copySVG;
+document.getElementById('close').onclick=()=>output.classList.remove('open');
+window.addEventListener('resize',resize);
+resize();
+</script>
+</body>
+</html>
