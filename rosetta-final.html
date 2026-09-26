@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#000000">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -12,13 +12,15 @@
 <link rel="icon" type="image/png" sizes="192x192" href="./static/icons/icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="./static/icons/icon-512.png">
 <title>The House That Remembers — Rosetta Final</title>
-<link rel="stylesheet" href="./style.css?v=page-flip-v1">
+<link rel="stylesheet" href="./style-pageflip-lock-v1.css?v=page-flip-lock-v1">
 </head>
 <body>
 <main id="reader" aria-label="The House That Remembers"></main>
 <script type="module">
-const BUILD='page-flip-v1';
+const BUILD='page-flip-lock-v1';
 try{
+  document.documentElement.style.overflow='hidden';
+  document.body.style.overflow='hidden';
   if('caches' in window){
     const keys=await caches.keys();
     await Promise.all(keys.map(key=>caches.delete(key)));
@@ -31,7 +33,7 @@ try{
 }catch(err){console.warn('cache reset skipped',err)}
 function loadScript(src){return new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=src;s.onload=resolve;s.onerror=reject;document.body.appendChild(s)})}
 await loadScript('./audio.js?v='+BUILD);
-await loadScript('./app.js?v='+BUILD);
+await loadScript('./app-pageflip-lock-v1.js?v='+BUILD);
 </script>
 </body>
 </html>
