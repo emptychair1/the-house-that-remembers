@@ -30,6 +30,9 @@
   font-size:.84rem;
   text-shadow:0 0 .72rem rgba(21,17,13,.10);
 }
+.build-marker{
+  text-transform:none!important;
+}
 @keyframes sealMagnetize{
   0%{opacity:0;transform:translate(var(--gx),var(--gy)) scale(.98) rotate(-2deg)}
   18%{opacity:.48;transform:translate(var(--gx),var(--gy)) scale(1) rotate(-2deg)}
