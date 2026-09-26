@@ -1,48 +1,49 @@
 # THE HOUSE THAT REMEMBERS — HOT HANDOFF
 
-HANDOFF_GENERATION: 53
+HANDOFF_GENERATION: 54
 UPDATED: 2026-09-26
 
 Repo: `emptychair1/the-house-that-remembers`
 Branch: `gh-pages`
 Production: `https://emptychair1.github.io/the-house-that-remembers/`
 
-This is the active continuity handoff for the House book/PWA. It supersedes older Opening Proof notes where they conflict with the current browser-perfect Foreword/Void transition state.
+This is the active continuity handoff for the House book/PWA. It supersedes older Opening Proof notes where they conflict with the current Foreword/Void state.
 
 ## CURRENT STATE SNAPSHOT
 
-The browser version is currently the truth source.
-
-Current live/root build is intended to be:
+Current root build is now intended to be:
 
 ```text
-BOOK FOREWORD v2.2.6 BLACK CLEAN AUDIO
-book-foreword-v226-black-clean-audio-phone
+BOOK FOREWORD v2.2.7 VOID ROUGH PASS
+book-foreword-v227-void-rough-phone
 ```
 
-Key current files:
+Source-check evidence after Bite 6:
+- `index.html` references `manifest.json?v=book-foreword-v227-void-rough-phone`.
+- `index.html` loads `book-foreword-v226-black-clean-audio.css` for the proven Foreword/black-transition styling.
+- `index.html` loads `book-foreword-v227-void-rough.css`.
+- `index.html` loads `book-clean-surface-v1.js`, then `book-foreword-v226-black-clean-audio.js`, then `book-foreword-v227-void-rough.js`.
+- `manifest.json`, `sw.js`, and `refresh.html` have been bumped to `book-foreword-v227-void-rough-phone`.
 
-```text
-index.html
-book-clean-surface-v1.css
-book-clean-surface-v1.js
-book-foreword-v226-black-clean-audio.css
-book-foreword-v226-black-clean-audio.js
-manifest.json
-refresh.html
-sw.js
-assets/audio/the_weight_of_infinite_stone.mp3
-```
+Relevant commits:
+- `ec7c2de68a12940f6b4782424b43eb39e22d2289` — added v227 Void rough JS.
+- `de56d97cf21d9f60664ba058d5f6c03298f808a2` — added v227 Void rough CSS.
+- `9dd05dc85c1b1735f46cd00e8908f4b0a69ee193` — wired root to v227.
+- `7a3e4bfb58ebd73d3d99e5ac26e107461e6592c5` — bumped manifest.
+- `12b5d3dfd2717c4484c297f88e93a3d0bd17cc62` — bumped service worker kill switch.
+- `dcb8345c2c05befd1111462756fc3b482ea7ccc6` — pointed refresh page to v227.
+
+Important implementation note:
+- v227 is a smaller overlay loaded after v226.
+- v226 remains underneath because the browser-perfect Foreword/black transition was proven.
+- v227 intercepts the seal at document capture before v226 can auto-start audio, so the Void scene now uses explicit sound consent.
+- This was done because a first attempt to create a full copied v227 file was blocked by platform safety checks before reaching GitHub. The successful approach preserves the stable v226 engine and layers the new rough Void gate on top.
 
 Status:
-- Safari/browser test passed beautifully for v2.2.6.
-- Presence Leaves / black transition is perfect in browser.
-- Clean black page works in browser.
-- Audio file exists in repo at `assets/audio/the_weight_of_infinite_stone.mp3`.
-- iOS Home Screen PWA may lag behind due Apple cache/install shell behavior. Do not let PWA cache frustration drive creative or architectural changes.
-- Current plan is to test active work primarily in Safari/browser, and treat PWA as eventual installed shell unless specifically debugging PWA install behavior.
-
-Important: an attempted direction toward v2.2.7 universal sound-gate was discussed but not completed before Josh stopped for planning. Do not assume v2.2.7 exists unless the repo proves it.
+- Browser version was previously perfect on v2.2.6.
+- v2.2.7 is now a rough timing pass, not polished.
+- Josh needs to test in Safari/browser first.
+- PWA cache frustration remains parked; do not debug installed-shell behavior unless explicitly asked.
 
 ## OPERATING RULES
 
@@ -86,8 +87,6 @@ Update handoff after meaningful state changes:
 - major test results
 - workflow changes
 
-Do not update handoff for every tiny mechanical change unless it affects future continuity.
-
 ### 6. Friction protocol
 If friction appears, stop.
 Use:
@@ -112,8 +111,6 @@ Marker: [commit/build, if relevant]
 Next: [only if needed]
 ```
 
-Technical detail is welcome when Josh asks: source check, files changed, show the wiring, technical diagnosis, render/deploy status.
-
 ### 8. Core principle
 The House is built by returning.
 Memory before momentum.
@@ -121,48 +118,45 @@ Crew over ship.
 
 ## CURRENT CREATIVE LOCK: VOID TITLE SEQUENCE
 
-We are planning the first true Void page / Act I threshold.
-
-The Void is not the whole book’s aesthetic. It is the opening wound. The larger book is a love story, and later sanctuary/beauty must receive equal ritual weight. Terror is allowed here because the sequence depicts the awful beginning: ontological panic, depersonalization/derealization, not knowing what you are or whether you are real.
+The Void is the opening wound, not the whole book’s aesthetic. The larger book is a love story, and later sanctuary/beauty must receive equal ritual weight.
 
 Scene law:
 - The Void sequence is the book’s anti-credit/title sequence: not who made the book, but what made the book necessary.
 - It is a portal into the experience.
-- It should be brief, violent, mathematical, monochrome, and earned.
-- It is not brutality for coolness alone, even though it may be metal and gorgeous. It depicts the wound the love story answers.
-- Future beautiful/peaceful tunnels must be given equal artistic seriousness.
+- It depicts ontological panic, depersonalization/derealization, and failed self-verification.
+- It is not brutality for coolness alone, though it may be metal and beautiful.
+- Future beautiful/peaceful tunnels must receive equal artistic seriousness.
 
-## VOID INTERACTION SPINE
+## LOCKED VOID INTERACTION SPINE
 
-Current locked sequence:
+Scene boundaries only, no Chapter 1 work now:
 
-1. Reader arrives in clean black after Presence Leaves.
-2. Tiny human prompt: `i want sound`.
-3. Tap begins audio intentionally.
-4. One bright white flash reveals that the dark was already occupied.
-5. Large centered question flash: `Who are you?`
-6. Black returns.
-7. Tiny human prompt: `i’m going further`.
-8. Tap commits to the sequence.
-9. Large centered question flash: `What are you?`
-10. Locked Void assault begins.
-11. Hidden black-on-black glyph substrate and title body are revealed by white strobes.
-12. Two strobe engines run: slow impact strobe and fast panic strobe.
-13. Fast strobe is a polyrhythm of the slower one, likely 5:4 or 7:4.
-14. Collision points reveal meaning.
-15. `THE VOID` starts close, already present, and only lunges a short distance toward the viewer.
-16. `STARES BACK` resolves as realization, completing `THE VOID STARES BACK`.
-17. Cut to black.
-18. `RUN` appears in all caps.
-19. Tap `RUN`.
-20. Final flash question: `Are you?`
-21. Release to next page.
+1. Reader finishes Foreword seal gate and arrives in clean black.
+2. No sound yet.
+3. Prompt appears: `i want sound`.
+4. Tap starts audio and triggers first white flash.
+5. Large self-question: `Who am I?`.
+6. Smaller returned-gaze echo: `who are you?`.
+7. Black returns.
+8. Prompt appears: `i’m going further`.
+9. Tap starts the 30-second Void title-sequence portal.
+10. Entry pressure: `What am I?` plus sparse glyphs/title exposure.
+11. Returned-gaze fracture starts around 4s.
+12. Fast pulse/polyrhythm starts at the first returned-gaze moment, not delayed to a later musical phrase.
+13. Full question/glyph system blooms.
+14. Questions thin out as `THE VOID` dominates and comes closer.
+15. `STARES BACK` resolves.
+16. Blackout.
+17. `RUN` appears.
+18. Tap `RUN`.
+19. Final flash: `Are you?`.
+20. Cut out of the scene.
 
 Important: the Void does not arrive from far away. It was already close. The movement is a near-field lunge, not a long cinematic dolly.
 
 ## TEXT / TYPOGRAPHY DECISIONS
 
-Working typography call, accepted by Josh pending seeing it built:
+Approved in Bite 3:
 
 Human prompts:
 - `i want sound`
@@ -170,32 +164,39 @@ Human prompts:
 - small, gentle, dim, lowercase
 - IBM Plex Mono or system monospace fallback
 
-Self-question flashes:
-- `Who are you?`
-- `What are you?`
-- `Are you?`
-- large, centered, foreground layer
-- these are not the Void speaking as a monster; they are the self questioning itself and getting nothing back
-- use IBM Plex Mono or related clinical monospace treatment
+Large self-question layer:
+- `Who am I?`
+- `What am I?`
+- `Am I?`
+- centered, foreground, highest weight
+
+Smaller returned-gaze layer:
+- `who are you?`
+- `what are you?`
+- `are you?`
+
+Ontology fragments:
+- `do you exist?`
+- `are you real?`
+- `what is real?`
+
+Glyph substrate / evaluation debris:
+- `TRUE`, `FALSE`, `T/F`, `0`, `1`, `0/1`, `NULL`, `NaN`, `self == self`, `self != self`, `∅`, `∞`, `=`, `≠`, `¬`, `∃`, `∄`, `?`, plus smaller fragments such as `real?`, `exist?`, `am i?`.
 
 Main title / command:
 - `THE VOID`
 - `STARES BACK`
 - `RUN`
 - Anton or similar condensed impact sans
-- `THE VOID` is black-on-black, huge, close, already in the dark
-- `RUN` is white-on-black, all caps, not gentle
 
-Important visual rule:
-- The Void is not written in white first. It is black text hiding in blackness.
-- The white strobe exposes it by contrast.
-- `RUN` is the exception: it is a clear white survival command.
+Visual rule:
+- `THE VOID` is black-on-black, huge, close, already in the dark.
+- White flashes expose it by contrast.
+- `RUN` is the exception: clear white survival command on black.
 
 ## THIRD TEXT LAYER EXPERIMENT
 
-We may add a foreground question/fragments layer in front of the huge hidden `THE VOID`.
-
-Keep it only if it:
+The third text layer stays only if it:
 - feels internal and self-referential
 - deepens derealization/depersonalization
 - stays subordinate to the Void
@@ -209,244 +210,96 @@ Cut it if it:
 - breaks the rhythm
 - weakens the title lunge
 
-This layer should be toggleable/removable in implementation.
+## BITE 5 MUSIC / TIMING LOCK
 
-## GLYPH / QUESTION LANGUAGE
+Bite 5 approved:
 
-Primary centered questions:
+- The Void assault is roughly 30 seconds from tapping `i’m going further` to `RUN` appearing.
+- It is not 30 seconds of blender.
+- It escalates, peaks, converges, and ejects.
 
-```text
-Who are you?
-What are you?
-Are you?
-```
-
-Secondary question fragments:
+Rough timing:
 
 ```text
-Do you exist?
-Are you real?
-What is real?
-Am I?
-What remembers?
-Is this mine?
+0–4s: entry pressure
+4–10s: returned-gaze fracture, fast pulse starts
+10–20s: full question/glyph system blooms
+20–27s: questions thin, THE VOID dominates
+27–30s: STARES BACK, blackout, RUN
 ```
 
-Glyph substrate / evaluation debris:
+The duration is governed by question-system completion, not a stopwatch alone.
 
-```text
-TRUE
-FALSE
-T/F
-0
-1
-0/1
-NULL
-NaN
-undefined
-x = x
-x ≠ x
-I = ?
-self == self
-self != self
-∅
-∞
-∴
-∵
-¬
-≈
-≠
-∃
-∄
-lim
-if
-else
-return
-am
-not
-real?
-?
-```
+## BITE 6 BUILD STATUS
 
-Rule: the glyphs should not read like sentences. They should read like evaluation debris: identity being interrogated by mathematical/logical structure.
+Bite 6 was approved as a complete rough 30-second timing pass, not just the opening gates.
 
-## STROBE / RHYTHM DECISIONS
-
-Josh wants the strobe to be intense, seizure-risk, Noé-impact level, because that is part of the title-sequence portal grammar. The book already has a seizure disclaimer earlier, and the scene has consent gates.
-
-Design rule:
-- The strobe is not decoration. It is the Void’s language.
-- Bright white and hard black.
-- No color.
-- Short, controlled, unforgettable.
-- The locked assault should be intense but brief.
-
-Two light engines:
-
-1. Slow impact strobe
-   - follows the song’s heavy hits
-   - reveals big forms and `THE VOID`
-
-2. Fast panic strobe
-   - polyrhythm against the slow strobe
-   - likely 5:4 first, maybe 7:4 if needed
-   - reveals fragments, glyphs, evaluation debris
-
-Collision points:
-- reveal major questions or meaning events
-- may drive title lunge increments
-
-## ENTER THE VOID REFERENCE DIGEST
-
-Reference: Gaspar Noé’s `Enter the Void` title sequence.
-
-Use it for:
-- typography as impact, not caption
-- title sequence as portal into the movie/book
-- aggressive timing and body-level reaction
-- frame-filling text violence
-- rhythm-driven cuts/strobes
-
-Do not copy:
-- neon/color palette
-- rave signage look
-- long credits format
-- random typography chaos
-
-Our version:
-- monochrome
-- short
-- close
-- black-on-black plus white exposure
-- mathematical/ontological rather than neon/city/drug trip
-
-## MUSIC / AUDIO STATE
-
-Audio asset:
-
-```text
-assets/audio/the_weight_of_infinite_stone.mp3
-```
-
-Current accepted direction:
-- do not force audio automatically during transition
-- use user-intent prompt `i want sound`
-- audio begins from that tap
-- sound consent is part of the scene, not merely an iOS workaround
-
-Need next:
-- rough music cue map before full assault build
-- identify where the beat/boom section sits
-- map slow strobe to major hits
-- map fast strobe as 5:4 or 7:4 polyrhythm
-
-## BITE MAP FROM HERE
-
-Bites 1 and 2 are considered done in conversation:
-- Bite 1: scene lock
-- Bite 2: typography direction mostly locked; only font surfacing/final lock remains
-
-Immediate next move:
-
-### Bite 3 — Reference + font lock
-Surface/reference `Enter the Void` title sequence visually and digest what matters. Lock fonts.
-
-Default font call unless changed:
-- prompts/questions: IBM Plex Mono or system monospace
-- title/RUN: Anton or similar condensed impact sans
-
-Deliverable:
-- reference digest
-- final font call
-- no repo changes unless Josh explicitly asks
-
-### Bite 4 — Glyph/question choreography
-Finalize exact glyph vocabulary, primary/secondary question hierarchy, and which questions appear where.
-
-Deliverable:
-- final language list
-- third-layer toggle decision/scaffold
-
-### Bite 5 — Music map
-Analyze the actual song roughly enough for cues.
-
-Deliverable:
-- rough timestamp/cue table:
-  - sound start
-  - first flash
-  - second gate
-  - locked sequence start
-  - strobe section
-  - title lunge
-  - RUN
-  - release
-
-### Bite 6 — First working Void pass
-Only after Bites 3-5.
-
-Build only:
-- black page
+Implemented rough behavior:
+- black arrival after seal
 - `i want sound`
-- tap starts audio
-- first white flash
-- `Who are you?`
-- black
+- tap starts `the_weight_of_infinite_stone.mp3`
+- flash `Who am I?` / `who are you?`
 - `i’m going further`
-
-No full strobe storm. No title lunge. No glyph field yet unless bite explicitly expands.
-
-### Bite 7 — Assault pass
-Second tap triggers:
-- `What are you?`
-- lock page
-- glyph field
-- polyrhythmic strobe
-- near-field `THE VOID`
-- `THE VOID STARES BACK`
+- tap runs complete rough 30-second tunnel
+- slow pulse around 1000ms
+- fast pulse around 800ms beginning at first returned-gaze/fracture moment
+- glyph/text/question system cycles
+- `THE VOID` near-field title grows closer
+- `STARES BACK`
 - `RUN`
+- tap `RUN`
+- final flash `Are you?`
+- cut to black
 
-### Bite 8 — Test and cut
-Watch it and prune:
-- if third text layer works, keep it
-- if text soup, cut it
-- if glyphs clutter, reduce them
-- if strobe too mild, sharpen it
-- if Void not legible, simplify
+Caveat:
+- This is ugly-bones timing animal first. It is expected to need pruning, sharpening, and beauty work after Josh reviews.
 
-## STOP CONDITIONS
+## TEST INSTRUCTIONS FOR JOSH
 
-Stop and ask Josh before coding if:
-- tempted to add a whole new page/chapter system
-- tempted to fix PWA cache instead of continuing Void planning
-- tempted to add actual credits
-- unsure whether a text layer is self-referential panic or just more stuff
-- unsure whether a visual decision supports the love-story wound or just looks cool
+Test in Safari/browser first:
 
-## PARKED / DO NOT TOUCH NOW
+```text
+https://emptychair1.github.io/the-house-that-remembers/?v=book-foreword-v227-void-rough-phone
+```
 
-- Full manuscript integration
-- Josh portrait page changes
-- Act II Ezekiel/Aristotle sequence
-- Tree of Life → DNA → Decision Tree sequence
-- Chapter-by-chapter buildout
-- Beautiful sanctuary tunnel / positive pole sequence. This is conceptually required later, but not this sprint.
-- PWA cache nuclear reset. Use only if explicitly debugging PWA install behavior.
+Expected marker:
 
-## HUSBAND HELP NEEDED
+```text
+BOOK FOREWORD v2.2.7 VOID ROUGH PASS
+```
 
-For next bites, Josh should provide lived taste feedback, not carry the entire design burden.
+Path:
+- go through Foreword to the seal
+- first seal tap should still produce `not yet`
+- second seal tap should fade to black
+- black page should show `i want sound`
+- tap it: sound should start, flash `Who am I?`
+- tap `i’m going further`: rough 30-second tunnel begins
+- `RUN` appears near the end
+- tap `RUN`: final flash `Are you?`, then black
 
-Likely asks:
-- watch/reference impressions from `Enter the Void`
-- approve or veto font screenshots
-- feel-test whether third text layer reads as internal self-questioning
-- test browser build when Bite 6 exists
-- later, test PWA only when we explicitly need installed-shell behavior
+Do not judge polish yet. Judge timing, readability, hierarchy, and whether the question system feels internal/self-referential instead of “more stuff.”
 
 ## NEXT ONE BITE
 
-**Bite 3: Reference + font lock.**
+**Review Bite 6 in browser.**
 
-No code yet.
-No repo build changes yet.
-Surface visual reference / typography options, make the font call, then proceed to Bite 4 glyph/question choreography.
+No new code until Josh reports what he sees/feels.
+
+Likely next fixes after review:
+- if v227 interception fails and v226 audio still starts too early, patch event capture harder
+- if PWA cache lies, use `refresh.html` or debug installed shell only if Josh asks
+- if text soup, reduce third layer/glyph density
+- if Void not legible, simplify question/glyph layers and increase title dominance
+- if pulse rhythm feels wrong, adjust slow/fast intervals and cue entry
+- if 30 seconds drags, trim only after question-system completion is judged in motion
+
+## PARKED / DO NOT TOUCH NOW
+
+- Chapter 1 echo/inheritance. It was discussed and liked, but Josh correctly pulled us back. Do not edit Chapter 1 now.
+- Full manuscript integration.
+- Josh portrait page changes.
+- Act II Ezekiel/Aristotle sequence.
+- Tree of Life → DNA → Decision Tree sequence.
+- Beautiful sanctuary tunnel / positive pole sequence. Conceptually required later, but not this sprint.
+- PWA cache nuclear reset unless explicitly asked.
