@@ -1,0 +1,90 @@
+/* Rosetta Live v2: dense monochrome ASCII house, true black, restrained reveal. */
+.pi-rain-cover{background:#000!important;}
+.pi-rain-cover::before{background:#000!important;}
+
+.rain-cover-target{
+  opacity:.08!important;
+  filter:grayscale(1) contrast(1.42) brightness(.42) blur(0)!important;
+  animation:rosettaCoverHold 1ms linear forwards!important;
+}
+.rain-cover-target::before{
+  inset:-8%!important;
+  background:radial-gradient(circle at 50% 72%,rgba(244,234,215,.035),transparent 46%)!important;
+  opacity:.18!important;
+}
+.rain-cover-target img{
+  opacity:.48!important;
+  box-shadow:none!important;
+}
+@keyframes rosettaCoverHold{
+  to{opacity:.08;filter:grayscale(1) contrast(1.42) brightness(.42) blur(0);transform:translate(-50%,-50%) scale(1)}
+}
+
+.pi-rain{
+  z-index:4!important;
+  opacity:1!important;
+  animation:none!important;
+  mask-image:url("https://raw.githubusercontent.com/emptychair1/the-house-that-remembers/main/assets/source/IMG_3301.png")!important;
+  mask-repeat:no-repeat!important;
+  mask-position:center!important;
+  mask-size:min(96vw,70vh,36rem) auto!important;
+  -webkit-mask-image:url("https://raw.githubusercontent.com/emptychair1/the-house-that-remembers/main/assets/source/IMG_3301.png")!important;
+  -webkit-mask-repeat:no-repeat!important;
+  -webkit-mask-position:center!important;
+  -webkit-mask-size:min(96vw,70vh,36rem) auto!important;
+}
+.pi-wall-sheet{
+  left:-32vw!important;
+  right:-32vw!important;
+  top:-16vh!important;
+  bottom:-16vh!important;
+  opacity:1!important;
+  animation:none!important;
+  transform:none!important;
+  filter:drop-shadow(0 0 5px rgba(244,234,215,.24)) drop-shadow(0 0 18px rgba(244,234,215,.08))!important;
+}
+.pi-wall-row,
+.pi-wall-row:nth-child(n),
+.pi-wall-row:nth-child(2n),
+.pi-wall-row:nth-child(3n),
+.pi-wall-row:nth-child(5n),
+.pi-wall-row:nth-child(7n){
+  animation:none!important;
+  transform:translate3d(var(--drift),0,0)!important;
+  width:164vw!important;
+  font:700 clamp(.24rem,.74vw,.39rem)/.62 ui-monospace,SFMono-Regular,Menlo,monospace!important;
+  letter-spacing:-.045em!important;
+  color:rgba(248,246,239,.93)!important;
+  opacity:.96!important;
+  text-shadow:0 0 4px rgba(244,234,215,.36),0 0 13px rgba(244,234,215,.12)!important;
+}
+.pi-wall-row:nth-child(4n){opacity:.76!important;color:rgba(236,232,222,.78)!important;}
+.pi-wall-row:nth-child(6n){opacity:.64!important;color:rgba(224,220,210,.68)!important;}
+.pi-wall-row:nth-child(9n){opacity:.52!important;color:rgba(214,210,201,.56)!important;}
+.pi-wall-row:nth-child(13n){opacity:1!important;color:rgba(255,255,255,.98)!important;text-shadow:0 0 5px rgba(255,255,255,.48),0 0 16px rgba(244,234,215,.16)!important;}
+
+.rain-veil{
+  opacity:.045!important;
+  animation:none!important;
+  background:radial-gradient(circle at 50% 84%,rgba(244,234,215,.055),transparent 24%),linear-gradient(to bottom,rgba(0,0,0,.96),rgba(0,0,0,.98))!important;
+  mix-blend-mode:normal!important;
+}
+.pi-rain-cover::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:6;
+  pointer-events:none;
+  background:linear-gradient(102deg,transparent 0%,transparent 47%,rgba(255,255,255,.16) 49%,rgba(244,234,215,.035) 51%,transparent 54%,transparent 100%);
+  opacity:0;
+  mix-blend-mode:screen;
+  animation:rosettaLightning 9.5s steps(1,end) infinite;
+}
+@keyframes rosettaLightning{
+  0%,61%,63%,100%{opacity:0;transform:translateX(-8vw)}
+  62%{opacity:.18;transform:translateX(5vw)}
+  62.6%{opacity:.07;transform:translateX(2vw)}
+}
+.build-marker{font-size:0!important;color:rgba(244,234,215,.52)!important;}
+.build-marker::after{content:"ROSETTA v2";font:700 .48rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;}
+.page-whisper{color:rgba(244,234,215,.26)!important;}
