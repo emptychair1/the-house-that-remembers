@@ -1,5 +1,6 @@
 // The House That Remembers
 // Service worker disabled. This file only clears old caches and unregisters itself.
+// CACHE-KILLER: book-cover-pageflip-v244-marker-truth
 
 self.addEventListener('install', event => {
   self.skipWaiting();
@@ -18,7 +19,8 @@ self.addEventListener('activate', event => {
       await Promise.all(clients.map(client => {
         try {
           const url = new URL(client.url);
-          url.searchParams.set('sw-disabled', 'book-foreword-v231b-no-v226-phone');
+          url.searchParams.set('sw-disabled', 'book-cover-pageflip-v244-marker-truth');
+          url.searchParams.set('cache-kill', String(Date.now()));
           return client.navigate(url.toString());
         } catch (_) {
           return null;
