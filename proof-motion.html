@@ -10,21 +10,79 @@
 <meta http-equiv="Cache-Control" content="no-store, max-age=0">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>The House That Remembers — connected cover proof v241</title>
-<link rel="manifest" href="./manifest.json?v=book-cover-pageflip-v241-no-cover-back">
+<title>The House That Remembers — connected cover proof v242</title>
+<link rel="manifest" href="./manifest.json?v=book-cover-pageflip-v242-full-viewport">
 <link rel="apple-touch-icon" sizes="180x180" href="./static/icons/apple-touch-icon.png">
 <link rel="apple-touch-icon-precomposed" sizes="180x180" href="./static/icons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="./static/icons/icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="./static/icons/icon-512.png">
-<link rel="stylesheet" href="./book-clean-surface-v1.css?v=book-cover-pageflip-v241-no-cover-back">
-<link rel="stylesheet" href="./book-foreword-v226-black-clean-audio.css?v=book-cover-pageflip-v241-no-cover-back">
-<link rel="stylesheet" href="./book-foreword-v227-void-rough.css?v=book-cover-pageflip-v241-no-cover-back">
-<link rel="stylesheet" href="./book-foreword-v2271-void-gated.css?v=book-cover-pageflip-v241-no-cover-back">
+<link rel="stylesheet" href="./book-clean-surface-v1.css?v=book-cover-pageflip-v242-full-viewport">
+<link rel="stylesheet" href="./book-foreword-v226-black-clean-audio.css?v=book-cover-pageflip-v242-full-viewport">
+<link rel="stylesheet" href="./book-foreword-v227-void-rough.css?v=book-cover-pageflip-v242-full-viewport">
+<link rel="stylesheet" href="./book-foreword-v2271-void-gated.css?v=book-cover-pageflip-v242-full-viewport">
+<style>
+  html,
+  body,
+  #reader,
+  .book-stage,
+  .book-root{
+    width:100vw!important;
+    max-width:none!important;
+    min-width:100vw!important;
+    height:100dvh!important;
+    max-height:none!important;
+    min-height:100dvh!important;
+    margin:0!important;
+    padding:0!important;
+  }
+  .book-stage{
+    display:block!important;
+    overflow:hidden!important;
+  }
+  .book-root{
+    position:relative!important;
+    overflow:hidden!important;
+  }
+  .stf__parent,
+  .stf__wrapper,
+  .stf__block,
+  .stf__item,
+  .stf__outerShadow,
+  .stf__innerShadow{
+    max-width:none!important;
+  }
+  .book-page{
+    width:100%!important;
+    height:100%!important;
+  }
+  .visual-page,
+  .cover-page,
+  .composition-locked-page,
+  .rosetta-cover-canvas{
+    width:100%!important;
+    height:100%!important;
+  }
+  .foreword-title-page,
+  .foreword-closing-page{
+    padding-left:clamp(1.05rem,5vw,2.35rem)!important;
+    padding-right:clamp(1.05rem,5vw,2.35rem)!important;
+  }
+  .foreword-body-page{
+    padding-left:clamp(.95rem,4.8vw,2.05rem)!important;
+    padding-right:clamp(.95rem,4.8vw,2.05rem)!important;
+  }
+  .foreword-copy,
+  .foreword-title-card,
+  .closing-card{
+    width:100%!important;
+    max-width:none!important;
+  }
+</style>
 </head>
 <body>
 <main id="reader" aria-label="The House That Remembers connected cover proof"></main>
 <script type="module">
-const BUILD='book-cover-pageflip-v241-no-cover-back';
+const BUILD='book-cover-pageflip-v242-full-viewport';
 try{
   document.documentElement.style.overflow='hidden';
   document.body.style.overflow='hidden';
@@ -42,11 +100,29 @@ function loadScript(src){return new Promise((resolve,reject)=>{const s=document.
 await loadScript('https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js').catch(err=>console.warn('StPageFlip unavailable, static fallback will run',err));
 if(window.St&&window.St.PageFlip){
   const NativePageFlip=window.St.PageFlip;
-  function PageFlipNoCoverBack(el,options={}){
-    return new NativePageFlip(el,{...options,showCover:false,startPage:0});
+  function viewportSize(){
+    const w=Math.max(document.documentElement.clientWidth||0,window.innerWidth||0,320);
+    const h=Math.max(document.documentElement.clientHeight||0,window.innerHeight||0,520);
+    return {w:Math.round(w),h:Math.round(h)};
   }
-  PageFlipNoCoverBack.prototype=NativePageFlip.prototype;
-  window.St.PageFlip=PageFlipNoCoverBack;
+  function PageFlipFullViewport(el,options={}){
+    const size=viewportSize();
+    return new NativePageFlip(el,{
+      ...options,
+      width:size.w,
+      height:size.h,
+      minWidth:1,
+      maxWidth:10000,
+      minHeight:1,
+      maxHeight:10000,
+      autoSize:true,
+      size:'stretch',
+      showCover:false,
+      startPage:0
+    });
+  }
+  PageFlipFullViewport.prototype=NativePageFlip.prototype;
+  window.St.PageFlip=PageFlipFullViewport;
 }
 await loadScript('./book-clean-surface-v1.js?v='+BUILD);
 await loadScript('./book-foreword-v226-black-clean-audio.js?v='+BUILD);
