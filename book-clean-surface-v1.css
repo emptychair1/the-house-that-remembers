@@ -297,8 +297,8 @@ html[data-flip-engine^="fallback"] .book-page:not(.is-current){display:none!impo
 }
 @keyframes sealMagnetize{
   0%{opacity:0;transform:translate(var(--gx),var(--gy)) scale(.96) rotate(-2deg)}
-  22%{opacity:.34}
-  68%{opacity:.26;transform:translate(calc(var(--gx) * .25),calc(var(--gy) * .25)) scale(.72) rotate(5deg)}
+  22%{opacity:.34;transform:translate(var(--gx),var(--gy)) scale(.96) rotate(-2deg)}
+  76%{opacity:.26;transform:translate(0,0) scale(.42) rotate(5deg)}
   100%{opacity:0;transform:translate(0,0) scale(.12) rotate(11deg)}
 }
 .closing-card blockquote{
