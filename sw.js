@@ -2,7 +2,7 @@
 // Service-worker kill switch for old book caches.
 // This file intentionally does not cache or serve book assets.
 
-const CURRENT_BOOK_QUERY = 'book-foreword-v223-soft-crawl-phone';
+const CURRENT_BOOK_QUERY = 'book-foreword-v225-presence-leaves-phone';
 
 self.addEventListener('install', event => {
   self.skipWaiting();
