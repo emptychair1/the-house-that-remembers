@@ -7,57 +7,188 @@
 <meta http-equiv="Cache-Control" content="no-store, max-age=0">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Void Background Harness v232</title>
+<title>Void Background Harness v232B</title>
 <style>
 :root{
-  --void-cycle: 4.8s;
-  --void-glow: 3.8rem;
-  --void-blur: .32rem;
-  --void-scale: 1.0;
-  --void-opacity-low: .015;
-  --void-opacity-high: 1;
-  --void-glow-opacity-low: .02;
-  --void-glow-opacity-high: .62;
+  --void-cycle: .1s;
+  --void-font: clamp(10.5rem,46.5vw,42rem);
+  --void-width: 240vw;
+  --void-height: 78vh;
+  --void-letter-spacing: -.09em;
 }
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:#fff;touch-action:none;-webkit-user-select:none;user-select:none}
-.scene{position:fixed;inset:0;overflow:hidden;background:#000;display:grid;place-items:center;isolation:isolate}
-.badge{position:fixed;left:10px;top:calc(env(safe-area-inset-top) + 10px);z-index:30;color:rgba(255,255,255,.52);background:rgba(0,0,0,.68);border:1px solid rgba(255,255,255,.18);padding:4px 6px;font:700 8px/1.15 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;pointer-events:none}
-.void-stack{position:absolute;left:50%;top:50%;width:160vw;height:52vh;transform:translate(-50%,-50%) scale(var(--void-scale));display:grid;place-items:center;filter:blur(var(--void-blur));}
-.void-face,.void-glow{position:absolute;inset:0;display:grid;place-items:center;font:900 clamp(7rem,31vw,28rem)/.78 Impact,'Arial Black',Anton,sans-serif;letter-spacing:-.09em;text-transform:uppercase;white-space:nowrap;color:#000;transform:translateZ(0);}
-.void-face{opacity:var(--void-opacity-low);animation:voidFace var(--void-cycle) infinite steps(1,end);z-index:4;text-shadow:none;}
-.void-glow{opacity:var(--void-glow-opacity-low);z-index:2;filter:blur(var(--void-glow));color:rgba(232,242,255,.92);text-shadow:0 0 1.2rem rgba(250,255,255,.82),0 0 3.5rem rgba(210,230,255,.58),0 0 7rem rgba(170,205,255,.32);animation:voidGlow var(--void-cycle) infinite cubic-bezier(.2,0,.1,1);}
-.void-core{position:absolute;inset:-18vh -24vw;background:radial-gradient(ellipse at center,rgba(230,244,255,.18) 0%,rgba(176,204,230,.07) 24%,rgba(0,0,0,0) 56%);opacity:.01;animation:voidCore var(--void-cycle) infinite cubic-bezier(.2,0,.1,1);z-index:1;}
-.void-cut{position:absolute;inset:0;display:grid;place-items:center;font:900 clamp(7rem,31vw,28rem)/.78 Impact,'Arial Black',Anton,sans-serif;letter-spacing:-.09em;text-transform:uppercase;white-space:nowrap;color:#000;opacity:0;z-index:5;animation:voidCut var(--void-cycle) infinite steps(1,end);}
-.controls{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 1rem);transform:translateX(-50%);z-index:25;display:flex;gap:.45rem;align-items:center;justify-content:center;flex-wrap:wrap;width:min(92vw,38rem)}
-button{appearance:none;border:1px solid rgba(255,255,255,.24);border-radius:999px;background:rgba(0,0,0,.68);color:rgba(255,255,255,.86);padding:.58rem .75rem;font:700 .62rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;-webkit-tap-highlight-color:transparent}
-button.active{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.48);color:#fff;box-shadow:0 0 1.2rem rgba(255,255,255,.12)}
-.status{position:fixed;right:10px;top:calc(env(safe-area-inset-top) + 10px);z-index:30;color:rgba(255,255,255,.42);background:rgba(0,0,0,.52);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:4px 7px;font:700 8px/1.15 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;pointer-events:none}
-@keyframes voidFace{0%,17%,21%,62%,67%,100%{opacity:var(--void-opacity-low)}18%,20%,63%,66%{opacity:var(--void-opacity-high)}}
-@keyframes voidCut{0%,17%,21%,62%,67%,100%{opacity:0}18%,20%,63%,66%{opacity:1}}
-@keyframes voidGlow{0%,100%{opacity:var(--void-glow-opacity-low);transform:scale(.985)}16%{opacity:.09;transform:scale(.99)}18%{opacity:var(--void-glow-opacity-high);transform:scale(1.01)}20%{opacity:.16;transform:scale(.998)}45%{opacity:.055;transform:scale(.992)}62%{opacity:.16;transform:scale(.996)}64%{opacity:calc(var(--void-glow-opacity-high) * .72);transform:scale(1.006)}67%{opacity:.07;transform:scale(.993)}}
-@keyframes voidCore{0%,100%{opacity:.01}18%{opacity:.42}20%{opacity:.08}64%{opacity:.28}67%{opacity:.04}}
-.scene.soft{--void-cycle:6.2s;--void-glow:4.6rem;--void-blur:.44rem;--void-opacity-low:.012;--void-glow-opacity-high:.52}
-.scene.hard{--void-cycle:3.7s;--void-glow:2.7rem;--void-blur:.20rem;--void-opacity-low:.01;--void-glow-opacity-high:.82}
-.scene.black{--void-cycle:4.8s;--void-glow:2.1rem;--void-blur:.10rem;--void-opacity-low:.006;--void-glow-opacity-high:.40}.scene.black .void-core{display:none}.scene.black .void-glow{color:rgba(255,255,255,.76)}
-.scene.breath{--void-cycle:7.8s;--void-glow:5.4rem;--void-blur:.50rem;--void-opacity-low:.018;--void-glow-opacity-high:.46}.scene.breath .void-face,.scene.breath .void-cut{animation-timing-function:cubic-bezier(.2,0,.1,1)}
-@media (prefers-reduced-motion:reduce){.void-face,.void-glow,.void-core,.void-cut{animation:none}.void-face{opacity:.45}.void-glow{opacity:.14}.void-cut{opacity:.55}}
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:#000;
+  color:#fff;
+  touch-action:none;
+  -webkit-user-select:none;
+  user-select:none;
+}
+.scene{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  background:#000;
+  display:grid;
+  place-items:center;
+  isolation:isolate;
+}
+.badge{
+  position:fixed;
+  left:10px;
+  top:calc(env(safe-area-inset-top) + 10px);
+  z-index:30;
+  color:rgba(255,255,255,.52);
+  background:rgba(0,0,0,.68);
+  border:1px solid rgba(255,255,255,.18);
+  padding:4px 6px;
+  font:700 8px/1.15 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  pointer-events:none;
+}
+.status{
+  position:fixed;
+  right:10px;
+  top:calc(env(safe-area-inset-top) + 10px);
+  z-index:30;
+  color:rgba(255,255,255,.44);
+  background:rgba(0,0,0,.52);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;
+  padding:4px 7px;
+  font:700 8px/1.15 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  pointer-events:none;
+}
+.void-stack{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:var(--void-width);
+  height:var(--void-height);
+  transform:translate(-50%,-50%);
+  display:grid;
+  place-items:center;
+}
+.void-text,
+.void-shadow{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  font:900 var(--void-font)/.78 Impact,'Arial Black',Anton,sans-serif;
+  letter-spacing:var(--void-letter-spacing);
+  text-transform:uppercase;
+  white-space:nowrap;
+  transform:translateZ(0);
+}
+.void-shadow{
+  color:rgba(255,255,255,.16);
+  filter:blur(1.15rem);
+  opacity:.32;
+  transform:translateZ(0) scale(1.018);
+  animation:voidShadowPulse .1s infinite steps(1,end);
+}
+.void-text{
+  color:#fff;
+  animation:voidStrobe .1s infinite steps(1,end);
+}
+.void-core{
+  position:absolute;
+  inset:-22vh -32vw;
+  background:radial-gradient(ellipse at center,rgba(235,246,255,.28) 0%,rgba(196,220,240,.08) 22%,rgba(0,0,0,0) 54%);
+  opacity:.18;
+  animation:voidCoreStrobe .1s infinite steps(1,end);
+}
+.controls{
+  position:fixed;
+  left:50%;
+  bottom:calc(env(safe-area-inset-bottom) + 1rem);
+  transform:translateX(-50%);
+  z-index:25;
+  display:flex;
+  gap:.45rem;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  width:min(92vw,38rem);
+}
+button{
+  appearance:none;
+  border:1px solid rgba(255,255,255,.24);
+  border-radius:999px;
+  background:rgba(0,0,0,.68);
+  color:rgba(255,255,255,.86);
+  padding:.58rem .75rem;
+  font:700 .62rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  -webkit-tap-highlight-color:transparent;
+}
+button.active{
+  background:rgba(255,255,255,.14);
+  border-color:rgba(255,255,255,.48);
+  color:#fff;
+  box-shadow:0 0 1.2rem rgba(255,255,255,.12);
+}
+.scene.slower{--void-cycle:.2s}.scene.slower .void-text{animation-duration:.2s}.scene.slower .void-shadow{animation-duration:.2s}.scene.slower .void-core{animation-duration:.2s}
+.scene.heavy{--void-cycle:.1s}.scene.heavy .void-text{filter:contrast(1.25)}.scene.heavy .void-shadow{opacity:.46;filter:blur(1.8rem)}.scene.heavy .void-core{opacity:.26}
+.scene.black{--void-cycle:.1s}.scene.black .void-text{animation-name:voidBlackStrobe}.scene.black .void-shadow{opacity:.18;filter:blur(.7rem)}.scene.black .void-core{opacity:.06}
+@keyframes voidStrobe{
+  0%,100%{
+    color:#fff;
+    text-shadow:0 0 10px #fff,0 0 20px #dff3ff,0 0 30px #b4d6ff,0 0 40px #ffffff;
+  }
+  50%{
+    color:transparent;
+    text-shadow:0 0 5px #000,0 0 10px #000;
+  }
+}
+@keyframes voidBlackStrobe{
+  0%,100%{
+    color:rgba(255,255,255,.86);
+    text-shadow:0 0 6px #fff,0 0 18px #e9f5ff,0 0 28px #c4dfff;
+  }
+  50%{
+    color:#000;
+    text-shadow:0 0 5px #000,0 0 12px #000;
+  }
+}
+@keyframes voidShadowPulse{
+  0%,100%{opacity:.42}
+  50%{opacity:.04}
+}
+@keyframes voidCoreStrobe{
+  0%,100%{opacity:.18}
+  50%{opacity:.015}
+}
+@media (prefers-reduced-motion:reduce){
+  .void-text,.void-shadow,.void-core{animation:none!important}
+  .void-text{color:#fff;text-shadow:0 0 10px #fff,0 0 20px #dff3ff,0 0 30px #b4d6ff}
+  .void-shadow{opacity:.24}
+  .void-core{opacity:.10}
+}
 </style>
 </head>
 <body>
-<main id="scene" class="scene soft" aria-label="Void background test">
-  <div class="badge">PROOF v232 VOID BACKGROUND ONLY</div>
-  <div class="status" id="status">soft</div>
+<main id="scene" class="scene strobe" aria-label="Void background 0.1 second strobe test">
+  <div class="badge">PROOF v232B VOID 0.1s STROBE</div>
+  <div class="status" id="status">0.1s</div>
   <section class="void-stack" aria-hidden="true">
     <div class="void-core"></div>
-    <div class="void-glow">THE VOID</div>
-    <div class="void-face">THE VOID</div>
-    <div class="void-cut">THE VOID</div>
+    <div class="void-shadow">THE VOID</div>
+    <div class="void-text">THE VOID</div>
   </section>
   <nav class="controls" aria-label="Void background controls">
-    <button data-mode="soft" class="active">soft</button>
-    <button data-mode="hard">hard</button>
+    <button data-mode="strobe" class="active">0.1s</button>
+    <button data-mode="slower">0.2s</button>
+    <button data-mode="heavy">heavy</button>
     <button data-mode="black">black</button>
-    <button data-mode="breath">breath</button>
   </nav>
 </main>
 <script>
@@ -68,7 +199,7 @@ document.querySelectorAll('[data-mode]').forEach(button=>{
     event.preventDefault();
     const mode=button.dataset.mode;
     scene.className='scene '+mode;
-    status.textContent=mode;
+    status.textContent=button.textContent.trim();
     document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b===button));
   },{passive:false});
 });
