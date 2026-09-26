@@ -1,7 +1,7 @@
 {
   "name": "The House That Remembers",
   "short_name": "The House",
-  "start_url": "./?book=foreword-v224-true-drop-phone",
+  "start_url": "./?book=foreword-v225-presence-leaves-phone",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
