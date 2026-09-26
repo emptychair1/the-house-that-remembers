@@ -1,6 +1,6 @@
 (() => {
-  const BUILD = 'BOOK FOREWORD v2.2.7 VOID ROUGH PASS';
-  const CACHE = 'book-foreword-v227-void-rough-phone';
+  const BUILD = 'BOOK FOREWORD v2.2.7.1 VOID GATED PASS';
+  const CACHE = 'book-foreword-v2271-void-gated-phone';
   const AUDIO_SRC = './assets/audio/the_weight_of_infinite_stone.mp3';
   const prefersReduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
   const facts = () => document.getElementById('render-facts');
@@ -31,7 +31,7 @@
     }
     setFact('build', BUILD);
     setFact('cache', CACHE);
-    setFact('voidRough', 'armed');
+    setFact('voidRough', 'armed-gated');
     setFact('voidDuration', '30s');
     setFact('voidPulseMap', 'slow1000_fast800_first_returned_gaze');
   }
@@ -91,6 +91,7 @@
     if (stage) return stage;
     stage = document.createElement('div');
     stage.className = 'presence-clean-stage void-rough-stage';
+    stage.hidden = true;
     stage.setAttribute('aria-label', 'The Void');
     stage.innerHTML = '<div class="presence-clean-black"></div>';
     document.body.appendChild(stage);
@@ -286,6 +287,8 @@
     if (started) return;
     started = true;
     makeStage();
+    stage.hidden = false;
+    stage.classList.add('void-active');
     document.documentElement.classList.add('presence-clean-leaving');
     setFact('voidRough', 'black-arrival');
     requestAnimationFrame(() => requestAnimationFrame(() => stage.classList.add('leaving')));
@@ -298,8 +301,42 @@
     }, 3400);
   }
 
+  function activeClosingPage() {
+    const htmlPage = document.documentElement.dataset.bookPage;
+    const page = document.querySelector('.foreword-closing-page.is-current');
+    if (!page) return null;
+    if (currentPage() !== closingIndex()) return null;
+    if (htmlPage !== String(closingIndex())) return null;
+    const rect = page.getBoundingClientRect();
+    if (!rect || rect.width < 40 || rect.height < 80) return null;
+    return page;
+  }
+
+  function inSealZone(event, closing) {
+    const seal = closing.querySelector('.author-seal-wrap, .author-seal, .closing-card');
+    const rect = seal?.getBoundingClientRect?.();
+    if (!rect || rect.width < 10 || rect.height < 10) return false;
+    const padX = Math.max(84, innerWidth * 0.13);
+    const padY = Math.max(84, innerHeight * 0.10);
+    return event.clientX >= rect.left - padX &&
+      event.clientX <= rect.right + padX &&
+      event.clientY >= rect.top - padY &&
+      event.clientY <= rect.bottom + padY;
+  }
+
   function shouldCatch(event) {
-    return currentPage() === closingIndex() && event.clientX > innerWidth * .67;
+    if (started || state !== 'sleeping') return false;
+    const closing = activeClosingPage();
+    if (!closing) {
+      setFact('voidGateCheck', 'not-current-closing');
+      return false;
+    }
+    if (!inSealZone(event, closing)) {
+      setFact('voidGateCheck', 'outside-seal-zone');
+      return false;
+    }
+    setFact('voidGateCheck', 'seal-zone');
+    return true;
   }
 
   function catchDown(event) {
