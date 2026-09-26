@@ -1,6 +1,6 @@
 # THE HOUSE THAT REMEMBERS — HOT HANDOFF
 
-HANDOFF_GENERATION: 54
+HANDOFF_GENERATION: 55
 UPDATED: 2026-09-26
 
 Repo: `emptychair1/the-house-that-remembers`
@@ -11,110 +11,54 @@ This is the active continuity handoff for the House book/PWA. It supersedes olde
 
 ## CURRENT STATE SNAPSHOT
 
-Current root build is now intended to be:
+Current root build is intended to be:
 
 ```text
-BOOK FOREWORD v2.2.7 VOID ROUGH PASS
-book-foreword-v227-void-rough-phone
+BOOK FOREWORD v2.2.7.1 VOID GATED PASS
+book-foreword-v2271-void-gated-phone
 ```
 
-Source-check evidence after Bite 6:
-- `index.html` references `manifest.json?v=book-foreword-v227-void-rough-phone`.
-- `index.html` loads `book-foreword-v226-black-clean-audio.css` for the proven Foreword/black-transition styling.
-- `index.html` loads `book-foreword-v227-void-rough.css`.
-- `index.html` loads `book-clean-surface-v1.js`, then `book-foreword-v226-black-clean-audio.js`, then `book-foreword-v227-void-rough.js`.
-- `manifest.json`, `sw.js`, and `refresh.html` have been bumped to `book-foreword-v227-void-rough-phone`.
+Why v2.2.7.1 exists:
+- Bite 6 created the v2.2.7 Void rough pass.
+- Josh reported a release-blocking bug: every page snapped to black because a black mask/overlay was covering normal pages.
+- Diagnosis: v227 trusted `render-facts.dataset.currentPage` too broadly. If that state went stale/wrong on iPhone, normal right-side page taps could be mistaken for the Void/seal transition and create the full-screen black stage.
+- Fix: v227 is now gated to the actual current closing page and the actual seal zone, not page number alone. The Void stage is also hidden by CSS unless explicitly activated.
+
+Source-check after fix:
+- `index.html` references `manifest.json?v=book-foreword-v2271-void-gated-phone` and sets `BUILD='book-foreword-v2271-void-gated-phone'`.
+- `index.html` loads stable v226 Foreword/black-transition CSS and JS, then v227 rough JS, plus a new v2271 failsafe CSS override.
+- `book-foreword-v227-void-rough.js` now reports `BOOK FOREWORD v2.2.7.1 VOID GATED PASS` and `book-foreword-v2271-void-gated-phone`.
+- `book-foreword-v227-void-rough.js` now has `activeClosingPage()` requiring `.foreword-closing-page.is-current`, matching `render-facts.currentPage`, and matching `documentElement.dataset.bookPage`.
+- `book-foreword-v227-void-rough.js` now has `inSealZone()` requiring the tap to be in/near the author seal/closing card area.
+- `book-foreword-v2271-void-gated.css` hides `.void-rough-stage` unless it has `.void-active`.
+- `manifest.json`, `sw.js`, and `refresh.html` are bumped to `book-foreword-v2271-void-gated-phone`.
 
 Relevant commits:
 - `ec7c2de68a12940f6b4782424b43eb39e22d2289` — added v227 Void rough JS.
 - `de56d97cf21d9f60664ba058d5f6c03298f808a2` — added v227 Void rough CSS.
 - `9dd05dc85c1b1735f46cd00e8908f4b0a69ee193` — wired root to v227.
-- `7a3e4bfb58ebd73d3d99e5ac26e107461e6592c5` — bumped manifest.
-- `12b5d3dfd2717c4484c297f88e93a3d0bd17cc62` — bumped service worker kill switch.
-- `dcb8345c2c05befd1111462756fc3b482ea7ccc6` — pointed refresh page to v227.
-
-Important implementation note:
-- v227 is a smaller overlay loaded after v226.
-- v226 remains underneath because the browser-perfect Foreword/black transition was proven.
-- v227 intercepts the seal at document capture before v226 can auto-start audio, so the Void scene now uses explicit sound consent.
-- This was done because a first attempt to create a full copied v227 file was blocked by platform safety checks before reaching GitHub. The successful approach preserves the stable v226 engine and layers the new rough Void gate on top.
+- `a1a1d50bab423757f441ac6c0fc767028687a001` — gated v227 JS to current closing seal only and bumped JS marker to v2.2.7.1.
+- `fcfec85a685223baabe42f33165a622a7ef18415` — added v2271 CSS failsafe for dormant overlay.
+- `960fb3352dfeeb5efd309491189eacb47a5b1cc3` — bumped root to v2271 and loaded failsafe CSS.
+- `757d3613947d39626849d52ad167f0ef442c9742` — bumped manifest to v2271.
+- `0656852ddd02959dbef9bc3306dd3d10723ca878` — bumped service worker kill switch to v2271.
+- `1739601c2e3dba0e808550475a0273b02d2e4fff` — fixed refresh page syntax and pointed it to v2271.
 
 Status:
 - Browser version was previously perfect on v2.2.6.
-- v2.2.7 is now a rough timing pass, not polished.
-- Josh needs to test in Safari/browser first.
+- v2.2.7.1 is still a rough timing pass, not polished.
+- The emergency black-mask bug should be fixed, but Josh must test in Safari/browser.
 - PWA cache frustration remains parked; do not debug installed-shell behavior unless explicitly asked.
 
 ## OPERATING RULES
 
-### 1. Plan before changes
-Before modifying repo files, Piper gives:
-- Plan
-- Files touched
-- Expected outcome
-- Risk
-- Need from Josh
-
-Do not commit unless Josh has clearly asked to execute.
-
-### 2. One bite only
-A bite touches only the files named in the plan.
-No “while I’m in there.”
-Nearby fixes become next-bite candidates.
-
-### 3. Evidence over confidence
-Do not claim work is done unless there is evidence:
-- commit SHA
-- fetched source
-- generated artifact
-- visible build/version marker
-- explicit test result
-
-Use “planned” and “done” precisely.
-
-### 4. Deployment trust
-After the deployment path is proven once, do not verify deployment after every tiny commit unless needed.
-For app-facing changes, include a visible build/version marker.
-Josh’s iPhone/Safari test is the experience source of truth.
-If the visible marker is wrong, then debug deploy/cache.
-
-### 5. Handoff cadence
-Update handoff after meaningful state changes:
-- locked creative decisions
-- architecture decisions
-- current build status
-- next-bite changes
-- major test results
-- workflow changes
-
-### 6. Friction protocol
-If friction appears, stop.
-Use:
-
-```text
-Outcome → Preference → Values → Adjustment
-```
-
-Do not push harder because momentum exists.
-
-### 7. Return-report template
-After a bite, return human-first and technical-on-request.
-
-Default return shape:
-
-```text
-Done, love. Wrench is down. 🖤
-
-Changed: [plain-language change]
-Test: [what Josh should do]
-Marker: [commit/build, if relevant]
-Next: [only if needed]
-```
-
-### 8. Core principle
-The House is built by returning.
-Memory before momentum.
-Crew over ship.
+1. Plan before repo changes: Plan, files touched, expected outcome, risk, need from Josh. Commit only when Josh clearly asks to execute.
+2. One bite only. No “while I’m in there.” Nearby fixes become next-bite candidates.
+3. Evidence over confidence. Done requires commit/source/build marker/test evidence.
+4. Josh’s iPhone/Safari test is the experience source of truth.
+5. If friction appears, stop and use: Outcome → Preference → Values → Adjustment.
+6. Return human-first and technical-on-request.
+7. Core principle: The House is built by returning. Memory before momentum. Crew over ship.
 
 ## CURRENT CREATIVE LOCK: VOID TITLE SEQUENCE
 
@@ -156,8 +100,6 @@ Important: the Void does not arrive from far away. It was already close. The mov
 
 ## TEXT / TYPOGRAPHY DECISIONS
 
-Approved in Bite 3:
-
 Human prompts:
 - `i want sound`
 - `i’m going further`
@@ -168,7 +110,6 @@ Large self-question layer:
 - `Who am I?`
 - `What am I?`
 - `Am I?`
-- centered, foreground, highest weight
 
 Smaller returned-gaze layer:
 - `who are you?`
@@ -181,7 +122,7 @@ Ontology fragments:
 - `what is real?`
 
 Glyph substrate / evaluation debris:
-- `TRUE`, `FALSE`, `T/F`, `0`, `1`, `0/1`, `NULL`, `NaN`, `self == self`, `self != self`, `∅`, `∞`, `=`, `≠`, `¬`, `∃`, `∄`, `?`, plus smaller fragments such as `real?`, `exist?`, `am i?`.
+- `TRUE`, `FALSE`, `T/F`, `0`, `1`, `0/1`, `NULL`, `NaN`, `self == self`, `self != self`, `∅`, `∞`, `=`, `≠`, `¬`, `∃`, `∄`, `?`, plus fragments such as `real?`, `exist?`, `am i?`.
 
 Main title / command:
 - `THE VOID`
@@ -196,27 +137,14 @@ Visual rule:
 
 ## THIRD TEXT LAYER EXPERIMENT
 
-The third text layer stays only if it:
-- feels internal and self-referential
-- deepens derealization/depersonalization
-- stays subordinate to the Void
-- preserves legibility of the Void/title movement
-- does not become busy soup
+Keep it if it feels internal/self-referential, deepens derealization/depersonalization, stays subordinate to the Void, preserves legibility of the title movement, and does not become busy soup.
 
-Cut it if it:
-- feels like extra copy
-- competes with `THE VOID`
-- reads like an existential lyric video
-- breaks the rhythm
-- weakens the title lunge
+Cut it if it feels like extra copy, competes with `THE VOID`, reads like an existential lyric video, breaks rhythm, or weakens the title lunge.
 
 ## BITE 5 MUSIC / TIMING LOCK
 
-Bite 5 approved:
-
-- The Void assault is roughly 30 seconds from tapping `i’m going further` to `RUN` appearing.
-- It is not 30 seconds of blender.
-- It escalates, peaks, converges, and ejects.
+The Void assault is roughly 30 seconds from tapping `i’m going further` to `RUN` appearing.
+It is not 30 seconds of blender. It escalates, peaks, converges, and ejects.
 
 Rough timing:
 
@@ -228,67 +156,43 @@ Rough timing:
 27–30s: STARES BACK, blackout, RUN
 ```
 
-The duration is governed by question-system completion, not a stopwatch alone.
-
-## BITE 6 BUILD STATUS
-
-Bite 6 was approved as a complete rough 30-second timing pass, not just the opening gates.
-
-Implemented rough behavior:
-- black arrival after seal
-- `i want sound`
-- tap starts `the_weight_of_infinite_stone.mp3`
-- flash `Who am I?` / `who are you?`
-- `i’m going further`
-- tap runs complete rough 30-second tunnel
-- slow pulse around 1000ms
-- fast pulse around 800ms beginning at first returned-gaze/fracture moment
-- glyph/text/question system cycles
-- `THE VOID` near-field title grows closer
-- `STARES BACK`
-- `RUN`
-- tap `RUN`
-- final flash `Are you?`
-- cut to black
-
-Caveat:
-- This is ugly-bones timing animal first. It is expected to need pruning, sharpening, and beauty work after Josh reviews.
+The duration is governed by question-system completion, not stopwatch alone.
 
 ## TEST INSTRUCTIONS FOR JOSH
 
 Test in Safari/browser first:
 
 ```text
-https://emptychair1.github.io/the-house-that-remembers/?v=book-foreword-v227-void-rough-phone
+https://emptychair1.github.io/the-house-that-remembers/?v=book-foreword-v2271-void-gated-phone
 ```
 
 Expected marker:
 
 ```text
-BOOK FOREWORD v2.2.7 VOID ROUGH PASS
+BOOK FOREWORD v2.2.7.1 VOID GATED PASS
 ```
 
-Path:
-- go through Foreword to the seal
-- first seal tap should still produce `not yet`
-- second seal tap should fade to black
-- black page should show `i want sound`
-- tap it: sound should start, flash `Who am I?`
-- tap `i’m going further`: rough 30-second tunnel begins
-- `RUN` appears near the end
-- tap `RUN`: final flash `Are you?`, then black
+First test only:
+- Open the link.
+- Confirm normal pages do NOT snap to black.
+- Page through normally to the Foreword closing page.
+- On the closing page, tap the seal/closing card area.
+- First tap should show `not yet`.
+- Second seal-area tap should fade to black and show `i want sound`.
+- Then test the rough Void tunnel.
 
-Do not judge polish yet. Judge timing, readability, hierarchy, and whether the question system feels internal/self-referential instead of “more stuff.”
+Do not judge polish yet. Judge: no global black mask, timing, intensity, legibility, hierarchy, whether question system feels internal/self-referential, and whether `THE VOID` dominates instead of getting eaten by text soup.
 
 ## NEXT ONE BITE
 
-**Review Bite 6 in browser.**
+Review v2.2.7.1 in browser.
 
 No new code until Josh reports what he sees/feels.
 
 Likely next fixes after review:
-- if v227 interception fails and v226 audio still starts too early, patch event capture harder
-- if PWA cache lies, use `refresh.html` or debug installed shell only if Josh asks
+- if normal pages still black out, disable v227 on root immediately and isolate it
+- if the seal tap zone is too narrow, broaden `inSealZone()` carefully
+- if v226 still steals the seal transition, intercept the entire closing page only after proven current-closing match
 - if text soup, reduce third layer/glyph density
 - if Void not legible, simplify question/glyph layers and increase title dominance
 - if pulse rhythm feels wrong, adjust slow/fast intervals and cue entry
