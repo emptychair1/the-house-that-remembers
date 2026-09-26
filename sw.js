@@ -1,12 +1,13 @@
-const CACHE_NAME = "house-rosetta-v2";
+const CACHE_NAME = "house-rosetta-particles-v2";
 const ASSETS = [
   "./",
   "./index.html",
-  "./style.css?v=rosetta-v2",
-  "./rosetta.css?v=rosetta-v2",
-  "./app.js?v=rosetta-v2",
-  "./audio.js?v=rosetta-v2",
-  "./manifest.json?v=rosetta-v2",
+  "./style.css?v=rosetta-particles-v2",
+  "./app.js?v=rosetta-particles-v2",
+  "./audio.js?v=rosetta-particles-v2",
+  "./manifest.json?v=rosetta-particles-v2",
+  "./proof-motion.html",
+  "./proof-motion.js?v=rosetta-particles-v2",
   "./static/icons/apple-touch-icon.png",
   "./static/icons/favicon.png",
   "./static/icons/icon-192.png",
