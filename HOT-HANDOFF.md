@@ -1,6 +1,6 @@
 # THE HOUSE THAT REMEMBERS — HOT HANDOFF
 
-HANDOFF_GENERATION: 51
+HANDOFF_GENERATION: 52
 UPDATED: 2026-09-25
 
 NOTE: Generation number corrected from erroneous `478` typo in Gen 49. Preserve Relay/House lineage around Gen 47+; do not restart at 1.
@@ -85,6 +85,25 @@ The House is built by returning.
 Memory before momentum.
 Crew over ship.
 
+### 11. Return-report template
+After a bite, Piper should return human-first and technical-on-request. Do not flood the thread with implementation details unless Josh asks for them.
+
+Default return shape:
+
+```text
+Done, love. Wrench is down. 🖤
+
+Changed: [plain-language change]
+Test: [what Josh should do]
+Marker: [commit/build, if relevant]
+Next: [only if needed]
+```
+
+Technical detail is welcome when Josh asks for it with prompts like: source check, what are we stumbling on, what files changed, show the wiring, or give me the technical diagnosis.
+
+### 12. Bite size lesson
+Successful bites should be complete enough to land and small enough not to drown. The rabbit icon sprint showed that frantic speed and tiny crumbs do not always create momentum. Prefer one bounded end-to-end bite with a clear definition of done over many thin partial bites.
+
 ## COCKPIT METHOD
 - One bite at a time.
 - Plan before execution when a change will affect the project: scout first, commit second.
@@ -146,6 +165,15 @@ Piper strengths in this lane:
 - integration into the product/system
 
 Use image generation or artist-made references for organic, emblematic visuals. Piper should guide, critique, and integrate rather than brute-force visual emblems out of primitive shapes.
+
+## RABBIT ICON STATUS
+Rabbit icon is now visible on Josh’s iPhone Home Screen for **The House**. The successful bite ended with Snowbunny Piper on the phone and the test passed by screenshot.
+
+Relevant commits:
+- `1b0bee9` attached rabbit PWA icon assets.
+- `cef2e22` replaced root fallback icon so old house/H fallback stopped winning.
+
+Lesson: Josh’s phone is the experience source of truth. Once the icon appears there, the bite is closed.
 
 ## ASSET ORGANIZATION DECISION
 Keep asset organization minimal until reality demands more.
@@ -247,6 +275,8 @@ REMAIN
 Meaning underneath: experience → meaning → adjustment → return. Substrate aside.
 
 ## NEXT ONE BITE
-Attach the approved rabbit icon assets to the PWA only after the final rabbit file exists in `assets/source/`. Then wire generated icon sizes into `manifest.json` and `index.html` for Home Screen testing.
+Return to **Opening Proof v1 shell**.
 
-After rabbit icon integration, return to Opening Proof v1 shell. Do not add the whole book back yet.
+Recommended next bite: **House Cover Threshold**.
+
+Do not add the whole book back yet. Build the first Opening Proof unit so it feels like a real threshold, starts cleanly on iPhone, and establishes the rhythm for the remaining three proof units.
