@@ -7,14 +7,14 @@
 <meta http-equiv="Cache-Control" content="no-store, max-age=0">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Void Background Harness v232B</title>
+<title>Void Background Harness v232C</title>
 <style>
 :root{
-  --void-cycle: .1s;
-  --void-font: clamp(10.5rem,46.5vw,42rem);
-  --void-width: 240vw;
-  --void-height: 78vh;
-  --void-letter-spacing: -.09em;
+  --void-cycle:.1s;
+  --void-font:clamp(14.7rem,65.1vw,58.8rem);
+  --void-width:336vw;
+  --void-height:110vh;
+  --void-letter-spacing:-.09em;
 }
 html,body{
   margin:0;
@@ -75,8 +75,9 @@ html,body{
   display:grid;
   place-items:center;
 }
-.void-text,
-.void-shadow{
+.void-face,
+.void-light,
+.void-halo{
   position:absolute;
   inset:0;
   display:grid;
@@ -87,23 +88,37 @@ html,body{
   white-space:nowrap;
   transform:translateZ(0);
 }
-.void-shadow{
-  color:rgba(255,255,255,.16);
-  filter:blur(1.15rem);
-  opacity:.32;
-  transform:translateZ(0) scale(1.018);
-  animation:voidShadowPulse .1s infinite steps(1,end);
+.void-face{
+  color:#000;
+  z-index:4;
+  opacity:1;
+  text-shadow:none;
+  animation:voidBlackFace var(--void-cycle) infinite steps(1,end);
 }
-.void-text{
-  color:#fff;
-  animation:voidStrobe .1s infinite steps(1,end);
+.void-light{
+  color:rgba(255,255,255,.92);
+  z-index:2;
+  filter:blur(1.05rem);
+  opacity:.72;
+  transform:translateZ(0) scale(1.018);
+  text-shadow:0 0 12px rgba(255,255,255,.9),0 0 26px rgba(223,243,255,.86),0 0 44px rgba(180,214,255,.68),0 0 70px rgba(255,255,255,.42);
+  animation:voidLetterLight var(--void-cycle) infinite steps(1,end);
+}
+.void-halo{
+  color:rgba(255,255,255,.28);
+  z-index:1;
+  filter:blur(3rem);
+  opacity:.28;
+  transform:translateZ(0) scale(1.05);
+  animation:voidHalo var(--void-cycle) infinite steps(1,end);
 }
 .void-core{
   position:absolute;
-  inset:-22vh -32vw;
-  background:radial-gradient(ellipse at center,rgba(235,246,255,.28) 0%,rgba(196,220,240,.08) 22%,rgba(0,0,0,0) 54%);
-  opacity:.18;
-  animation:voidCoreStrobe .1s infinite steps(1,end);
+  inset:-28vh -45vw;
+  z-index:0;
+  background:radial-gradient(ellipse at center,rgba(245,250,255,.20) 0%,rgba(196,220,240,.06) 20%,rgba(0,0,0,0) 50%);
+  opacity:.14;
+  animation:voidCoreStrobe var(--void-cycle) infinite steps(1,end);
 }
 .controls{
   position:fixed;
@@ -136,56 +151,50 @@ button.active{
   color:#fff;
   box-shadow:0 0 1.2rem rgba(255,255,255,.12);
 }
-.scene.slower{--void-cycle:.2s}.scene.slower .void-text{animation-duration:.2s}.scene.slower .void-shadow{animation-duration:.2s}.scene.slower .void-core{animation-duration:.2s}
-.scene.heavy{--void-cycle:.1s}.scene.heavy .void-text{filter:contrast(1.25)}.scene.heavy .void-shadow{opacity:.46;filter:blur(1.8rem)}.scene.heavy .void-core{opacity:.26}
-.scene.black{--void-cycle:.1s}.scene.black .void-text{animation-name:voidBlackStrobe}.scene.black .void-shadow{opacity:.18;filter:blur(.7rem)}.scene.black .void-core{opacity:.06}
-@keyframes voidStrobe{
-  0%,100%{
-    color:#fff;
-    text-shadow:0 0 10px #fff,0 0 20px #dff3ff,0 0 30px #b4d6ff,0 0 40px #ffffff;
-  }
-  50%{
-    color:transparent;
-    text-shadow:0 0 5px #000,0 0 10px #000;
-  }
+.scene.slower{--void-cycle:.2s}
+.scene.heavy .void-light{opacity:.88;filter:blur(1.45rem);text-shadow:0 0 18px rgba(255,255,255,1),0 0 42px rgba(223,243,255,.95),0 0 82px rgba(180,214,255,.72)}
+.scene.heavy .void-halo{opacity:.44;filter:blur(4rem)}
+.scene.heavy .void-core{opacity:.22}
+.scene.black .void-light{opacity:.46;filter:blur(.64rem);text-shadow:0 0 10px rgba(255,255,255,.74),0 0 24px rgba(223,243,255,.56)}
+.scene.black .void-halo{opacity:.16;filter:blur(1.7rem)}
+.scene.black .void-core{opacity:.04}
+@keyframes voidBlackFace{
+  0%,100%{opacity:1;color:#000}
+  50%{opacity:.02;color:#000}
 }
-@keyframes voidBlackStrobe{
-  0%,100%{
-    color:rgba(255,255,255,.86);
-    text-shadow:0 0 6px #fff,0 0 18px #e9f5ff,0 0 28px #c4dfff;
-  }
-  50%{
-    color:#000;
-    text-shadow:0 0 5px #000,0 0 12px #000;
-  }
+@keyframes voidLetterLight{
+  0%,100%{opacity:.72}
+  50%{opacity:0}
 }
-@keyframes voidShadowPulse{
-  0%,100%{opacity:.42}
-  50%{opacity:.04}
+@keyframes voidHalo{
+  0%,100%{opacity:.28}
+  50%{opacity:0}
 }
 @keyframes voidCoreStrobe{
-  0%,100%{opacity:.18}
-  50%{opacity:.015}
+  0%,100%{opacity:.14}
+  50%{opacity:.006}
 }
 @media (prefers-reduced-motion:reduce){
-  .void-text,.void-shadow,.void-core{animation:none!important}
-  .void-text{color:#fff;text-shadow:0 0 10px #fff,0 0 20px #dff3ff,0 0 30px #b4d6ff}
-  .void-shadow{opacity:.24}
-  .void-core{opacity:.10}
+  .void-face,.void-light,.void-halo,.void-core{animation:none!important}
+  .void-face{opacity:1;color:#000}
+  .void-light{opacity:.38}
+  .void-halo{opacity:.16}
+  .void-core{opacity:.06}
 }
 </style>
 </head>
 <body>
-<main id="scene" class="scene strobe" aria-label="Void background 0.1 second strobe test">
-  <div class="badge">PROOF v232B VOID 0.1s STROBE</div>
-  <div class="status" id="status">0.1s</div>
+<main id="scene" class="scene strobe" aria-label="Void background 0.1 second black text strobe test">
+  <div class="badge">PROOF v232C VOID BLACK TEXT 0.1s</div>
+  <div class="status" id="status">0.1s black</div>
   <section class="void-stack" aria-hidden="true">
     <div class="void-core"></div>
-    <div class="void-shadow">THE VOID</div>
-    <div class="void-text">THE VOID</div>
+    <div class="void-halo">THE VOID</div>
+    <div class="void-light">THE VOID</div>
+    <div class="void-face">THE VOID</div>
   </section>
   <nav class="controls" aria-label="Void background controls">
-    <button data-mode="strobe" class="active">0.1s</button>
+    <button data-mode="strobe" class="active">0.1s black</button>
     <button data-mode="slower">0.2s</button>
     <button data-mode="heavy">heavy</button>
     <button data-mode="black">black</button>
