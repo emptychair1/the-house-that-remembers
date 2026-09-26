@@ -1,7 +1,7 @@
 {
   "name": "The House That Remembers",
   "short_name": "The House",
-  "start_url": "./",
+  "start_url": "./?book=foreword-v221-glyph-drop-phone",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
