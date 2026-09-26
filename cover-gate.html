@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-store,max-age=0">
 <title>The House That Remembers</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;touch-action:none}body{height:100dvh}#c{position:fixed;inset:0;width:100vw;height:100dvh;display:block;background:#000}.turn{position:fixed;inset:0;z-index:4;background:transparent;border:0;padding:0;margin:0;color:transparent;-webkit-tap-highlight-color:transparent}.hint{position:fixed;z-index:3;left:50%;bottom:max(1.15rem,env(safe-area-inset-bottom));transform:translateX(-50%);font:700 .52rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.28);opacity:0;animation:in 1.2s 4.8s forwards;white-space:nowrap;pointer-events:none}@keyframes in{to{opacity:1}}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;touch-action:none}body{height:100dvh}#c{position:fixed;inset:0;width:100vw;height:100dvh;display:block;background:#000}.turn{position:fixed;inset:0;z-index:4;background:transparent;border:0;padding:0;margin:0;color:transparent;-webkit-tap-highlight-color:transparent;pointer-events:none}.turn.is-armed{pointer-events:auto}.hint{position:fixed;z-index:3;left:50%;bottom:max(1.15rem,env(safe-area-inset-bottom));transform:translateX(-50%);font:700 .52rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.28);opacity:0;animation:in 1.2s 4.8s forwards;white-space:nowrap;pointer-events:none}@keyframes in{to{opacity:1}}
 </style>
 </head>
 <body>
@@ -16,9 +16,18 @@
 <button class="turn" id="turn" aria-label="Open the book"></button>
 <script src="./proof-motion.js?v=rosetta-stream-v6"></script>
 <script>
-const openBook=()=>location.replace('./proof-v231.html?from=cover-'+Date.now());
-document.getElementById('turn').addEventListener('click',openBook,{once:true});
-document.getElementById('turn').addEventListener('touchend',e=>{e.preventDefault();openBook()},{once:true,passive:false});
+const turn=document.getElementById('turn');
+let armed=false;
+let opened=false;
+setTimeout(()=>{armed=true;turn.classList.add('is-armed')},1800);
+function openBook(e){
+  if(e){e.preventDefault();e.stopPropagation();}
+  if(!armed||opened)return;
+  opened=true;
+  location.replace('./proof-v231.html?from=cover-'+Date.now());
+}
+turn.addEventListener('pointerup',openBook,{passive:false});
+turn.addEventListener('click',openBook,{passive:false});
 </script>
 </body>
 </html>
