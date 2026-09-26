@@ -20,21 +20,21 @@ function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g
 function section(cls,html){const e=document.createElement("section");e.className="unit "+cls;e.innerHTML=html;reader.appendChild(e);return e}
 function ouro(){return '<svg viewBox="0 0 200 200" aria-label="Ouroboros"><circle cx="100" cy="100" r="72" fill="none" stroke="currentColor" stroke-width="12"/><circle cx="100" cy="100" r="54" fill="none" stroke="currentColor" stroke-width="10"/><circle cx="155" cy="100" r="8" fill="currentColor"/></svg>'}
 function piRain(){
- const seq=pi.repeat(90).replace(/\./g,"");
- const symbols=["π","∞","∴","∵","Φ","☉","☽"];
- const cols=34;
+ const seq=pi.repeat(140).replace(/\./g,"");
+ const symbols=["π","∞","∴","∵","Φ","☉","☽","◇","⌁"];
+ const cols=76;
  let n=0;
  let html="";
  for(let c=0;c<cols;c++){
    const x=((c+.5)/cols)*100;
-   const delay=-((c*37)%190)/10;
-   const duration=6.5+((c*13)%55)/10;
-   const drift=((c%7)-3)*.28;
+   const delay=-((c*37)%240)/10;
+   const duration=5.2+((c*13)%48)/10;
+   const drift=((c%9)-4)*.2;
    let chars="";
-   const rows=28+((c*5)%12);
+   const rows=46+((c*5)%18);
    for(let r=0;r<rows;r++){
      let ch=seq[n++%seq.length];
-     if(r%19===0)ch=symbols[(c+r)%symbols.length];
+     if(r%23===0)ch=symbols[(c+r)%symbols.length];
      chars+='<span>'+esc(ch)+'</span>';
    }
    html+='<div class="pi-rain-column" style="--x:'+x.toFixed(2)+'%;--delay:'+delay.toFixed(2)+'s;--duration:'+duration.toFixed(2)+'s;--drift:'+drift.toFixed(2)+'rem">'+chars+'</div>';
