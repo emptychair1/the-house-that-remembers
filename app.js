@@ -43,7 +43,7 @@ function piRain(){
 const units=[];
 function textPage(id,txt,cls){const lines=txt.split(/\n{2,}/).filter(Boolean);return section(cls,'<article class="copy" data-id="'+id+'">'+lines.map((x,i)=>i<4&&(/^(Chapter|Foreword|Interruption|The Wretched|Build Something|The Interval|Cleaning House|Friend|Naming|Possibility|Sefer|Aristotle)/.test(x.trim()))?'<p class="manuscript-line title-line">'+esc(x.trim())+'</p>':'<p class="manuscript-line">'+esc(x.trim())+'</p>').join("")+'</article>')}
 async function load(){
-units.push(section("pi-rain-cover",'<figure class="rain-cover-target"><img src="'+coverSrc+'" alt="The House That Remembers cover"></figure><div class="pi-rain" aria-hidden="true">'+piRain()+'</div><div class="rain-veil" aria-hidden="true"></div><div class="page-whisper">tap or swipe to turn the page</div>'));
+units.push(section("pi-rain-cover",'<figure class="rain-cover-target"><img src="'+coverSrc+'" alt="The House That Remembers cover"></figure><div class="pi-rain" aria-hidden="true">'+piRain()+'</div><div class="rain-veil" aria-hidden="true"></div><div class="build-marker">FLAT v2</div><div class="page-whisper">tap or swipe to turn the page</div>'));
 for(const f of files){
 if(f[1]){const r=await fetch(f[1]);const t=await r.text();units.push(textPage(f[0],t,f[2]));continue}
 if(f[0]==="act1")units.push(section("void-title",' <div class="copy center"><div class="ouro rail">'+ouro()+'</div><div class="kicker">Act I</div><div class="chapter-title">THE VOID<br>STARES BACK</div><div class="number-image">'+pi.repeat(8)+'</div></div>'));
