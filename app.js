@@ -1,5 +1,5 @@
 const reader=document.getElementById("reader");
-const coverSrc="https://raw.githubusercontent.com/emptychair1/the-house-that-remembers/main/assets/source/IMG_3301.png";
+const coverSrc="./assets/source/IMG_3301.png";
 const sealSrc="./assets/seals/474C63C0-32CC-407D-9FCA-1BECE724CB3E.png";
 const files=[
 ["foreword","manuscript/FOREWORD.md","manuscript"],
@@ -20,26 +20,106 @@ const pi="3.14159265358979323846264338327950288419716939937510582097494459230781
 function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 function section(cls,html){const e=document.createElement("section");e.className="unit "+cls;e.innerHTML=html;reader.appendChild(e);return e}
 function ouro(){return '<svg viewBox="0 0 200 200" aria-label="Ouroboros"><circle cx="100" cy="100" r="72" fill="none" stroke="currentColor" stroke-width="12"/><circle cx="100" cy="100" r="54" fill="none" stroke="currentColor" stroke-width="10"/><circle cx="155" cy="100" r="8" fill="currentColor"/></svg>'}
-function piRain(){
- const seq=pi.repeat(420).replace(/\./g,"");
- const symbols=["π","∞","∴","∵","Φ","☉","☽","◇","⌁"];
- const rows=160;
- const charsPerRow=150;
- let n=0;
- let html="";
- for(let r=0;r<rows;r++){
-   let text="";
-   for(let c=0;c<charsPerRow;c++){
-     let ch=seq[n++%seq.length];
-     if((r+c)%73===0)ch=symbols[(r+c)%symbols.length];
-     text+=ch;
-   }
-   const y=-34+(r*(188/(rows-1)));
-   const delay=(r%19)*.018;
-   const drift=((r%5)-2)*.08;
-   html+='<div class="pi-wall-row" style="--y:'+y.toFixed(2)+'%;--delay:'+delay.toFixed(3)+'s;--drift:'+drift.toFixed(2)+'rem">'+esc(text)+'</div>';
+function initRosettaCover(canvas){
+ const ctx=canvas.getContext("2d",{alpha:false});
+ const img=new Image();
+ img.src=coverSrc;
+ const PI=pi.replace(/\./g,"");
+ let start=0,dpr=1,W=0,H=0,cover=null,stream=[];
+ const coverBox={x:0,y:0,w:0,h:0};
+ const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+ const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+ const hash=(x,y,salt=0)=>{const s=Math.sin((x*127.1)+(y*311.7)+(salt*74.7))*43758.5453123;return s-Math.floor(s)};
+ function resize(){
+   dpr=Math.min(devicePixelRatio||1,2);
+   W=innerWidth;H=innerHeight;
+   canvas.width=W*dpr;canvas.height=H*dpr;
+   ctx.setTransform(dpr,0,0,dpr,0,0);
+   layout();buildStream();
  }
- return '<div class="pi-wall-sheet">'+html+'</div>';
+ function layout(){
+   if(!img.naturalWidth||!img.naturalHeight)return;
+   const scale=Math.min(W/img.naturalWidth,H/img.naturalHeight);
+   coverBox.w=img.naturalWidth*scale;
+   coverBox.h=img.naturalHeight*scale;
+   coverBox.x=(W-coverBox.w)/2;
+   coverBox.y=(H-coverBox.h)/2;
+ }
+ function makeMonochromeCover(){
+   cover=document.createElement("canvas");
+   cover.width=img.naturalWidth;cover.height=img.naturalHeight;
+   const cctx=cover.getContext("2d",{willReadFrequently:true});
+   cctx.drawImage(img,0,0);
+   const frame=cctx.getImageData(0,0,cover.width,cover.height);
+   const data=frame.data;
+   for(let i=0;i<data.length;i+=4){
+     const r=data[i],g=data[i+1],b=data[i+2];
+     let v=(r*.2126+g*.7152+b*.0722)/255;
+     v=clamp((v-.030)/.970);
+     v=Math.pow(v,.82);
+     const out=Math.round(v*255);
+     data[i]=out;data[i+1]=out;data[i+2]=out;
+   }
+   cctx.putImageData(frame,0,0);
+ }
+ function toCanvas(nx,ny){return{x:coverBox.x+nx*coverBox.w,y:coverBox.y+ny*coverBox.h}}
+ function buildStream(){
+   stream=[];
+   if(!img.naturalWidth)return;
+   const count=Math.round(clamp(W*H/1650,180,360));
+   for(let i=0;i<count;i++){
+     stream.push({
+       lane:hash(i,0,1),offset:hash(i,0,2),speed:.045+hash(i,0,3)*.060,drift:(hash(i,0,4)-.5)*2,
+       size:.78+hash(i,0,5)*.62,alpha:.34+hash(i,0,6)*.56,digit:PI[i%PI.length]
+     });
+   }
+ }
+ function drawCover(t){
+   if(!cover)return;
+   const reveal=ease(clamp((t-.15)/3.25));
+   const breathe=.96+Math.sin(t*.32)*.04;
+   ctx.save();ctx.globalAlpha=reveal*.62*breathe;ctx.drawImage(cover,coverBox.x,coverBox.y,coverBox.w,coverBox.h);ctx.restore();
+ }
+ function drawDataCurrent(t){
+   if(!stream.length)return;
+   const reveal=ease(clamp((t-.35)/2.65));
+   if(!reveal)return;
+   const a=toCanvas(-.060,.395);
+   const b=toCanvas(.435,.535);
+   const dx=b.x-a.x,dy=b.y-a.y;
+   const len=Math.hypot(dx,dy)||1;
+   const nx=-dy/len,ny=dx/len;
+   ctx.save();
+   ctx.textAlign="center";ctx.textBaseline="middle";ctx.globalCompositeOperation="screen";
+   for(let i=0;i<stream.length;i++){
+     const p=stream[i];
+     const travel=(p.offset+t*p.speed)%1;
+     const width=coverBox.w*(.150*(1-travel)+.030);
+     const lane=(p.lane-.5)*2;
+     const wobble=Math.sin(t*1.7+i*.37)*coverBox.w*.007*p.drift;
+     const x=a.x+dx*travel+nx*lane*width+wobble;
+     const y=a.y+dy*travel+ny*lane*width+Math.cos(t*1.35+i)*coverBox.h*.0035;
+     const envelope=Math.sin(Math.PI*travel);
+     const leadingSpark=travel>.72?1.18:1;
+     const alpha=clamp(reveal*envelope*p.alpha*leadingSpark,0,.92);
+     if(alpha<.025)continue;
+     const font=Math.max(5.2,coverBox.w*.0095*p.size);
+     ctx.font=`420 ${font}px ui-monospace,SFMono-Regular,Menlo,monospace`;
+     ctx.fillStyle=`rgba(255,255,255,${alpha})`;
+     ctx.shadowColor="rgba(255,255,255,.24)";
+     ctx.shadowBlur=1.1;
+     ctx.fillText(p.digit,x,y);
+   }
+   ctx.restore();
+ }
+ function frame(ts){
+   if(!start)start=ts;
+   const t=(ts-start)/1000;
+   ctx.fillStyle="#000";ctx.fillRect(0,0,W,H);
+   drawCover(t);drawDataCurrent(t);
+   requestAnimationFrame(frame);
+ }
+ img.onload=()=>{makeMonochromeCover();resize();addEventListener("resize",resize);requestAnimationFrame(frame)};
 }
 const units=[];
 function textPage(id,txt,cls){const lines=txt.split(/\n{2,}/).filter(Boolean);return section(cls,'<article class="copy" data-id="'+id+'">'+lines.map((x,i)=>i<4&&(/^(Chapter|Foreword|Interruption|The Wretched|Build Something|The Interval|Cleaning House|Friend|Naming|Possibility|Sefer|Aristotle)/.test(x.trim()))?'<p class="manuscript-line title-line">'+esc(x.trim())+'</p>':'<p class="manuscript-line">'+esc(x.trim())+'</p>').join("")+'</article>')}
@@ -55,7 +135,9 @@ function forewordPage(id,txt){
  return section("manuscript foreword-final",html);
 }
 async function load(){
-units.push(section("pi-rain-cover",'<figure class="rain-cover-target"><img src="'+coverSrc+'" alt="The House That Remembers cover"></figure><div class="pi-rain" aria-hidden="true">'+piRain()+'</div><div class="rain-veil" aria-hidden="true"></div><div class="build-marker">FLAT v2</div><div class="page-whisper">tap or swipe to turn the page</div>'));
+const coverUnit=section("pi-rain-cover rosetta-stream-cover",'<canvas class="rosetta-cover-canvas" style="position:absolute;inset:0;width:100%;height:100%;display:block;z-index:1" aria-hidden="true"></canvas><div class="build-marker">ROSETTA STREAM v6</div><div class="page-whisper">tap or swipe to turn the page</div>');
+units.push(coverUnit);
+initRosettaCover(coverUnit.querySelector("canvas"));
 for(const f of files){
 if(f[1]){const r=await fetch(f[1]);const t=await r.text();units.push(f[0]==="foreword"?forewordPage(f[0],t):textPage(f[0],t,f[2]));continue}
 if(f[0]==="act1")units.push(section("void-title",' <div class="copy center"><div class="ouro rail">'+ouro()+'</div><div class="kicker">Act I</div><div class="chapter-title">THE VOID<br>STARES BACK</div><div class="number-image">'+pi.repeat(8)+'</div></div>'));
