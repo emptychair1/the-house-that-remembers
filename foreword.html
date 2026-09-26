@@ -20,17 +20,15 @@ p{margin:0 0 1.26em}
 article.ready>p:first-of-type::first-letter{float:left;font-size:4.8em;line-height:.78;padding:.08em .12em 0 0;color:rgba(21,17,13,.88)}
 .loading,.error{text-align:center;color:rgba(21,17,13,.55);font:700 .62rem/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase}
 .signature-block{margin:clamp(3.5rem,9vh,6rem) 0 0;display:grid;justify-items:end;gap:.35rem}
-.signature-card{width:min(74vw,25rem);min-height:11rem;display:grid;place-items:center;position:relative;overflow:visible}
+.signature-card{width:min(74vw,25rem);min-height:11rem;display:grid;place-items:center;position:relative;overflow:visible;cursor:pointer}
 .signature-card svg{width:min(68vw,22rem);max-width:100%;height:auto;display:block;overflow:visible}
 .signature-caption{margin:.1rem 0 0;font:700 .58rem/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.18em;text-transform:uppercase;color:rgba(21,17,13,.44)}
 .disclaimer{margin:clamp(4.5rem,10vh,7rem) 0 0;padding:1.15rem 0 0;border-top:1px solid var(--rule);font:600 .76rem/1.62 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.03em;color:rgba(21,17,13,.52)}
 .disclaimer strong{font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:rgba(21,17,13,.58)}
 .proof-footer{width:min(100%,48rem);margin:0 auto;padding:0 clamp(1.35rem,5vw,4.8rem) max(1.4rem,env(safe-area-inset-bottom));display:flex;justify-content:space-between;gap:1rem;font:700 .48rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:rgba(21,17,13,.34)}
 .proof-footer a{color:inherit;text-decoration:none}
-.real-sig path{fill:none;stroke:var(--ink);stroke-width:5.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:write 1.15s cubic-bezier(.58,.02,.17,1) forwards;filter:drop-shadow(0 .04rem .035rem rgba(21,17,13,.18));vector-effect:non-scaling-stroke}
-.real-sig .sig-0{animation-delay:.22s}.real-sig .sig-1{animation-delay:.64s}.real-sig .sig-2{animation-delay:1.06s}
-@keyframes write{to{stroke-dashoffset:0}}
-@media (prefers-reduced-motion:reduce){.real-sig path{stroke-dashoffset:0!important;animation:none!important}}
+.real-sig path{fill:none;stroke:var(--ink);stroke-width:5.2;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 .04rem .035rem rgba(21,17,13,.18));vector-effect:non-scaling-stroke;transition:none}
+@media (prefers-reduced-motion:reduce){.real-sig path{stroke-dashoffset:0!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -42,9 +40,9 @@ article.ready>p:first-of-type::first-letter{float:left;font-size:4.8em;line-heig
 </header>
 <article id="foreword"><p class="loading">loading foreword</p></article>
 <section class="signature-block" aria-label="author signature">
-<div class="signature-card">
+<div class="signature-card" id="signatureCard" title="Tap to replay signature">
 <svg class="real-sig" viewBox="0 0 274 297" role="img" aria-label="Joshua Daniels signature">
-<g transform="translate(274 0) rotate(90)">
+<g transform="translate(0 297) rotate(-90)">
 <path class="sig-0" pathLength="1" d="M 18.00 175.00 Q 23.00 162.00 25.50 161.50 Q 28.00 161.00 33.00 160.00 Q 38.00 159.00 46.50 157.50 Q 55.00 156.00 67.50 155.00 Q 80.00 154.00 93.00 154.00 Q 106.00 154.00 117.50 155.00 Q 129.00 156.00 138.00 158.50 Q 147.00 161.00 154.00 164.50 Q 161.00 168.00 164.50 170.50 Q 168.00 173.00 169.00 176.50 Q 170.00 180.00 170.50 185.50 Q 171.00 191.00 170.50 199.50 Q 170.00 208.00 166.00 217.00 Q 162.00 226.00 156.00 233.50 Q 150.00 241.00 142.50 246.00 Q 135.00 251.00 125.50 253.00 Q 116.00 255.00 106.00 255.50 Q 96.00 256.00 86.50 256.00 Q 77.00 256.00 69.50 253.50 Q 62.00 251.00 58.00 245.00 Q 54.00 239.00 54.00 229.00 Q 54.00 219.00 59.50 204.00 Q 65.00 189.00 75.00 174.00 Q 85.00 159.00 96.50 147.00 Q 108.00 135.00 119.50 125.50 Q 131.00 116.00 141.50 111.00 Q 152.00 106.00 158.50 105.00 Q 165.00 104.00 169.50 104.00 L 174.00 104.00"/>
 <path class="sig-1" pathLength="1" d="M 82.00 90.00 Q 88.00 94.00 94.50 98.00 Q 101.00 102.00 110.00 107.50 Q 119.00 113.00 130.00 121.00 Q 141.00 129.00 152.50 139.00 Q 164.00 149.00 174.50 159.50 Q 185.00 170.00 193.50 178.50 Q 202.00 187.00 208.00 191.50 Q 214.00 196.00 216.50 197.00 L 219.00 198.00"/>
 <path class="sig-2" pathLength="1" d="M 52.00 163.00 Q 62.00 151.00 69.50 142.00 Q 77.00 133.00 85.50 121.50 Q 94.00 110.00 104.00 96.00 Q 114.00 82.00 126.00 68.00 Q 138.00 54.00 151.50 42.50 Q 165.00 31.00 178.50 25.50 Q 192.00 20.00 204.00 19.00 Q 216.00 18.00 224.50 24.00 Q 233.00 30.00 236.00 41.50 Q 239.00 53.00 238.50 69.00 Q 238.00 85.00 232.00 104.50 Q 226.00 124.00 217.50 143.50 Q 209.00 163.00 200.00 180.00 Q 191.00 197.00 184.00 208.00 Q 177.00 219.00 174.00 221.50 Q 171.00 224.00 171.00 221.50 Q 171.00 219.00 175.00 205.50 Q 179.00 192.00 189.50 172.50 Q 200.00 153.00 214.00 133.50 Q 228.00 114.00 245.00 97.50 Q 262.00 81.00 270.50 73.50 L 279.00 66.00"/>
@@ -55,12 +53,21 @@ article.ready>p:first-of-type::first-letter{float:left;font-size:4.8em;line-heig
 </section>
 <aside class="disclaimer"><strong>Accessibility note:</strong> Later sections of this book may contain flashing, strobing, high-contrast motion, or rapid visual changes. These effects may trigger seizures or discomfort in people with photosensitive epilepsy or related sensitivities. Reader controls and reduced-motion alternatives are planned before final release.</aside>
 </main>
-<footer class="proof-footer"><span>FOREWORD v5</span><a href="./">home</a></footer>
+<footer class="proof-footer"><span>FOREWORD v6</span><a href="./">home</a></footer>
 <script>
 const article=document.getElementById('foreword');
+const sigCard=document.getElementById('signatureCard');
+const sigPaths=[...document.querySelectorAll('.real-sig path')];
+const reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 function renderMarkdown(md){const parts=md.split(/\n{2,}/).map(x=>x.trim()).filter(Boolean);article.innerHTML=parts.slice(2).map(p=>`<p>${esc(p)}</p>`).join('');article.classList.add('ready')}
-async function loadForeword(){try{article.classList.remove('ready');const res=await fetch('./manuscript/FOREWORD.md?v=foreword-page-v5',{cache:'no-store'});if(!res.ok)throw new Error('foreword fetch failed');renderMarkdown(await res.text())}catch(err){article.classList.remove('ready');article.innerHTML='<p class="error">Foreword text could not load.</p>'}}
+async function loadForeword(){try{article.classList.remove('ready');const res=await fetch('./manuscript/FOREWORD.md?v=foreword-page-v6',{cache:'no-store'});if(!res.ok)throw new Error('foreword fetch failed');renderMarkdown(await res.text())}catch(err){article.classList.remove('ready');article.innerHTML='<p class="error">Foreword text could not load.</p>'}}
+function armSignature(){sigPaths.forEach(p=>{try{const len=p.getTotalLength();p.style.transition='none';p.style.strokeDasharray=String(len);p.style.strokeDashoffset=String(len)}catch(e){p.style.strokeDasharray='1';p.style.strokeDashoffset='1'}})}
+function playSignature(){if(reduceMotion){sigPaths.forEach(p=>p.style.strokeDashoffset='0');return}requestAnimationFrame(()=>{sigPaths.forEach((p,i)=>{p.style.transition=`stroke-dashoffset 1.25s cubic-bezier(.58,.02,.17,1) ${(.18+i*.48).toFixed(2)}s`;p.style.strokeDashoffset='0'})})}
+function playOnce(){if(sigCard.dataset.played==='1')return;sigCard.dataset.played='1';playSignature()}
+armSignature();
+if('IntersectionObserver' in window){const io=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){playOnce();io.disconnect()}},{threshold:.35,rootMargin:'0px 0px -8% 0px'});io.observe(sigCard)}else{setTimeout(playOnce,1200)}
+sigCard.addEventListener('click',()=>{sigCard.dataset.played='';armSignature();setTimeout(playOnce,80)});
 loadForeword();
 </script>
 </body>
