@@ -1,4 +1,4 @@
-const CACHE_NAME = "house-page1-pi-assembly-v2";
+const CACHE_NAME = "house-page1-pi-rain-reveal-v1";
 const ASSETS = [
   "./",
   "./index.html",
