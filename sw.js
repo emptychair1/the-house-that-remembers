@@ -1,8 +1,5 @@
 // The House That Remembers
-// Service-worker kill switch for old book caches.
-// This file intentionally does not cache or serve book assets.
-
-const CURRENT_BOOK_QUERY = 'book-foreword-v231-text-backlight-phone';
+// Service worker disabled. This file only clears old caches and unregisters itself.
 
 self.addEventListener('install', event => {
   self.skipWaiting();
@@ -10,25 +7,24 @@ self.addEventListener('install', event => {
 
 self.addEventListener('activate', event => {
   event.waitUntil((async () => {
-    if ('caches' in self) {
-      const keys = await caches.keys();
-      await Promise.all(keys.map(key => caches.delete(key)));
-    }
-    const clients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
-    await Promise.all(clients.map(client => {
-      try {
-        const url = new URL(client.url);
-        url.searchParams.set('sw-kill', CURRENT_BOOK_QUERY);
-        return client.navigate(url.toString());
-      } catch (_) {
-        return null;
+    try {
+      if ('caches' in self) {
+        const keys = await caches.keys();
+        await Promise.all(keys.map(key => caches.delete(key)));
       }
-    }));
-    await self.registration.unregister();
+    } catch (_) {}
+    try {
+      const clients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+      await Promise.all(clients.map(client => {
+        try {
+          const url = new URL(client.url);
+          url.searchParams.set('sw-disabled', 'book-foreword-v231b-no-v226-phone');
+          return client.navigate(url.toString());
+        } catch (_) {
+          return null;
+        }
+      }));
+    } catch (_) {}
+    try { await self.registration.unregister(); } catch (_) {}
   })());
-});
-
-self.addEventListener('fetch', event => {
-  if (event.request.method !== 'GET') return;
-  event.respondWith(fetch(event.request));
 });
