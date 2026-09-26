@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta http-equiv="Cache-Control" content="no-store,max-age=0">
+<title>The House That Remembers — Spine v1</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:#fff;font-family:Baskerville,"Iowan Old Style",Georgia,serif}body{height:100dvh;touch-action:none}.stage{position:fixed;inset:0;background:#000;overflow:hidden}.book{width:100vw;height:100dvh}.page{position:relative;width:100%;height:100%;overflow:hidden}.cover{background:#000}.cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:grayscale(1) contrast(1.08) brightness(.82)}#glyphs{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.foreword{background:#f6f0e6;color:#171513;display:flex;align-items:flex-start;justify-content:center;padding:10vh 8vw 7vh}.foreword-inner{width:100%;max-width:42rem;text-align:center}.kicker{font:700 .72rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.28em;text-transform:uppercase;opacity:.52;margin-bottom:2rem}.foreword h1{font-weight:400;font-size:clamp(2.8rem,10vw,5.4rem);line-height:.98;margin:0}.subtitle{font-size:clamp(1.15rem,4.8vw,1.7rem);letter-spacing:.08em;opacity:.62;margin:1.3rem 0 0}.opening{font-size:clamp(1.1rem,4.4vw,1.45rem);line-height:1.5;margin:4rem auto 0;max-width:34rem;color:rgba(23,21,19,.72)}.void{background:#000}.void-ring{position:absolute;left:50%;top:50%;width:2.6rem;height:2.6rem;border:1px solid rgba(255,255,255,.28);border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 1.2rem rgba(255,255,255,.08)}.tap-left,.tap-right{position:fixed;top:0;bottom:0;width:36vw;z-index:999;background:transparent;border:0;padding:0;-webkit-tap-highlight-color:transparent}.tap-left{left:0}.tap-right{right:0}.status{position:fixed;left:50%;bottom:max(.75rem,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:1000;font:700 .52rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.28);pointer-events:none;white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div id="book" class="book">
+    <section class="page cover" data-density="hard" aria-label="Cover">
+      <img src="./assets/source/IMG_3301.png?v=spine-v1" alt="The House That Remembers cover">
+      <canvas id="glyphs" aria-hidden="true"></canvas>
+    </section>
+    <section class="page foreword" aria-label="Foreword">
+      <div class="foreword-inner">
+        <div class="kicker">Foreword</div>
+        <h1>Possibility<br>and Curiosity</h1>
+        <div class="subtitle">The House That Remembers</div>
+        <p class="opening">There are moments in human history when the important thing is not that we have found an answer.</p>
+      </div>
+    </section>
+    <section class="page void" aria-label="Void arrival">
+      <div class="void-ring" aria-hidden="true"></div>
+    </section>
+  </div>
+</div>
+<button class="tap-left" aria-label="Previous page"></button>
+<button class="tap-right" aria-label="Next page"></button>
+<div id="status" class="status">1 / 3</div>
+<script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
+<script>
+(() => {
+  const pages=[...document.querySelectorAll('.page')];
+  const book=document.getElementById('book');
+  const status=document.getElementById('status');
+  let current=0;
+  const pf=new St.PageFlip(book,{
+    width:390,
+    height:844,
+    size:'stretch',
+    minWidth:300,
+    maxWidth:1000,
+    minHeight:520,
+    maxHeight:1600,
+    autoSize:true,
+    usePortrait:true,
+    showCover:false,
+    startPage:0,
+    flippingTime:700,
+    drawShadow:true,
+    maxShadowOpacity:.32,
+    mobileScrollSupport:false
+  });
+  pf.loadFromHTML(pages);
+  const setPage=i=>{current=Math.max(0,Math.min(2,Number(i)||0));status.textContent=`${current+1} / 3`;};
+  pf.on('flip',e=>setPage(e.data));
+  document.querySelector('.tap-right').addEventListener('pointerup',e=>{e.preventDefault();if(current<2)pf.flipNext();});
+  document.querySelector('.tap-left').addEventListener('pointerup',e=>{e.preventDefault();if(current>0)pf.flipPrev();});
+  addEventListener('keydown',e=>{if(e.key==='ArrowRight'&&current<2)pf.flipNext();if(e.key==='ArrowLeft'&&current>0)pf.flipPrev();});
+
+  const canvas=document.getElementById('glyphs');
+  const ctx=canvas.getContext('2d');
+  const PI='31415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679';
+  const particles=[];
+  let w=0,h=0,dpr=1,start=0;
+  const hash=n=>{const x=Math.sin(n*12.9898)*43758.5453;return x-Math.floor(x)};
+  function resize(){const r=canvas.getBoundingClientRect();w=r.width;h=r.height;dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.max(1,Math.round(w*dpr));canvas.height=Math.max(1,Math.round(h*dpr));ctx.setTransform(dpr,0,0,dpr,0,0);particles.length=0;const count=Math.max(120,Math.min(260,Math.round(w*h/2200)));for(let i=0;i<count;i++){particles.push({p:hash(i+1),lane:hash(i+101),speed:.035+hash(i+201)*.045,size:.7+hash(i+301)*.6,a:.22+hash(i+401)*.42,d:PI[i%PI.length]});}}
+  function frame(ts){if(!start)start=ts;const t=(ts-start)/1000;ctx.clearRect(0,0,w,h);ctx.textAlign='center';ctx.textBaseline='middle';for(let i=0;i<particles.length;i++){const q=particles[i];const travel=(q.p+t*q.speed)%1;const x=-w*.08+travel*w*.62;const centerY=h*.56+travel*h*.04;const spread=h*(.13*(1-travel)+.025);const y=centerY+(q.lane-.5)*2*spread+Math.sin(t*1.3+i)*2;const env=Math.sin(Math.PI*travel);const alpha=q.a*env;ctx.font=`${Math.max(5,w*.0085*q.size)}px ui-monospace,SFMono-Regular,Menlo,monospace`;ctx.fillStyle=`rgba(255,255,255,${alpha})`;ctx.fillText(q.d,x,y);}requestAnimationFrame(frame)}
+  resize();addEventListener('resize',resize,{passive:true});requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
