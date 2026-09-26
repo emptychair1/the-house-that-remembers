@@ -50,7 +50,7 @@ h1{
 }
 article{font-size:clamp(1.08rem,2.65vw,1.28rem);line-height:1.78}
 p{margin:0 0 1.26em}
-p:first-child::first-letter{
+article.ready p:first-of-type::first-letter{
   float:left;
   font-size:4.8em;
   line-height:.78;
@@ -190,7 +190,7 @@ p:first-child::first-letter{
     Accessibility note: Later sections of this book may contain flashing, strobing, high-contrast motion, or rapid visual changes. These effects may trigger seizures or discomfort in people with photosensitive epilepsy or related sensitivities. Reader controls and reduced-motion alternatives are planned before final release.
   </aside>
 </main>
-<div class="build">FOREWORD v2</div>
+<div class="build">FOREWORD v3</div>
 <a class="home-link" href="./">home</a>
 <script>
 const article=document.getElementById('foreword');
@@ -200,18 +200,21 @@ function renderMarkdown(md){
   const parts=md.split(/\n{2,}/).map(x=>x.trim()).filter(Boolean);
   const body=parts.slice(2);
   article.innerHTML=body.map(p=>`<p>${esc(p)}</p>`).join('');
+  article.classList.add('ready');
 }
 async function loadForeword(){
   try{
-    const res=await fetch('./manuscript/FOREWORD.md?v=foreword-page-v2',{cache:'no-store'});
+    article.classList.remove('ready');
+    const res=await fetch('./manuscript/FOREWORD.md?v=foreword-page-v3',{cache:'no-store'});
     if(!res.ok)throw new Error('foreword fetch failed');
     renderMarkdown(await res.text());
   }catch(err){
+    article.classList.remove('ready');
     article.innerHTML='<p class="error">Foreword text could not load.</p>';
   }
 }
 async function loadSignature(){
-  const url='./assets/signatures/joshua-daniels-signature.svg?v=2';
+  const url='./assets/signatures/joshua-daniels-signature.svg?v=3';
   try{
     const res=await fetch(url,{cache:'no-store'});
     if(!res.ok)throw new Error('signature not found');
