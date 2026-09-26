@@ -1,0 +1,320 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;700&display=swap');
+
+.build-marker{
+  text-transform:none!important;
+}
+.foreword-closing-page.v227-refused .pi-marginalia,
+.foreword-closing-page.v227-refused .seal-glyph-field{
+  opacity:.40!important;
+}
+.foreword-closing-page.v227-refused .author-seal{
+  filter:contrast(1.16) saturate(.94);
+}
+
+.void-rough-stage{
+  --void-white:#f7f7f4;
+  --void-black:#000;
+  --void-ink:#050505;
+  --void-ghost:rgba(255,255,255,.72);
+  font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  color:var(--void-white);
+}
+.void-rough-stage,
+.void-rough-stage *{
+  -webkit-tap-highlight-color:transparent;
+  box-sizing:border-box;
+}
+.void-rough-stage .presence-clean-black{
+  transition:background-color 48ms linear, opacity 180ms ease;
+}
+.void-rough-scene{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  display:block;
+  background:transparent;
+  pointer-events:auto;
+  touch-action:none;
+  isolation:isolate;
+}
+.void-title{
+  position:absolute;
+  left:50%;
+  top:47%;
+  width:160vw;
+  transform:translate(-50%,-50%) scale(.98);
+  transform-origin:center center;
+  font-family:'Anton',Impact,'Arial Black',sans-serif;
+  font-size:clamp(7rem,31vw,20rem);
+  line-height:.74;
+  letter-spacing:-.055em;
+  text-align:center;
+  white-space:nowrap;
+  color:#000;
+  opacity:.055;
+  pointer-events:none;
+  user-select:none;
+  z-index:2;
+  filter:blur(.25px);
+}
+.void-stares{
+  position:absolute;
+  left:50%;
+  top:59%;
+  transform:translate(-50%,-50%) scale(.92);
+  font-family:'Anton',Impact,'Arial Black',sans-serif;
+  font-size:clamp(2.2rem,12vw,7rem);
+  line-height:.8;
+  letter-spacing:-.035em;
+  text-align:center;
+  white-space:nowrap;
+  color:#000;
+  opacity:0;
+  pointer-events:none;
+  user-select:none;
+  z-index:3;
+}
+.void-glyphs{
+  position:absolute;
+  inset:-5%;
+  opacity:.06;
+  pointer-events:none;
+  user-select:none;
+  z-index:4;
+  filter:blur(.16px);
+}
+.void-glyphs span{
+  position:absolute;
+  display:block;
+  font-size:clamp(.58rem,2.5vw,1.18rem);
+  font-weight:700;
+  line-height:1;
+  letter-spacing:.045em;
+  color:#000;
+  text-transform:none;
+  opacity:.72;
+}
+.void-main,
+.void-echo{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:min(88vw,46rem);
+  transform:translate(-50%,-50%);
+  text-align:center;
+  pointer-events:none;
+  user-select:none;
+  color:#000;
+  opacity:0;
+  z-index:10;
+  text-wrap:balance;
+}
+.void-main{
+  font-size:clamp(2.55rem,12.2vw,7.4rem);
+  font-weight:700;
+  line-height:.9;
+  letter-spacing:-.055em;
+}
+.void-echo{
+  top:61.5%;
+  font-size:clamp(.78rem,3.8vw,2rem);
+  font-weight:700;
+  line-height:1;
+  letter-spacing:.11em;
+  text-transform:lowercase;
+}
+.void-choice,
+.void-run{
+  position:absolute;
+  left:50%;
+  z-index:30;
+  transform:translateX(-50%);
+  border:0;
+  background:transparent;
+  color:rgba(255,255,255,.78);
+  font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  text-align:center;
+  cursor:pointer;
+  touch-action:manipulation;
+}
+.void-choice{
+  bottom:calc(env(safe-area-inset-bottom) + 4.2rem);
+  padding:1.1rem 1.4rem;
+  font-size:clamp(.82rem,3.4vw,1.1rem);
+  font-weight:500;
+  line-height:1;
+  letter-spacing:.07em;
+  text-transform:lowercase;
+  opacity:0;
+  animation:voidChoiceIn 1.2s ease forwards;
+}
+.void-choice::after{
+  content:'';
+  position:absolute;
+  left:1.2rem;
+  right:1.2rem;
+  bottom:.64rem;
+  height:1px;
+  background:rgba(255,255,255,.32);
+  transform:scaleX(.52);
+  transform-origin:center;
+}
+.void-run{
+  top:50%;
+  padding:.8rem 1rem;
+  font-family:'Anton',Impact,'Arial Black',sans-serif;
+  font-size:clamp(5.2rem,27vw,17rem);
+  line-height:.72;
+  letter-spacing:-.045em;
+  color:#fff;
+  opacity:.98;
+  text-transform:uppercase;
+  text-shadow:0 0 1.4rem rgba(255,255,255,.24);
+}
+.void-status{
+  position:absolute;
+  left:50%;
+  bottom:calc(env(safe-area-inset-bottom) + 2.2rem);
+  transform:translateX(-50%);
+  width:82vw;
+  text-align:center;
+  z-index:31;
+  font-size:.64rem;
+  letter-spacing:.08em;
+  color:rgba(255,255,255,.44);
+  text-transform:lowercase;
+}
+.void-rough-stage.void-ready .void-choice,
+.void-rough-stage.void-run-ready .void-run{
+  pointer-events:auto;
+}
+.void-rough-stage.void-lit .presence-clean-black{
+  background:var(--void-white)!important;
+  opacity:1!important;
+}
+.void-rough-stage.void-lit .void-title{
+  color:#000;
+  opacity:.82;
+  filter:blur(0);
+}
+.void-rough-stage.void-lit .void-glyphs{
+  opacity:.78;
+  filter:blur(0);
+}
+.void-rough-stage.void-lit .void-main,
+.void-rough-stage.void-lit .void-echo{
+  opacity:1;
+  color:#000;
+}
+.void-rough-stage.void-hit-fast .void-main{
+  font-size:clamp(1.7rem,8vw,5.8rem);
+  letter-spacing:-.035em;
+}
+.void-rough-stage.void-hit-fast .void-echo{
+  opacity:.92;
+}
+.void-rough-stage.void-hit-collision .void-main{
+  font-size:clamp(2.9rem,13.8vw,8.4rem);
+  transform:translate(-50%,-50%) scale(1.025);
+}
+.void-rough-stage.void-hit-collision .void-title{
+  opacity:.96;
+}
+.void-rough-stage.void-hit-title .void-main{
+  font-family:'Anton',Impact,'Arial Black',sans-serif;
+  font-size:clamp(4.2rem,20vw,13rem);
+  letter-spacing:-.05em;
+}
+.void-rough-stage.void-hit-final .presence-clean-black{
+  background:#fff!important;
+}
+.void-rough-stage.void-hit-final .void-title,
+.void-rough-stage.void-hit-final .void-glyphs{
+  opacity:0;
+}
+.void-rough-stage.void-hit-final .void-main{
+  color:#000;
+  opacity:1;
+}
+.void-rough-stage.void-running .void-title{
+  animation:voidNearField 30s cubic-bezier(.13,.68,.10,1) forwards;
+}
+.void-rough-stage.void-entry .void-title{
+  opacity:.05;
+}
+.void-rough-stage.void-fracture .void-title{
+  opacity:.075;
+}
+.void-rough-stage.void-bloom .void-title{
+  opacity:.10;
+}
+.void-rough-stage.void-converge .void-title{
+  opacity:.16;
+}
+.void-rough-stage.void-stare .void-title{
+  opacity:.24;
+}
+.void-rough-stage.void-stare .void-stares{
+  opacity:.10;
+}
+.void-rough-stage.void-lit.void-stare .void-stares,
+.void-rough-stage.void-lit.void-hit-title .void-stares{
+  opacity:.88;
+}
+.void-rough-stage.void-poly .void-glyphs span{
+  animation:voidGlyphTremor 1.6s steps(2,end) infinite;
+}
+.void-rough-stage.void-run-ready .presence-clean-black,
+.void-rough-stage.void-cut .presence-clean-black{
+  background:#000!important;
+  opacity:1!important;
+}
+.void-rough-stage.void-run-ready .void-title,
+.void-rough-stage.void-run-ready .void-stares,
+.void-rough-stage.void-run-ready .void-glyphs,
+.void-rough-stage.void-run-ready .void-main,
+.void-rough-stage.void-run-ready .void-echo,
+.void-rough-stage.void-cut .void-title,
+.void-rough-stage.void-cut .void-stares,
+.void-rough-stage.void-cut .void-glyphs,
+.void-rough-stage.void-cut .void-main,
+.void-rough-stage.void-cut .void-echo{
+  opacity:0!important;
+}
+.void-rough-stage.void-cut .void-run,
+.void-rough-stage.void-cut .void-choice{
+  display:none!important;
+}
+
+@keyframes voidChoiceIn{
+  0%{opacity:0;filter:blur(3px);transform:translateX(-50%) translateY(.6rem)}
+  100%{opacity:1;filter:blur(0);transform:translateX(-50%) translateY(0)}
+}
+@keyframes voidNearField{
+  0%{transform:translate(-50%,-50%) scale(.98);opacity:.05;filter:blur(.25px)}
+  46%{transform:translate(-50%,-50%) scale(1.16);opacity:.10;filter:blur(.14px)}
+  74%{transform:translate(-50%,-50%) scale(1.42);opacity:.18;filter:blur(.08px)}
+  100%{transform:translate(-50%,-50%) scale(1.72);opacity:.26;filter:blur(0)}
+}
+@keyframes voidGlyphTremor{
+  0%{opacity:.40;filter:blur(0)}
+  50%{opacity:.92;filter:blur(.18px)}
+  100%{opacity:.48;filter:blur(0)}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .void-rough-stage.void-running .void-title{
+    animation:voidNearFieldReduced 30s linear forwards;
+  }
+  .void-rough-stage.void-poly .void-glyphs span{
+    animation:none;
+  }
+  .void-rough-stage.void-hit-fast .void-main,
+  .void-rough-stage.void-hit-collision .void-main{
+    transform:translate(-50%,-50%);
+  }
+  @keyframes voidNearFieldReduced{
+    0%{transform:translate(-50%,-50%) scale(.98);opacity:.05}
+    100%{transform:translate(-50%,-50%) scale(1.22);opacity:.18}
+  }
+}

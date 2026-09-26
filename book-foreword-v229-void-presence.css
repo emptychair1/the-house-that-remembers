@@ -1,0 +1,226 @@
+.void-presence-stage{
+  --primary-light:#fff;
+  --secondary-light:#eef6ff;
+  --void-black:#000;
+  color:#000;
+}
+.void-presence-stage.void-light-neutral{--secondary-light:#fff;}
+.void-presence-stage.void-light-warm{--secondary-light:#fff3df;}
+.void-presence-stage.void-light-dirty{--secondary-light:#edf0e7;}
+.void-presence-stage,
+.void-presence-stage *{
+  color:#000!important;
+  text-shadow:none!important;
+  -webkit-text-stroke:0!important;
+}
+.void-presence-scene{
+  perspective:700px;
+  perspective-origin:50% 50%;
+}
+.void-presence-title,
+.void-presence-stares,
+.void-secondary-plane,
+.void-big-question,
+.void-echo,
+.void-presence-stage .void-glyphs{
+  position:absolute;
+  pointer-events:none;
+  user-select:none;
+  color:#000!important;
+}
+.void-presence-title{
+  left:50%;
+  top:47%;
+  width:230vw;
+  z-index:2;
+  transform:translate(-50%,-50%) translateZ(-90px) scale(1.55);
+  transform-origin:center center;
+  font-family:Anton,Impact,'Arial Black',sans-serif;
+  font-size:clamp(10rem,43vw,31rem);
+  line-height:.68;
+  letter-spacing:-.07em;
+  text-align:center;
+  white-space:nowrap;
+  opacity:1;
+  filter:none;
+}
+.void-presence-title span,
+.void-presence-stares span{
+  color:#000!important;
+  opacity:1!important;
+}
+.void-presence-stares{
+  left:50%;
+  top:58%;
+  z-index:3;
+  transform:translate(-50%,-50%) translateZ(-40px) scale(1.08);
+  font-family:Anton,Impact,'Arial Black',sans-serif;
+  font-size:clamp(3.4rem,17vw,11rem);
+  line-height:.72;
+  letter-spacing:-.045em;
+  white-space:nowrap;
+  opacity:0;
+}
+.void-secondary-plane{
+  left:50%;
+  top:50%;
+  width:min(92vw,44rem);
+  height:min(42vh,22rem);
+  z-index:6;
+  transform:translate(-50%,-50%) translateZ(15px) scale(.92);
+  background:var(--secondary-light);
+  opacity:0;
+  filter:none;
+}
+.void-big-question{
+  left:50%;
+  top:49%;
+  width:96vw;
+  z-index:12;
+  transform:translate(-50%,-50%) translateZ(95px) scale(1);
+  font-family:Anton,Impact,'Arial Black',sans-serif;
+  font-size:clamp(4.7rem,21vw,14rem);
+  line-height:.74;
+  letter-spacing:-.055em;
+  text-align:center;
+  text-transform:uppercase;
+  opacity:0;
+  color:#000!important;
+}
+.void-echo{
+  left:50%;
+  top:63%;
+  width:90vw;
+  z-index:13;
+  transform:translate(-50%,-50%) translateZ(120px);
+  font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:clamp(.78rem,3.6vw,1.7rem);
+  font-weight:800;
+  line-height:1;
+  letter-spacing:.08em;
+  text-align:center;
+  text-transform:lowercase;
+  opacity:0;
+}
+.void-presence-stage .void-glyphs{
+  inset:-8%;
+  z-index:9;
+  opacity:0;
+  filter:none;
+}
+.void-presence-stage .void-glyphs span{
+  color:#000!important;
+  opacity:1!important;
+  font-weight:900;
+  font-size:clamp(.68rem,3vw,1.45rem);
+  letter-spacing:.035em;
+}
+.void-presence-stage .presence-clean-black{
+  background:#000!important;
+  opacity:1!important;
+}
+.void-presence-stage.void-lit-primary .presence-clean-black,
+.void-presence-stage.void-lit-close .presence-clean-black,
+.void-presence-stage.void-lit-final .presence-clean-black{
+  background:var(--primary-light)!important;
+  opacity:1!important;
+}
+.void-presence-stage.void-lit-secondary .presence-clean-black{
+  background:#000!important;
+  opacity:1!important;
+}
+.void-presence-stage.void-lit-primary .void-presence-title,
+.void-presence-stage.void-lit-primary .void-big-question,
+.void-presence-stage.void-lit-primary .void-echo,
+.void-presence-stage.void-lit-primary .void-glyphs,
+.void-presence-stage.void-lit-close .void-presence-title,
+.void-presence-stage.void-lit-close .void-big-question,
+.void-presence-stage.void-lit-close .void-echo,
+.void-presence-stage.void-lit-close .void-glyphs,
+.void-presence-stage.void-lit-final .void-big-question{
+  opacity:1!important;
+}
+.void-presence-stage.void-lit-secondary .void-secondary-plane{
+  opacity:1!important;
+}
+.void-presence-stage.void-lit-secondary .void-big-question,
+.void-presence-stage.void-lit-secondary .void-echo,
+.void-presence-stage.void-lit-secondary .void-glyphs{
+  opacity:1!important;
+}
+.void-presence-stage.void-lit-close .void-secondary-plane{
+  opacity:1!important;
+  background:var(--secondary-light)!important;
+}
+.void-presence-stage.void-running .void-presence-title{
+  animation:voidPresenceForwardV229 45s cubic-bezier(.11,.67,.08,1) forwards;
+}
+.void-presence-stage.void-breach .void-presence-title{
+  transform:translate(-50%,-50%) translateZ(-80px) scale(1.62);
+}
+.void-presence-stage.void-diagnostic .void-presence-title{
+  transform:translate(-50%,-50%) translateZ(-30px) scale(1.95);
+}
+.void-presence-stage.void-too-close .void-presence-title{
+  transform:translate(-50%,-50%) translateZ(20px) scale(2.35);
+}
+.void-presence-stage.void-exit-margin .void-presence-title{
+  transform:translate(-50%,-50%) translateZ(70px) scale(2.8);
+}
+.void-presence-stage.void-too-close .void-presence-stares,
+.void-presence-stage.void-exit-margin .void-presence-stares,
+.void-presence-stage.void-lit-close .void-presence-stares{
+  opacity:1!important;
+}
+.void-run-side{
+  left:auto!important;
+  right:calc(env(safe-area-inset-right) + .55rem)!important;
+  top:50%!important;
+  bottom:auto!important;
+  z-index:40!important;
+  transform:translateY(-50%) rotate(90deg)!important;
+  transform-origin:center center!important;
+  padding:.8rem .9rem!important;
+  font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace!important;
+  font-size:.66rem!important;
+  font-weight:800!important;
+  line-height:1!important;
+  letter-spacing:.18em!important;
+  text-transform:lowercase!important;
+  color:#fff!important;
+  background:transparent!important;
+  opacity:.9!important;
+  text-shadow:none!important;
+}
+.void-presence-stage.void-run-ready .presence-clean-black,
+.void-presence-stage.void-cut .presence-clean-black{
+  background:#000!important;
+}
+.void-presence-stage.void-run-ready .void-presence-title,
+.void-presence-stage.void-run-ready .void-presence-stares,
+.void-presence-stage.void-run-ready .void-secondary-plane,
+.void-presence-stage.void-run-ready .void-glyphs,
+.void-presence-stage.void-run-ready .void-big-question,
+.void-presence-stage.void-run-ready .void-echo,
+.void-presence-stage.void-cut .void-presence-title,
+.void-presence-stage.void-cut .void-presence-stares,
+.void-presence-stage.void-cut .void-secondary-plane,
+.void-presence-stage.void-cut .void-glyphs,
+.void-presence-stage.void-cut .void-big-question,
+.void-presence-stage.void-cut .void-echo{
+  opacity:0!important;
+}
+.void-choice{
+  color:rgba(255,255,255,.78)!important;
+}
+@keyframes voidPresenceForwardV229{
+  0%{transform:translate(-50%,-50%) translateZ(-90px) scale(1.55)}
+  22%{transform:translate(-50%,-50%) translateZ(-58px) scale(1.78)}
+  56%{transform:translate(-50%,-50%) translateZ(-10px) scale(2.12)}
+  88%{transform:translate(-50%,-50%) translateZ(44px) scale(2.58)}
+  100%{transform:translate(-50%,-50%) translateZ(82px) scale(2.92)}
+}
+@media (prefers-reduced-motion:reduce){
+  .void-presence-stage.void-running .void-presence-title{animation:voidPresenceForwardReducedV229 45s linear forwards;}
+  @keyframes voidPresenceForwardReducedV229{0%{transform:translate(-50%,-50%) scale(1.55)}100%{transform:translate(-50%,-50%) scale(2.05)}}
+}

@@ -1,0 +1,92 @@
+name: Render Check
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Render target: local root or deployed GitHub Pages root"
+        required: true
+        default: "local"
+        type: choice
+        options:
+          - local
+          - deployed
+  push:
+    branches:
+      - gh-pages
+    paths:
+      - "index.html"
+      - "book-clean-surface-v1.css"
+      - "book-clean-surface-v1.js"
+      - "rosetta-final.html"
+      - "*.html"
+      - "*.css"
+      - "*.js"
+      - "assets/**"
+      - "manuscript/**"
+      - "tools/render-check.mjs"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/render-check.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: render-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  render-check:
+    name: Render root book before handoff
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+
+    steps:
+      - name: Checkout gh-pages
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Render-check local root
+        if: ${{ github.event_name == 'push' || github.event.inputs.target == 'local' }}
+        run: npm run check:render
+        env:
+          STRICT_BOOK: "1"
+          EXPECT_TAP_ADVANCES: "1"
+          EXPECT_BUILD: "BOOK FOREWORD v2.2.6 BLACK CLEAN AUDIO"
+          EXPECT_PAGE_COUNT: "21"
+
+      - name: Render-check deployed root
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.target == 'deployed' }}
+        run: npm run check:render
+        env:
+          BOOK_URL: "https://emptychair1.github.io/the-house-that-remembers/"
+          STRICT_BOOK: "1"
+          EXPECT_TAP_ADVANCES: "1"
+          EXPECT_BUILD: "BOOK FOREWORD v2.2.6 BLACK CLEAN AUDIO"
+          EXPECT_PAGE_COUNT: "21"
+
+      - name: Upload render artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: render-check-${{ github.run_id }}
+          path: .render-check/
+          if-no-files-found: warn

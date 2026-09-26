@@ -1,0 +1,10 @@
+.void-rough-stage[hidden],
+.void-rough-stage:not(.void-active){
+  display:none!important;
+  pointer-events:none!important;
+  visibility:hidden!important;
+}
+.void-rough-stage.void-active{
+  display:block;
+  visibility:visible;
+}

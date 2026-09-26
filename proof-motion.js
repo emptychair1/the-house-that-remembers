@@ -1,12 +1,178 @@
-const canvas=document.getElementById('c'),ctx=canvas.getContext('2d',{alpha:false});
-const img=new Image(); img.src='/assets/source/IMG_3301.png';
-const PI='31415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679';
-let glyphs=[],start=0,last=0,dpr=1,W=0,H=0,scene={};
-const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
-const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
-function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);build()}
-function build(){if(!img.complete||!img.naturalWidth)return;glyphs=[];const cell=Math.max(4,Math.min(6,W/75)),font=Math.max(5,cell*1.22);const scale=Math.min(W/img.naturalWidth,H/img.naturalHeight);const dw=img.naturalWidth*scale,dh=img.naturalHeight*scale,ox=(W-dw)/2,oy=(H-dh)/2;const off=document.createElement('canvas'),oc=off.getContext('2d');off.width=Math.max(1,Math.floor(dw/cell));off.height=Math.max(1,Math.floor(dh/(cell*1.35)));oc.drawImage(img,0,0,off.width,off.height);const data=oc.getImageData(0,0,off.width,off.height).data;let n=0;for(let y=0;y<off.height;y++){for(let x=0;x<off.width;x++){const k=(y*off.width+x)*4;const lum=(data[k]*.2126+data[k+1]*.7152+data[k+2]*.0722)/255;if(lum<.045)continue;const tx=ox+(x+.5)*cell,ty=oy+(y+.5)*cell*1.35;const ang=Math.random()*Math.PI*2,rad=Math.max(W,H)*(.18+Math.random()*.75);glyphs.push({tx,ty,x:tx+Math.cos(ang)*rad,y:ty+Math.sin(ang)*rad,ch:PI[n++%PI.length],lum:clamp(Math.pow(lum,.42)*1.42),delay:Math.random()*1.9,font,phase:Math.random()*6.28})}}scene={ox,oy,dw,dh,cell}}
-function lightning(t){let a=0;if(t>2.55&&t<2.67)a=Math.sin((t-2.55)/.12*Math.PI);if(t>4.42&&t<4.49)a=Math.max(a,Math.sin((t-4.42)/.07*Math.PI));if(t>4.57&&t<4.66)a=Math.max(a,.58*Math.sin((t-4.57)/.09*Math.PI));if(a){ctx.save();ctx.globalCompositeOperation='screen';ctx.fillStyle=`rgba(255,255,255,${a*.82})`;ctx.fillRect(0,0,W,H);ctx.restore()}}
-function headlights(t){const p=clamp((t-1.75)/3.2);if(!p)return;const y=H*(1.12-.36*ease(p)),spread=W*(.13+.08*p);ctx.save();ctx.globalCompositeOperation='screen';for(const sx of [-1,1]){const x=W*.5+sx*spread;const g=ctx.createRadialGradient(x,y,0,x,y,W*.42);g.addColorStop(0,`rgba(255,255,255,${.13*p})`);g.addColorStop(.25,`rgba(255,255,255,${.07*p})`);g.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=g;ctx.fillRect(0,0,W,H)}ctx.restore()}
-function frame(ts){if(!start)start=ts;const t=(ts-start)/1000;ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);headlights(t);ctx.textAlign='center';ctx.textBaseline='middle';for(const g of glyphs){const p=ease(clamp((t-.25-g.delay)/4.25));if(p<=0)continue;const alive=p>.985?Math.sin(t*.9+g.phase)*.32:0;const x=g.x+(g.tx-g.x)*p+alive,y=g.y+(g.ty-g.y)*p+alive*.45;const alpha=clamp((.18+.82*p)*g.lum);ctx.font=`300 ${g.font}px ui-monospace,SFMono-Regular,Menlo,monospace`;ctx.fillStyle=`rgba(255,255,255,${alpha})`;ctx.fillText(g.ch,x,y)}lightning(t);if(t>7.2){ctx.fillStyle=`rgba(0,0,0,${clamp((t-7.2)/1.4)})`;ctx.fillRect(0,0,W,H)}if(t>9){start=ts;build()}requestAnimationFrame(frame)}
-img.onload=()=>{resize();addEventListener('resize',resize);requestAnimationFrame(frame)};
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d', { alpha: false });
+const img = new Image();
+img.src = './assets/source/IMG_3301.png';
+
+const PI = '31415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679';
+const BUILD = 'ROSETTA STREAM v6';
+
+let start = 0;
+let dpr = 1;
+let W = 0;
+let H = 0;
+let cover = null;
+let stream = [];
+let coverBox = { x: 0, y: 0, w: 0, h: 0 };
+
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+const hash = (x, y, salt = 0) => {
+  const s = Math.sin((x * 127.1) + (y * 311.7) + (salt * 74.7)) * 43758.5453123;
+  return s - Math.floor(s);
+};
+
+function resize() {
+  dpr = Math.min(devicePixelRatio || 1, 2);
+  W = innerWidth;
+  H = innerHeight;
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  layout();
+  buildStream();
+}
+
+function layout() {
+  if (!img.naturalWidth || !img.naturalHeight) return;
+  const scale = Math.min(W / img.naturalWidth, H / img.naturalHeight);
+  coverBox.w = img.naturalWidth * scale;
+  coverBox.h = img.naturalHeight * scale;
+  coverBox.x = (W - coverBox.w) / 2;
+  coverBox.y = (H - coverBox.h) / 2;
+}
+
+function makeMonochromeCover() {
+  cover = document.createElement('canvas');
+  cover.width = img.naturalWidth;
+  cover.height = img.naturalHeight;
+
+  const cctx = cover.getContext('2d', { willReadFrequently: true });
+  cctx.drawImage(img, 0, 0);
+  const frame = cctx.getImageData(0, 0, cover.width, cover.height);
+  const data = frame.data;
+
+  for (let i = 0; i < data.length; i += 4) {
+    const r = data[i];
+    const g = data[i + 1];
+    const b = data[i + 2];
+    let v = (r * .2126 + g * .7152 + b * .0722) / 255;
+
+    // Strip the amber by collapsing to luminance, then crush the near-black
+    // background so the cover fades in out of true black instead of gray haze.
+    v = clamp((v - .030) / .970);
+    v = Math.pow(v, .82);
+    const out = Math.round(v * 255);
+
+    data[i] = out;
+    data[i + 1] = out;
+    data[i + 2] = out;
+  }
+
+  cctx.putImageData(frame, 0, 0);
+}
+
+function toCanvas(nx, ny) {
+  return {
+    x: coverBox.x + nx * coverBox.w,
+    y: coverBox.y + ny * coverBox.h
+  };
+}
+
+function buildStream() {
+  stream = [];
+  if (!img.naturalWidth) return;
+
+  const count = Math.round(clamp(W * H / 1650, 180, 360));
+  for (let i = 0; i < count; i++) {
+    const lane = hash(i, 0, 1);
+    const offset = hash(i, 0, 2);
+    const speed = .045 + hash(i, 0, 3) * .060;
+    const drift = (hash(i, 0, 4) - .5) * 2;
+    const size = .78 + hash(i, 0, 5) * .62;
+    const alpha = .34 + hash(i, 0, 6) * .56;
+    const digit = PI[i % PI.length];
+    stream.push({ lane, offset, speed, drift, size, alpha, digit });
+  }
+}
+
+function drawCover(t) {
+  if (!cover) return;
+  const reveal = ease(clamp((t - .15) / 3.25));
+  const breathe = .96 + Math.sin(t * .32) * .04;
+
+  ctx.save();
+  ctx.globalAlpha = reveal * .62 * breathe;
+  ctx.drawImage(cover, coverBox.x, coverBox.y, coverBox.w, coverBox.h);
+  ctx.restore();
+}
+
+function drawDataCurrent(t) {
+  if (!stream.length) return;
+
+  const reveal = ease(clamp((t - .35) / 2.65));
+  if (!reveal) return;
+
+  // One deliberate current, matching the source-cover field: loose data enters
+  // from the left, then narrows into the House wall/roof. No particles are
+  // generated around title, author, symbols, or any other text.
+  const a = toCanvas(-.060, .395);
+  const b = toCanvas(.435, .535);
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  const len = Math.hypot(dx, dy) || 1;
+  const nx = -dy / len;
+  const ny = dx / len;
+
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.globalCompositeOperation = 'screen';
+
+  for (let i = 0; i < stream.length; i++) {
+    const p = stream[i];
+    const travel = (p.offset + t * p.speed) % 1;
+
+    // More width at the entrance, tighter as the data reaches the House.
+    const width = coverBox.w * (.150 * (1 - travel) + .030);
+    const lane = (p.lane - .5) * 2;
+    const wobble = Math.sin(t * 1.7 + i * .37) * coverBox.w * .007 * p.drift;
+    const x = a.x + dx * travel + nx * lane * width + wobble;
+    const y = a.y + dy * travel + ny * lane * width + Math.cos(t * 1.35 + i) * coverBox.h * .0035;
+
+    // Fade in from black, then taper particles at both ends of the current so
+    // they appear to be entering and being absorbed by the House.
+    const envelope = Math.sin(Math.PI * travel);
+    const leadingSpark = travel > .72 ? 1.18 : 1;
+    const alpha = clamp(reveal * envelope * p.alpha * leadingSpark, 0, .92);
+    if (alpha < .025) continue;
+
+    const font = Math.max(5.2, coverBox.w * .0095 * p.size);
+    ctx.font = `420 ${font}px ui-monospace,SFMono-Regular,Menlo,monospace`;
+    ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+    ctx.shadowColor = 'rgba(255,255,255,.24)';
+    ctx.shadowBlur = 1.1;
+    ctx.fillText(p.digit, x, y);
+  }
+
+  ctx.restore();
+}
+
+function frame(ts) {
+  if (!start) start = ts;
+  const t = (ts - start) / 1000;
+
+  ctx.fillStyle = '#000';
+  ctx.fillRect(0, 0, W, H);
+
+  drawCover(t);
+  drawDataCurrent(t);
+
+  requestAnimationFrame(frame);
+}
+
+img.onload = () => {
+  makeMonochromeCover();
+  resize();
+  addEventListener('resize', resize);
+  requestAnimationFrame(frame);
+};

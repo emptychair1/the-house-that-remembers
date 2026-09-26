@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f6f0e6">
+<title>Foreword — The House That Remembers</title>
+<style>
+:root{--paper:#f6f0e6;--ink:#15110d;--soft:#7b715f;--rule:rgba(21,17,13,.16)}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--paper);color:var(--ink)}
+body{min-height:100dvh;font-family:Baskerville,"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;background:radial-gradient(circle at 50% 9rem,rgba(255,255,255,.66),transparent 28rem),linear-gradient(115deg,rgba(21,17,13,.035),transparent 34%,rgba(21,17,13,.03)),var(--paper)}
+.page{width:min(100%,48rem);margin:0 auto;padding:clamp(3.8rem,8vh,6.6rem) clamp(1.35rem,5vw,4.8rem) clamp(2.8rem,7vh,5rem)}
+header{text-align:center;margin:0 0 clamp(3.3rem,8vh,5.8rem)}
+.eyebrow{margin:0 0 1rem;font:700 .62rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.24em;text-transform:uppercase;color:rgba(21,17,13,.48)}
+h1{margin:0;font-weight:400;letter-spacing:.04em;font-size:clamp(2.05rem,8vw,4.4rem);line-height:1.02}
+.subtitle{margin:1rem 0 0;font-size:clamp(1.1rem,4vw,1.55rem);letter-spacing:.08em;color:rgba(21,17,13,.66)}
+article{font-size:clamp(1.08rem,2.65vw,1.28rem);line-height:1.78}
+p{margin:0 0 1.26em}
+article.ready>p:first-of-type::first-letter{float:left;font-size:4.8em;line-height:.78;padding:.08em .12em 0 0;color:rgba(21,17,13,.88)}
+.loading,.error{text-align:center;color:rgba(21,17,13,.55);font:700 .62rem/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase}
+.seal-block{margin:clamp(4.4rem,11vh,7rem) 0 0;display:grid;justify-items:center}
+.seal-card{width:min(76vw,25rem);display:grid;place-items:center;isolation:isolate}
+.author-seal{display:block;width:100%;height:auto;object-fit:contain;object-position:center;filter:contrast(1.12) brightness(.88);mix-blend-mode:multiply;opacity:.94}
+.disclaimer{margin:clamp(4.5rem,10vh,7rem) 0 0;padding:1.15rem 0 0;border-top:1px solid var(--rule);font:600 .76rem/1.62 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.03em;color:rgba(21,17,13,.52)}
+.disclaimer strong{font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:rgba(21,17,13,.58)}
+.proof-footer{width:min(100%,48rem);margin:0 auto;padding:0 clamp(1.35rem,5vw,4.8rem) max(1.4rem,env(safe-area-inset-bottom));display:flex;justify-content:space-between;gap:1rem;font:700 .48rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:rgba(21,17,13,.34)}
+.proof-footer a{color:inherit;text-decoration:none}
+</style>
+</head>
+<body>
+<main class="page">
+<header>
+<p class="eyebrow">Foreword</p>
+<h1>Possibility<br>and Curiosity</h1>
+<p class="subtitle">The House That Remembers</p>
+</header>
+<article id="foreword"><p class="loading">loading foreword</p></article>
+<section class="seal-block" aria-label="author seal">
+<div class="seal-card">
+<img class="author-seal" src="./assets/seals/474C63C0-32CC-407D-9FCA-1BECE724CB3E.png?v=1" alt="JD author seal for Joshua Daniels" loading="eager" decoding="async">
+</div>
+</section>
+<aside class="disclaimer"><strong>Accessibility note:</strong> Later sections of this book may contain flashing, strobing, high-contrast motion, or rapid visual changes. These effects may trigger seizures or discomfort in people with photosensitive epilepsy or related sensitivities. Reader controls and reduced-motion alternatives are planned before final release.</aside>
+</main>
+<footer class="proof-footer"><span>FOREWORD v7</span><a href="./">home</a></footer>
+<script>
+const article=document.getElementById('foreword');
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function renderMarkdown(md){const parts=md.split(/\n{2,}/).map(x=>x.trim()).filter(Boolean);article.innerHTML=parts.slice(2).map(p=>`<p>${esc(p)}</p>`).join('');article.classList.add('ready')}
+async function loadForeword(){try{article.classList.remove('ready');const res=await fetch('./manuscript/FOREWORD.md?v=foreword-page-v7',{cache:'no-store'});if(!res.ok)throw new Error('foreword fetch failed');renderMarkdown(await res.text())}catch(err){article.classList.remove('ready');article.innerHTML='<p class="error">Foreword text could not load.</p>'}}
+loadForeword();
+</script>
+</body>
+</html>

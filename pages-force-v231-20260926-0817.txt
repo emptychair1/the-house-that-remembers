@@ -1,0 +1,3 @@
+force GitHub Pages rebuild for v231 text backlight
+BUILD=book-foreword-v231-text-backlight-phone
+TIME=2026-09-26T08:17:00-04:00
