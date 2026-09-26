@@ -11,4 +11,6 @@ Recovery spine established before further Void edits.
 - `proof-motion.js` remains untouched as the approved Rosetta/ASCII/pi cover animation source.
 - No creative Void changes were made in this recovery pass.
 
+Recovery commits were assembled as a linear tree from the Generation 47 live-edge parent. The `gh-pages` ref must point to the final recovery commit for GitHub Pages to serve this state.
+
 Next acceptance gate: confirm current connected reader on iPhone, then promote accepted proof-level layout fixes into canonical source and continue manuscript composition rather than stacking wrappers.
