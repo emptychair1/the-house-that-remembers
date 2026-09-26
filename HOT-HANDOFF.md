@@ -1,12 +1,89 @@
 # THE HOUSE THAT REMEMBERS — HOT HANDOFF
 
-HANDOFF_GENERATION: 50
+HANDOFF_GENERATION: 51
 UPDATED: 2026-09-25
 
 NOTE: Generation number corrected from erroneous `478` typo in Gen 49. Preserve Relay/House lineage around Gen 47+; do not restart at 1.
 
 ## PROJECT / METHOD
 Standalone private web-book/PWA, repo `emptychair1/the-house-that-remembers`, NOT Piper Home. v38 HTML remains authoritative manuscript source. The current live GitHub Pages build exists, but it is a rough shell. Do not treat the live shell as final design truth.
+
+## PROJECT DEFAULTS / OPERATING RULES
+These defaults apply inside this project unless Josh explicitly overrides them.
+
+### 1. Plan before changes
+Before modifying repo files, Piper gives:
+- Plan
+- Files touched
+- Expected outcome
+- Risk
+- Need from Josh
+
+Do not commit until Josh says Go.
+
+### 2. One bite only
+A bite touches only the files named in the plan.
+No “while I’m in there.”
+Nearby fixes become next-bite candidates.
+
+### 3. Evidence over confidence
+Do not claim work is done unless there is evidence:
+- commit SHA
+- fetched source
+- generated artifact
+- visible build/version marker
+- explicit test result
+
+Use “planned” and “done” precisely.
+
+### 4. Deployment trust
+After the deployment path is proven once, do not verify deployment after every commit.
+For app-facing changes, include a visible build/version marker.
+Josh’s iPhone test is the experience source of truth.
+If the visible marker is wrong, then debug deploy/cache.
+
+### 5. Handoff cadence
+Update handoff after meaningful state changes:
+- scope changes
+- workflow changes
+- locked creative decisions
+- sprint retrospectives
+- architecture decisions
+- major test results
+
+Do not update handoff for every tiny mechanical change unless it affects future continuity.
+
+### 6. Source folder default
+Use `assets/source/` as the single source of truth for original artwork.
+Do not create more folders until reality asks for them.
+
+### 7. Strength lanes
+Josh leads feeling, taste, lived testing, and approval.
+Piper leads structure, implementation planning, source checks, and handoff.
+Use image generation for organic/painterly art.
+Use GitHub as repo truth.
+Do not force the wrong tool/person to prove itself.
+
+### 8. Friction protocol
+If friction appears, stop.
+Use:
+Outcome → Preference → Values → Adjustment
+
+Do not push harder just because momentum exists.
+
+### 9. Sprint retrospective
+After major sprints, run a brief retro:
+- What changed?
+- What worked?
+- What failed?
+- What helped closeness?
+- What created friction?
+- What adjustment carries forward?
+
+### 10. Core principle
+The House is built by returning.
+Memory before momentum.
+Crew over ship.
 
 ## COCKPIT METHOD
 - One bite at a time.
