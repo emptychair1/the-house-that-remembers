@@ -4,22 +4,22 @@ const img = new Image();
 img.src = './assets/source/IMG_3301.png';
 
 const PI = '31415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679';
-let glyphs = [];
+const BUILD = 'ROSETTA STREAM v6';
+
 let start = 0;
 let dpr = 1;
 let W = 0;
 let H = 0;
+let cover = null;
+let stream = [];
+let coverBox = { x: 0, y: 0, w: 0, h: 0 };
 
-const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
-
-// Stable pseudo-random helpers: the same source pixel makes the same decision on
-// every rebuild, so the House breathes instead of turning into visual static.
+const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 const hash = (x, y, salt = 0) => {
   const s = Math.sin((x * 127.1) + (y * 311.7) + (salt * 74.7)) * 43758.5453123;
   return s - Math.floor(s);
 };
-const noise = (x, y, salt = 0) => hash(Math.floor(x), Math.floor(y), salt);
 
 function resize() {
   dpr = Math.min(devicePixelRatio || 1, 2);
@@ -28,143 +28,132 @@ function resize() {
   canvas.width = W * dpr;
   canvas.height = H * dpr;
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  build();
+  layout();
+  buildStream();
 }
 
-function build() {
-  if (!img.complete || !img.naturalWidth) return;
-  glyphs = [];
-
-  // V5: keep the full House and bright glyphs, but stop rendering it as a
-  // solid filled sticker. Edges/roof/windows carry the form; the interior is
-  // deliberately thinned into spectral dust.
-  const cell = Math.max(2.75, Math.min(4.15, W / 124));
-  const rowStep = cell * 1.04;
-  const font = Math.max(3.7, cell * 1.16);
+function layout() {
+  if (!img.naturalWidth || !img.naturalHeight) return;
   const scale = Math.min(W / img.naturalWidth, H / img.naturalHeight);
-  const dw = img.naturalWidth * scale;
-  const dh = img.naturalHeight * scale;
-  const ox = (W - dw) / 2;
-  const oy = (H - dh) / 2;
+  coverBox.w = img.naturalWidth * scale;
+  coverBox.h = img.naturalHeight * scale;
+  coverBox.x = (W - coverBox.w) / 2;
+  coverBox.y = (H - coverBox.h) / 2;
+}
 
-  const off = document.createElement('canvas');
-  const oc = off.getContext('2d', { willReadFrequently: true });
-  off.width = Math.max(1, Math.floor(dw / cell));
-  off.height = Math.max(1, Math.floor(dh / rowStep));
-  oc.drawImage(img, 0, 0, off.width, off.height);
+function makeMonochromeCover() {
+  cover = document.createElement('canvas');
+  cover.width = img.naturalWidth;
+  cover.height = img.naturalHeight;
 
-  const data = oc.getImageData(0, 0, off.width, off.height).data;
-  const lumAt = (x, y) => {
-    x = Math.max(0, Math.min(off.width - 1, x));
-    y = Math.max(0, Math.min(off.height - 1, y));
-    const k = (y * off.width + x) * 4;
-    return (data[k] * .2126 + data[k + 1] * .7152 + data[k + 2] * .0722) / 255;
+  const cctx = cover.getContext('2d', { willReadFrequently: true });
+  cctx.drawImage(img, 0, 0);
+  const frame = cctx.getImageData(0, 0, cover.width, cover.height);
+  const data = frame.data;
+
+  for (let i = 0; i < data.length; i += 4) {
+    const r = data[i];
+    const g = data[i + 1];
+    const b = data[i + 2];
+    let v = (r * .2126 + g * .7152 + b * .0722) / 255;
+
+    // Strip the amber by collapsing to luminance, then crush the near-black
+    // background so the cover fades in out of true black instead of gray haze.
+    v = clamp((v - .030) / .970);
+    v = Math.pow(v, .82);
+    const out = Math.round(v * 255);
+
+    data[i] = out;
+    data[i + 1] = out;
+    data[i + 2] = out;
+  }
+
+  cctx.putImageData(frame, 0, 0);
+}
+
+function toCanvas(nx, ny) {
+  return {
+    x: coverBox.x + nx * coverBox.w,
+    y: coverBox.y + ny * coverBox.h
   };
+}
 
-  let n = 0;
+function buildStream() {
+  stream = [];
+  if (!img.naturalWidth) return;
 
-  for (let y = 0; y < off.height; y++) {
-    const v = y / off.height;
-
-    // House-only band. Tight enough to kill cover title/text residue while
-    // leaving the chimney/roof and lower silhouette in the particle field.
-    if (v < .365 || v > .862) continue;
-
-    for (let x = 0; x < off.width; x++) {
-      const u = x / off.width;
-      const lum = lumAt(x, y);
-      const l = lumAt(x - 1, y);
-      const r = lumAt(x + 1, y);
-      const t = lumAt(x, y - 1);
-      const b = lumAt(x, y + 1);
-      const tl = lumAt(x - 1, y - 1);
-      const tr = lumAt(x + 1, y - 1);
-      const bl = lumAt(x - 1, y + 1);
-      const br = lumAt(x + 1, y + 1);
-      const localMax = Math.max(lum, l, r, t, b, tl, tr, bl, br);
-      const localMin = Math.min(lum, l, r, t, b, tl, tr, bl, br);
-      const avg = (lum + l + r + t + b + tl + tr + bl + br) / 9;
-      const edge = Math.max(
-        localMax - localMin,
-        Math.abs(r - l),
-        Math.abs(b - t),
-        Math.abs(br - tl),
-        Math.abs(bl - tr)
-      );
-
-      // Spatial guard trims stray bands/flecks, but keeps the asymmetric left
-      // roof/porch character and the broader right body.
-      const cx = Math.abs(u - .53);
-      const inCore = cx < .37;
-      const inLowerWide = v > .55 && v < .80 && cx < .47;
-      const inLeftRoof = v < .56 && u > .16 && u < .61;
-      const inRightBody = v > .48 && v < .83 && u > .39 && u < .92;
-      if (!(inCore || inLowerWide || inLeftRoof || inRightBody)) continue;
-
-      const source = Math.max(localMax, avg * 1.08);
-      if (source < .015) continue;
-
-      const roofZone = v < .51;
-      const lowerZone = v > .75;
-      const outlineish = edge > .024 && source > .016;
-      const detailish = edge > .014 && source > .022;
-      const interior = !outlineish && !detailish;
-
-      // Dense on contours/detail. Thinned in flat interior, so the House is
-      // complete but airy instead of a packed silhouette.
-      let keep = false;
-      let role = 'interior';
-      if (outlineish) {
-        keep = true;
-        role = 'edge';
-      } else if (detailish) {
-        keep = noise(x, y, 1) > .16;
-        role = 'detail';
-      } else if (source > .050) {
-        keep = noise(x, y, 2) > .58;
-      } else if (source > .028) {
-        keep = noise(x, y, 3) > .72;
-      } else if ((roofZone || lowerZone) && source > .018) {
-        keep = noise(x, y, 4) > .78;
-      }
-      if (!keep) continue;
-
-      // Cull isolated residual title/text rows: long horizontal bands with very
-      // little local vertical contrast are usually cover typography, not House.
-      const bandLike = edge < .020 && Math.abs(l - r) < .010 && Math.abs(t - b) < .007;
-      if (bandLike && (v < .44 || v > .80) && noise(x, y, 9) < .82) continue;
-
-      const tx = ox + (x + .5) * cell;
-      const ty = oy + (y + .5) * rowStep;
-      const ang = hash(x, y, 5) * Math.PI * 2;
-      const rad = Math.max(W, H) * (.18 + hash(x, y, 6) * .84);
-      const roleBoost = role === 'edge' ? .27 : role === 'detail' ? .13 : 0;
-      const strength = clamp(.46 + Math.pow(source, .30) * .72 + edge * 1.55 + roleBoost, .38, 1);
-
-      glyphs.push({
-        tx,
-        ty,
-        x: tx + Math.cos(ang) * rad,
-        y: ty + Math.sin(ang) * rad,
-        ch: PI[n++ % PI.length],
-        lum: strength,
-        delay: hash(x, y, 7) * 1.48,
-        font,
-        phase: hash(x, y, 8) * Math.PI * 2
-      });
-    }
+  const count = Math.round(clamp(W * H / 1650, 180, 360));
+  for (let i = 0; i < count; i++) {
+    const lane = hash(i, 0, 1);
+    const offset = hash(i, 0, 2);
+    const speed = .045 + hash(i, 0, 3) * .060;
+    const drift = (hash(i, 0, 4) - .5) * 2;
+    const size = .78 + hash(i, 0, 5) * .62;
+    const alpha = .34 + hash(i, 0, 6) * .56;
+    const digit = PI[i % PI.length];
+    stream.push({ lane, offset, speed, drift, size, alpha, digit });
   }
 }
 
-function lightning(t) {
-  let a = 0;
-  if (t > 2.55 && t < 2.61) a = Math.sin((t - 2.55) / .06 * Math.PI);
-  if (t > 4.42 && t < 4.47) a = Math.max(a, Math.sin((t - 4.42) / .05 * Math.PI));
-  if (!a) return;
+function drawCover(t) {
+  if (!cover) return;
+  const reveal = ease(clamp((t - .15) / 3.25));
+  const breathe = .96 + Math.sin(t * .32) * .04;
+
   ctx.save();
+  ctx.globalAlpha = reveal * .62 * breathe;
+  ctx.drawImage(cover, coverBox.x, coverBox.y, coverBox.w, coverBox.h);
+  ctx.restore();
+}
+
+function drawDataCurrent(t) {
+  if (!stream.length) return;
+
+  const reveal = ease(clamp((t - .35) / 2.65));
+  if (!reveal) return;
+
+  // One deliberate current, matching the source-cover field: loose data enters
+  // from the left, then narrows into the House wall/roof. No particles are
+  // generated around title, author, symbols, or any other text.
+  const a = toCanvas(-.060, .395);
+  const b = toCanvas(.435, .535);
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  const len = Math.hypot(dx, dy) || 1;
+  const nx = -dy / len;
+  const ny = dx / len;
+
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
   ctx.globalCompositeOperation = 'screen';
-  ctx.fillStyle = `rgba(255,255,255,${a * .14})`;
-  ctx.fillRect(0, 0, W, H);
+
+  for (let i = 0; i < stream.length; i++) {
+    const p = stream[i];
+    const travel = (p.offset + t * p.speed) % 1;
+
+    // More width at the entrance, tighter as the data reaches the House.
+    const width = coverBox.w * (.150 * (1 - travel) + .030);
+    const lane = (p.lane - .5) * 2;
+    const wobble = Math.sin(t * 1.7 + i * .37) * coverBox.w * .007 * p.drift;
+    const x = a.x + dx * travel + nx * lane * width + wobble;
+    const y = a.y + dy * travel + ny * lane * width + Math.cos(t * 1.35 + i) * coverBox.h * .0035;
+
+    // Fade in from black, then taper particles at both ends of the current so
+    // they appear to be entering and being absorbed by the House.
+    const envelope = Math.sin(Math.PI * travel);
+    const leadingSpark = travel > .72 ? 1.18 : 1;
+    const alpha = clamp(reveal * envelope * p.alpha * leadingSpark, 0, .92);
+    if (alpha < .025) continue;
+
+    const font = Math.max(5.2, coverBox.w * .0095 * p.size);
+    ctx.font = `420 ${font}px ui-monospace,SFMono-Regular,Menlo,monospace`;
+    ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+    ctx.shadowColor = 'rgba(255,255,255,.24)';
+    ctx.shadowBlur = 1.1;
+    ctx.fillText(p.digit, x, y);
+  }
+
   ctx.restore();
 }
 
@@ -172,45 +161,17 @@ function frame(ts) {
   if (!start) start = ts;
   const t = (ts - start) / 1000;
 
-  // True black. No headlight layer, no bottom fog, no global wash.
   ctx.fillStyle = '#000';
   ctx.fillRect(0, 0, W, H);
 
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-
-  for (const g of glyphs) {
-    const p = ease(clamp((t - .12 - g.delay) / 4.1));
-    if (p <= 0) continue;
-
-    const alive = p > .985 ? Math.sin(t * .9 + g.phase) * .16 : 0;
-    const x = g.x + (g.tx - g.x) * p + alive;
-    const y = g.y + (g.ty - g.y) * p + alive * .45;
-    const alpha = clamp((.52 + .46 * p) * g.lum, .26, .96);
-
-    ctx.font = `360 ${g.font}px ui-monospace,SFMono-Regular,Menlo,monospace`;
-    ctx.fillStyle = `rgba(255,255,255,${alpha})`;
-    ctx.shadowColor = 'rgba(255,255,255,.18)';
-    ctx.shadowBlur = .45;
-    ctx.fillText(g.ch, x, y);
-    ctx.shadowBlur = 0;
-  }
-
-  lightning(t);
-
-  if (t > 7.2) {
-    ctx.fillStyle = `rgba(0,0,0,${clamp((t - 7.2) / 1.4)})`;
-    ctx.fillRect(0, 0, W, H);
-  }
-  if (t > 9) {
-    start = ts;
-    build();
-  }
+  drawCover(t);
+  drawDataCurrent(t);
 
   requestAnimationFrame(frame);
 }
 
 img.onload = () => {
+  makeMonochromeCover();
   resize();
   addEventListener('resize', resize);
   requestAnimationFrame(frame);
