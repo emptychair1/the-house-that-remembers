@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="The House">
+<meta http-equiv="Cache-Control" content="no-store, max-age=0">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>The House That Remembers — connected cover proof v244</title>
+<link rel="manifest" href="./manifest.json?v=book-cover-pageflip-v244-marker-truth">
+<link rel="apple-touch-icon" sizes="180x180" href="./static/icons/apple-touch-icon.png">
+<link rel="apple-touch-icon-precomposed" sizes="180x180" href="./static/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./static/icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="./static/icons/icon-512.png">
+<link rel="stylesheet" href="./book-clean-surface-v1.css?v=book-cover-pageflip-v244-marker-truth">
+<link rel="stylesheet" href="./book-foreword-v226-black-clean-audio.css?v=book-cover-pageflip-v244-marker-truth">
+<link rel="stylesheet" href="./book-foreword-v227-void-rough.css?v=book-cover-pageflip-v244-marker-truth">
+<link rel="stylesheet" href="./book-foreword-v2271-void-gated.css?v=book-cover-pageflip-v244-marker-truth">
+<style>
+  :root{
+    --proof-w:100vw;
+    --proof-h:100dvh;
+  }
+  html,
+  body,
+  #reader,
+  .book-stage,
+  .book-root,
+  #book{
+    position:fixed!important;
+    inset:0!important;
+    width:var(--proof-w)!important;
+    max-width:none!important;
+    min-width:var(--proof-w)!important;
+    height:var(--proof-h)!important;
+    max-height:none!important;
+    min-height:var(--proof-h)!important;
+    margin:0!important;
+    padding:0!important;
+    overflow:hidden!important;
+  }
+  .book-stage{
+    display:block!important;
+    place-items:initial!important;
+    background:#000!important;
+  }
+  .book-root{
+    background:#000!important;
+  }
+  .stf__parent,
+  .stf__wrapper,
+  .stf__block,
+  .stf__item,
+  .stf__page,
+  .stf__page-wrapper{
+    width:var(--proof-w)!important;
+    max-width:none!important;
+    min-width:var(--proof-w)!important;
+    height:var(--proof-h)!important;
+    max-height:none!important;
+    min-height:var(--proof-h)!important;
+  }
+  .stf__block,
+  .stf__item,
+  .stf__page,
+  .stf__page-wrapper{
+    left:0!important;
+    top:0!important;
+  }
+  .book-page{
+    width:var(--proof-w)!important;
+    max-width:none!important;
+    min-width:var(--proof-w)!important;
+    height:var(--proof-h)!important;
+    max-height:none!important;
+    min-height:var(--proof-h)!important;
+  }
+  .visual-page,
+  .cover-page,
+  .composition-locked-page,
+  .rosetta-cover-canvas{
+    width:100%!important;
+    max-width:none!important;
+    height:100%!important;
+    max-height:none!important;
+  }
+  .foreword-title-page,
+  .foreword-closing-page{
+    padding-left:clamp(1.0rem,4.7vw,2.25rem)!important;
+    padding-right:clamp(1.0rem,4.7vw,2.25rem)!important;
+  }
+  .foreword-body-page{
+    padding-left:clamp(.95rem,4.4vw,2rem)!important;
+    padding-right:clamp(.95rem,4.4vw,2rem)!important;
+  }
+  .foreword-copy,
+  .foreword-title-card,
+  .closing-card,
+  .first-line{
+    width:100%!important;
+    max-width:none!important;
+  }
+  .build-marker{
+    display:none!important;
+  }
+  .proof-marker{
+    position:fixed;
+    z-index:9999;
+    left:.62rem;
+    top:calc(env(safe-area-inset-top) + .62rem);
+    padding:.32rem .45rem;
+    border:1px solid rgba(244,234,215,.18);
+    background:rgba(0,0,0,.66);
+    color:rgba(244,234,215,.62);
+    font:700 .52rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    pointer-events:none;
+  }
+</style>
+</head>
+<body>
+<div class="proof-marker">PROOF v244 MARKER TRUTH</div>
+<main id="reader" aria-label="The House That Remembers connected cover proof"></main>
+<script type="module">
+const BUILD='book-cover-pageflip-v244-marker-truth';
+try{
+  document.documentElement.style.overflow='hidden';
+  document.body.style.overflow='hidden';
+  if('caches' in window){
+    const keys=await caches.keys();
+    await Promise.all(keys.map(key=>caches.delete(key)));
+  }
+  if('serviceWorker' in navigator){
+    const regs=await navigator.serviceWorker.getRegistrations();
+    await Promise.all(regs.map(reg=>reg.unregister()));
+    navigator.serviceWorker.register=()=>Promise.resolve({disabled:true,build:BUILD});
+  }
+}catch(err){console.warn('cache reset skipped',err)}
+function loadScript(src){return new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=src;s.onload=resolve;s.onerror=reject;document.body.appendChild(s)})}
+function viewportSize(){
+  const w=Math.max(document.documentElement.clientWidth||0,window.innerWidth||0,320);
+  const h=Math.max(document.documentElement.clientHeight||0,window.innerHeight||0,520);
+  return {w:Math.round(w),h:Math.round(h)};
+}
+function applyFullViewportSheet(){
+  const {w,h}=viewportSize();
+  const root=document.documentElement;
+  root.style.setProperty('--proof-w',`${w}px`);
+  root.style.setProperty('--proof-h',`${h}px`);
+  const sheetSelectors=[
+    '#reader','.book-stage','.book-root','#book',
+    '.stf__parent','.stf__wrapper','.stf__block','.stf__item','.stf__page','.stf__page-wrapper',
+    '.book-page'
+  ];
+  document.querySelectorAll(sheetSelectors.join(',')).forEach(el=>{
+    el.style.width=`${w}px`;
+    el.style.height=`${h}px`;
+    el.style.minWidth=`${w}px`;
+    el.style.minHeight=`${h}px`;
+    el.style.maxWidth='none';
+    el.style.maxHeight='none';
+    el.style.margin='0';
+  });
+  document.querySelectorAll('.stf__block,.stf__item,.stf__page,.stf__page-wrapper').forEach(el=>{
+    el.style.left='0px';
+    el.style.top='0px';
+  });
+  document.querySelectorAll('.foreword-copy,.foreword-title-card,.closing-card,.first-line').forEach(el=>{
+    el.style.width='100%';
+    el.style.maxWidth='none';
+  });
+  document.querySelectorAll('.rosetta-cover-canvas,.visual-page,.cover-page,.composition-locked-page').forEach(el=>{
+    el.style.width='100%';
+    el.style.height='100%';
+    el.style.maxWidth='none';
+    el.style.maxHeight='none';
+  });
+}
+function pulseFullViewportSheet(){
+  const delays=[0,40,120,260,520,900,1400,2200];
+  delays.forEach(delay=>setTimeout(applyFullViewportSheet,delay));
+  requestAnimationFrame(applyFullViewportSheet);
+}
+await loadScript('https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js').catch(err=>console.warn('StPageFlip unavailable, static fallback will run',err));
+if(window.St&&window.St.PageFlip){
+  const NativePageFlip=window.St.PageFlip;
+  function PageFlipFullViewport(el,options={}){
+    const size=viewportSize();
+    return new NativePageFlip(el,{
+      ...options,
+      width:size.w,
+      height:size.h,
+      minWidth:1,
+      maxWidth:10000,
+      minHeight:1,
+      maxHeight:10000,
+      autoSize:true,
+      size:'stretch',
+      showCover:false,
+      startPage:0
+    });
+  }
+  PageFlipFullViewport.prototype=NativePageFlip.prototype;
+  window.St.PageFlip=PageFlipFullViewport;
+}
+window.addEventListener('resize',pulseFullViewportSheet,{passive:true});
+window.addEventListener('orientationchange',()=>setTimeout(pulseFullViewportSheet,120),{passive:true});
+await loadScript('./book-clean-surface-v1.js?v='+BUILD);
+pulseFullViewportSheet();
+await loadScript('./book-foreword-v226-black-clean-audio.js?v='+BUILD);
+await loadScript('./book-foreword-v227-void-rough.js?v='+BUILD);
+pulseFullViewportSheet();
+</script>
+</body>
+</html>
