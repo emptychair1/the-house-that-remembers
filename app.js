@@ -1,4 +1,5 @@
 const reader=document.getElementById("reader");
+const coverSrc="https://raw.githubusercontent.com/emptychair1/the-house-that-remembers/main/assets/source/IMG_3301.png";
 const files=[
 ["foreword","manuscript/FOREWORD.md","manuscript"],
 ["act1","", "act1"],
@@ -18,45 +19,32 @@ const pi="3.14159265358979323846264338327950288419716939937510582097494459230781
 function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 function section(cls,html){const e=document.createElement("section");e.className="unit "+cls;e.innerHTML=html;reader.appendChild(e);return e}
 function ouro(){return '<svg viewBox="0 0 200 200" aria-label="Ouroboros"><circle cx="100" cy="100" r="72" fill="none" stroke="currentColor" stroke-width="12"/><circle cx="100" cy="100" r="54" fill="none" stroke="currentColor" stroke-width="10"/><circle cx="155" cy="100" r="8" fill="currentColor"/></svg>'}
-function piAssembly(){
-const digits=pi.repeat(80).replace(/\./g,"");
-let n=0;
-let html="";
-function add(tx,ty,kind){
-const a=(n*137.507764)%360;
-const r=62+((n*29)%54);
-const sx=50+Math.cos(a*Math.PI/180)*r;
-const sy=50+Math.sin((a*1.37)*Math.PI/180)*r;
-const z=((n*17)%100)/100;
-const delay=((n*7)%160)*.018;
-html+='<span class="'+kind+'" style="--tx:'+tx.toFixed(2)+'%;--ty:'+ty.toFixed(2)+'%;--sx:'+sx.toFixed(2)+'%;--sy:'+sy.toFixed(2)+'%;--z:'+z.toFixed(2)+';--d:'+delay.toFixed(3)+'s">'+digits[n%digits.length]+'</span>';
- n++;
-}
-for(let y=15;y<=36;y+=2.15){
- const w=7+(y-15)*1.72;
- for(let x=50-w/2;x<=50+w/2;x+=2.05)add(x,y,"house roof");
-}
-for(let y=34;y<=66;y+=2.18){
- for(let x=29;x<=71;x+=2.25){
-  const inDoor=x>46&&x<54&&y>51;
-  const inLeftWindow=x>35&&x<43&&y>42&&y<50;
-  const inRightWindow=x>57&&x<65&&y>42&&y<50;
-  if(!inDoor&&!inLeftWindow&&!inRightWindow)add(x,y,"house body");
+function piRain(){
+ const seq=pi.repeat(90).replace(/\./g,"");
+ const symbols=["π","∞","∴","∵","Φ","☉","☽"];
+ const cols=34;
+ let n=0;
+ let html="";
+ for(let c=0;c<cols;c++){
+   const x=((c+.5)/cols)*100;
+   const delay=-((c*37)%190)/10;
+   const duration=6.5+((c*13)%55)/10;
+   const drift=((c%7)-3)*.28;
+   let chars="";
+   const rows=28+((c*5)%12);
+   for(let r=0;r<rows;r++){
+     let ch=seq[n++%seq.length];
+     if(r%19===0)ch=symbols[(c+r)%symbols.length];
+     chars+='<span>'+esc(ch)+'</span>';
+   }
+   html+='<div class="pi-rain-column" style="--x:'+x.toFixed(2)+'%;--delay:'+delay.toFixed(2)+'s;--duration:'+duration.toFixed(2)+'s;--drift:'+drift.toFixed(2)+'rem">'+chars+'</div>';
  }
-}
-for(let y=21;y<=35;y+=2.2)for(let x=61;x<=66;x+=2.15)add(x,y,"house chimney");
-const titleRows=[
- {y:73,start:15,end:85,step:2.7,cls:"title title-top"},
- {y:80,start:13,end:87,step:2.45,cls:"title title-mid"},
- {y:87,start:10,end:90,step:2.35,cls:"title title-low"}
-];
-titleRows.forEach(row=>{for(let x=row.start;x<=row.end;x+=row.step)add(x,row.y,row.cls)});
-return html;
+ return html;
 }
 const units=[];
 function textPage(id,txt,cls){const lines=txt.split(/\n{2,}/).filter(Boolean);return section(cls,'<article class="copy" data-id="'+id+'">'+lines.map((x,i)=>i<4&&(/^(Chapter|Foreword|Interruption|The Wretched|Build Something|The Interval|Cleaning House|Friend|Naming|Possibility|Sefer|Aristotle)/.test(x.trim()))?'<p class="manuscript-line title-line">'+esc(x.trim())+'</p>':'<p class="manuscript-line">'+esc(x.trim())+'</p>').join("")+'</article>')}
 async function load(){
-units.push(section("pi-cover",'<div class="pi-field" aria-hidden="true">'+piAssembly()+'</div><div class="cover-lockup"><div class="cover-kicker">A living reader proof</div><h1>THE HOUSE<br>THAT REMEMBERS</h1><p>Joshua Daniels</p></div><div class="page-whisper">tap or swipe to turn the page</div>'));
+units.push(section("pi-rain-cover",'<figure class="rain-cover-target"><img src="'+coverSrc+'" alt="The House That Remembers cover"></figure><div class="pi-rain" aria-hidden="true">'+piRain()+'</div><div class="rain-veil" aria-hidden="true"></div><div class="page-whisper">tap or swipe to turn the page</div>'));
 for(const f of files){
 if(f[1]){const r=await fetch(f[1]);const t=await r.text();units.push(textPage(f[0],t,f[2]));continue}
 if(f[0]==="act1")units.push(section("void-title",' <div class="copy center"><div class="ouro rail">'+ouro()+'</div><div class="kicker">Act I</div><div class="chapter-title">THE VOID<br>STARES BACK</div><div class="number-image">'+pi.repeat(8)+'</div></div>'));
