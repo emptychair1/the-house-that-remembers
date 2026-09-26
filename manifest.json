@@ -1,7 +1,7 @@
 {
   "name": "The House That Remembers",
   "short_name": "The House",
-  "start_url": "./?book=foreword-v229-void-presence-phone",
+  "start_url": "./?book=foreword-v230-three-void-phone",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
@@ -9,23 +9,8 @@
   "theme_color": "#000000",
   "description": "A monochrome reader experience.",
   "icons": [
-    {
-      "src": "./static/icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "./static/icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "./static/icons/maskable-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
+    { "src": "./static/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./static/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./static/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }
