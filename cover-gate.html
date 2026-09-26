@@ -24,7 +24,7 @@ function openBook(e){
   if(e){e.preventDefault();e.stopPropagation();}
   if(!armed||opened)return;
   opened=true;
-  location.replace('./proof-v231.html?from=cover-'+Date.now());
+  location.replace('./proof-v231.html?from=cover&skipcover=1&v='+Date.now());
 }
 turn.addEventListener('pointerup',openBook,{passive:false});
 turn.addEventListener('click',openBook,{passive:false});
