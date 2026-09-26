@@ -7,51 +7,56 @@
 <meta http-equiv="Cache-Control" content="no-store, max-age=0">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>The House That Remembers — v231E Proof</title>
-<link rel="stylesheet" href="./book-clean-surface-v1.css?v=book-foreword-v231e-foundation-only-proof">
-<link rel="stylesheet" href="./book-foreword-v226-black-clean-audio.css?v=book-foreword-v231e-foundation-only-proof">
-<link rel="stylesheet" href="./book-foreword-v227-void-rough.css?v=book-foreword-v231e-foundation-only-proof">
-<link rel="stylesheet" href="./book-foreword-v2271-void-gated.css?v=book-foreword-v231e-foundation-only-proof">
-<link rel="stylesheet" href="./book-foreword-v231-text-backlight.css?v=book-foreword-v231e-foundation-only-proof">
-<link rel="stylesheet" href="./book-foreword-v231c-control-surface.css?v=book-foreword-v231e-foundation-only-proof">
+<title>Void Harness v231F</title>
 <style>
-#v231-root-assert{position:fixed;left:10px;top:calc(env(safe-area-inset-top) + 10px);z-index:2147483001;color:#fff;background:rgba(0,0,0,.72);border:1px solid rgba(255,255,255,.28);padding:4px 6px;font:700 8px/1.15 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;pointer-events:none;opacity:.36}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:#fff;touch-action:none;-webkit-user-select:none;user-select:none}
+#mount{position:fixed;inset:0;background:#000;overflow:hidden}
+#mount canvas{position:absolute;inset:0;width:100%!important;height:100%!important;background:#000;display:block}
+.badge{position:fixed;left:10px;top:calc(env(safe-area-inset-top) + 10px);z-index:50;color:rgba(255,255,255,.58);background:rgba(0,0,0,.68);border:1px solid rgba(255,255,255,.20);padding:4px 6px;font:700 8px/1.15 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;pointer-events:none}
+.choice{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:40;min-width:min(16rem,78vw);border:1px solid rgba(255,255,255,.42);border-radius:999px;background:rgba(0,0,0,.82);color:rgba(255,255,255,.96);box-shadow:0 0 0 1px rgba(255,255,255,.06),0 0 2.6rem rgba(255,255,255,.10);text-shadow:0 0 .75rem rgba(255,255,255,.38);padding:1rem 1.2rem;font:700 clamp(.88rem,3.8vw,1.12rem)/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.18em;text-transform:lowercase;-webkit-tap-highlight-color:transparent}
+.choice::before{content:'tap';display:block;margin-bottom:.42rem;color:rgba(255,255,255,.42);font:700 .52rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.24em;text-transform:uppercase}.choice[hidden]{display:none!important}
+.run{position:fixed;right:max(.7rem,env(safe-area-inset-right));top:58%;z-index:45;transform:translateY(-50%) rotate(90deg);border:1px solid rgba(255,255,255,.22);border-radius:999px;background:rgba(0,0,0,.60);color:rgba(255,255,255,.92);font:700 clamp(.72rem,3vw,.95rem)/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.22em;text-transform:lowercase;padding:.8rem .6rem}.run[hidden]{display:none!important}
+.status{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 1.35rem);transform:translateX(-50%);z-index:42;max-width:86vw;color:rgba(255,255,255,.66);background:rgba(0,0,0,.56);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:.36rem .58rem;text-align:center;font:700 .58rem/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;pointer-events:none}
+.titleflash{position:fixed;inset:0;z-index:60;display:grid;place-items:center;align-content:center;gap:.45rem;background:#000;color:#f8f8f4;opacity:0;pointer-events:none;font-family:Georgia,'Times New Roman',serif;letter-spacing:.06em;text-align:center;transition:opacity 90ms linear}.titleflash.seen{opacity:1}.titleflash span{font-size:clamp(.82rem,3.2vw,1rem);font-variant:small-caps;font-weight:400;letter-spacing:.28em;opacity:.88}.titleflash strong{font-size:clamp(1.45rem,8vw,2.65rem);font-weight:400;letter-spacing:.18em;text-transform:uppercase}
 </style>
 </head>
 <body>
-<main id="reader" aria-label="The House That Remembers"></main>
-<div id="v231-root-assert">PROOF v231E START</div>
+<div id="mount" aria-hidden="true"></div>
+<div class="badge">PROOF v231F HARNESS</div>
+<button id="choice" class="choice" type="button">i want sound</button>
+<button id="run" class="run" type="button" hidden>run</button>
+<div id="status" class="status">waiting</div>
+<div id="titleflash" class="titleflash" aria-hidden="true"><span>ACT I</span><strong>THE VOID</strong></div>
+<audio id="audio" src="./assets/audio/the_weight_of_infinite_stone.mp3?v=v231f" preload="auto" playsinline webkit-playsinline></audio>
 <script type="module">
-const BUILD='book-foreword-v231e-foundation-only-proof';
-const assertEl=document.getElementById('v231-root-assert');
-const setAssert=text=>{ if(assertEl) assertEl.textContent=text; };
-window.__HOUSE_ROOT_ASSERT=BUILD;
-try{
-  document.documentElement.style.overflow='hidden';
-  document.body.style.overflow='hidden';
-  if('caches' in window){
-    const keys=await caches.keys();
-    await Promise.all(keys.map(key=>caches.delete(key)));
-  }
-  if('serviceWorker' in navigator){
-    const regs=await navigator.serviceWorker.getRegistrations();
-    await Promise.all(regs.map(reg=>reg.unregister()));
-    navigator.serviceWorker.register=()=>Promise.resolve({disabled:true,build:BUILD});
-  }
-}catch(err){console.warn('cache reset skipped',err)}
-function loadScript(src){return new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=src;s.onload=()=>resolve(src);s.onerror=()=>reject(new Error('failed '+src));document.body.appendChild(s)})}
-await loadScript('https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js').catch(err=>console.warn('StPageFlip unavailable, static fallback will run',err));
-await loadScript('./book-clean-surface-v1.js?v='+BUILD);
-await loadScript('./book-foreword-v226-foundation-only.js?v='+BUILD).catch(err=>console.warn('Foundation-only helper unavailable',err));
-try{
-  await loadScript('./book-foreword-v231-text-backlight.js?v='+BUILD+'&assert=1');
-  window.__VOID_V231_ASSERT='loaded';
-  setAssert('PROOF v231E: V231 SCRIPT LOADED');
-}catch(err){
-  window.__VOID_V231_ASSERT='failed';
-  setAssert('PROOF v231E: V231 SCRIPT FAILED');
-  console.error(err);
-}
+const T={duration:40,roomRevealMs:620,localPulseMs:92,backlightEveryMs:220,impactHoldMs:150,questionZ:-4.2,glowZ:-4.55,spillZ:-5.15,voidZ:-17.5,glyphZNear:-6.4,glyphZFar:-14,glyphDensity:.42,glyphCount:52,glyphScale:.62};
+const mount=document.getElementById('mount'),choice=document.getElementById('choice'),run=document.getElementById('run'),status=document.getElementById('status'),titleflash=document.getElementById('titleflash'),audio=document.getElementById('audio');
+let THREE,ctx,state='want-sound',cueMap=null,token=0;
+const clamp=(n,a,b)=>Math.max(a,Math.min(b,n)); const lerp=(a,b,t)=>a+(b-a)*t; const ease=t=>1-Math.pow(1-clamp(t,0,1),3);
+function setStatus(t){status.textContent=t}
+function makeTexture(text,opts={}){const c=document.createElement('canvas');c.width=opts.w||2048;c.height=opts.h||512;const g=c.getContext('2d');g.clearRect(0,0,c.width,c.height);g.textAlign='center';g.textBaseline='middle';g.font=`${opts.weight||900} ${opts.size||210}px ${opts.family||'Impact, Arial Black, sans-serif'}`;if(opts.glow){g.shadowColor='rgba(238,246,255,.98)';g.shadowBlur=opts.blur||46;g.fillStyle='rgba(245,250,255,.96)';g.fillText(text,c.width/2,c.height/2+(opts.dy||0));g.shadowBlur=opts.blur2||18;g.fillText(text,c.width/2,c.height/2+(opts.dy||0));}else{g.fillStyle='#000';g.fillText(text,c.width/2,c.height/2+(opts.dy||0));}const tex=new THREE.Texture(c);tex.needsUpdate=true;tex.colorSpace=THREE.SRGBColorSpace;return tex}
+function plane(tex,opts={}){const mesh=new THREE.Mesh(new THREE.PlaneGeometry(opts.w||18,opts.h||4.4),new THREE.MeshBasicMaterial({map:tex,transparent:true,opacity:opts.opacity??1,depthTest:false,depthWrite:false,color:opts.color??0xffffff}));mesh.position.set(opts.x||0,opts.y||0,opts.z||-10);mesh.renderOrder=opts.order||10;mesh.visible=opts.visible??true;return mesh}
+function replaceTex(mesh,tex){const old=mesh.material.map;mesh.material.map=tex;mesh.material.needsUpdate=true;old?.dispose?.()}
+function replaceQuestion(text){if(ctx.currentQuestion===text)return;replaceTex(ctx.questionBlack,makeTexture(text,{size:232,w:2048,h:512}));replaceTex(ctx.questionGlow,makeTexture(text,{size:232,w:2048,h:512,glow:true,blur:54,blur2:22}));ctx.currentQuestion=text}
+async function build(){if(ctx)return ctx;setStatus('loading three');THREE=await import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js');const scene=new THREE.Scene();const camera=new THREE.PerspectiveCamera(42,innerWidth/innerHeight,.1,200);camera.lookAt(0,0,-18);const renderer=new THREE.WebGLRenderer({antialias:true,alpha:false,powerPreference:'high-performance'});renderer.setClearColor(0x000000,1);renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.setSize(innerWidth,innerHeight);mount.replaceChildren(renderer.domElement);
+const fullLight=new THREE.Mesh(new THREE.PlaneGeometry(90,54),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:0,depthTest:false,depthWrite:false}));fullLight.position.set(0,0,-42);fullLight.renderOrder=1;scene.add(fullLight);
+const spillLight=new THREE.Mesh(new THREE.PlaneGeometry(22,8.2),new THREE.MeshBasicMaterial({color:0xeef6ff,transparent:true,opacity:0,depthTest:false,depthWrite:false}));spillLight.position.set(0,0,T.spillZ);spillLight.renderOrder=4;scene.add(spillLight);
+const voidText=plane(makeTexture('THE VOID',{size:244,w:2048,h:512}),{w:58,h:12,z:T.voidZ,order:5});scene.add(voidText);
+const stares=plane(makeTexture('STARES BACK',{size:154,w:2048,h:360}),{w:17,h:2.8,y:-4.2,z:T.voidZ+.4,order:6,visible:false});scene.add(stares);
+const questionGlow=plane(makeTexture('WHO AM I?',{size:232,w:2048,h:512,glow:true,blur:54,blur2:22}),{w:18.5,h:4.7,z:T.glowZ,order:11,opacity:0});scene.add(questionGlow);
+const questionBlack=plane(makeTexture('WHO AM I?',{size:232,w:2048,h:512}),{w:18.5,h:4.7,z:T.questionZ,order:12,visible:false});scene.add(questionBlack);
+const echo=plane(makeTexture('who are you?',{size:105,w:1200,h:220,family:'Menlo, monospace',weight:700}),{w:7.4,h:1.1,y:-2.8,z:T.questionZ-.08,order:13,visible:false});scene.add(echo);
+const words=['∅','∃','∄','¬','=','≠','0/1','T/F','NULL','NaN','self==self','self!=self','?','real?','exist?'];let seed=23;const rand=()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646};const glyphs=[];const count=Math.round(T.glyphCount*T.glyphDensity);for(let i=0;i<count;i++){const side=rand()>.5?1:-1;const g=plane(makeTexture(words[i%words.length],{size:64,w:700,h:180,family:'Menlo, monospace',weight:700}),{w:2.1*T.glyphScale,h:.56*T.glyphScale,x:side*lerp(4.8,8.2,rand()),y:lerp(-5.6,5.6,rand()),z:lerp(T.glyphZNear,T.glyphZFar,rand()),order:14,visible:false});glyphs.push(g);scene.add(g)}
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)},{passive:true});ctx={scene,camera,renderer,fullLight,spillLight,voidText,stares,questionGlow,questionBlack,echo,glyphs,cueIndex:0,impactAt:-99,localAt:-99,currentQuestion:''};renderer.render(scene,camera);setStatus('ready');return ctx}
+function fallbackCues(){const slow=[0,.92,1.84,2.76,3.68,4.58,5.48,6.38,7.30,8.24,9.18,10.10,11.04,12,12.94,13.9,14.84,15.8,16.78,17.74,18.72,19.68,20.66,21.64,22.62,23.6,24.62,25.64,26.66,27.7,28.72,29.76,30.8,31.86,32.94,34,35.1,36.18,37.26,38.36,39.22];return{slow}}
+async function cues(){return cueMap||(cueMap=fallbackCues())}
+function choose(elapsed){if(elapsed<12)return['WHO AM I?','who are you?'];if(elapsed<26)return['WHAT AM I?','what are you?'];return['AM I?','are you?']}
+function reveal(c){token++;const local=token,start=performance.now();c.voidText.visible=true;c.stares.visible=true;c.questionBlack.visible=true;c.echo.visible=true;c.glyphs.forEach(g=>g.visible=true);replaceQuestion('WHO AM I?');function loop(){if(local!==token)return;const t=clamp((performance.now()-start)/T.roomRevealMs,0,1);const a=1-ease(t);c.fullLight.material.opacity=a;c.spillLight.material.opacity=a*.55;c.questionGlow.material.opacity=a*.92;c.renderer.render(c.scene,c.camera);if(t<1)requestAnimationFrame(loop);else{c.fullLight.material.opacity=0;c.spillLight.material.opacity=0;c.questionGlow.material.opacity=0;c.stares.visible=false;c.questionBlack.visible=false;c.echo.visible=false;c.glyphs.forEach(g=>g.visible=false);c.renderer.render(c.scene,c.camera)}}loop()}
+function start(){state='running';choice.hidden=true;run.hidden=true;setStatus('three scene running');Promise.all([build(),cues()]).then(([c,map])=>{const startedAt=performance.now()/1000;token++;const local=token;c.cueIndex=0;function step(){if(local!==token||state!=='running')return;const elapsed=audio.currentTime>0.03?audio.currentTime:performance.now()/1000-startedAt;if(elapsed>=T.duration){showRun();return}while(c.cueIndex<map.slow.length&&elapsed>=map.slow[c.cueIndex]){c.impactAt=elapsed;c.localAt=elapsed;c.cueIndex++}if(elapsed>1.4){const phase=(elapsed-1.4)%(T.backlightEveryMs/1000);if(phase<.026)c.localAt=elapsed}const q=choose(elapsed);replaceQuestion(q[0]);if(c.echo.userData.text!==q[1]){replaceTex(c.echo,makeTexture(q[1],{size:105,w:1200,h:220,family:'Menlo, monospace',weight:700}));c.echo.userData.text=q[1]}const localAge=elapsed-c.localAt,impactAge=elapsed-c.impactAt;const localAlpha=localAge>=0&&localAge<T.localPulseMs/1000?1-localAge/(T.localPulseMs/1000):0;const impactAlpha=impactAge>=0&&impactAge<T.impactHoldMs/1000?1-impactAge/(T.impactHoldMs/1000):0;const pulse=clamp(Math.max(localAlpha,impactAlpha),0,1);const p=clamp(elapsed/T.duration,0,1);c.fullLight.material.opacity=0;c.spillLight.material.opacity=pulse*.42;c.questionGlow.material.opacity=pulse*.95;c.questionBlack.visible=pulse>.04;c.echo.visible=pulse>.38||impactAlpha>.25;c.voidText.visible=true;c.stares.visible=p>.62&&pulse>.22;c.voidText.scale.setScalar(1+p*.05);c.stares.scale.setScalar(1+p*.035);c.questionBlack.scale.setScalar(1+impactAlpha*.045);c.questionGlow.scale.setScalar(1+pulse*.08);c.spillLight.scale.set(1+pulse*.18,1+pulse*.10,1);c.glyphs.forEach((g,i)=>{const edge=i%2?pulse:impactAlpha;g.visible=edge>.32||(p>.68&&pulse>.18)});c.renderer.render(c.scene,c.camera);requestAnimationFrame(step)}step()}).catch(e=>{setStatus('three failed: '+(e?.name||'unknown'));console.error(e)})}
+function showRun(){state='run';token++;setStatus('run ready');run.hidden=false;choice.hidden=true}
+choice.addEventListener('pointerup',async e=>{e.preventDefault();if(state==='want-sound'){choice.hidden=true;setStatus('sound + reveal');try{audio.currentTime=0;audio.volume=.9;await audio.play()}catch(err){setStatus('audio blocked, visual ok')}const c=await build();reveal(c);setTimeout(()=>{state='going';choice.textContent='i’m going further';choice.hidden=false;setStatus('waiting to go further')},1160)}else if(state==='going'){start()}},{passive:false});
+run.addEventListener('pointerup',e=>{e.preventDefault();if(state!=='run')return;state='cut';run.hidden=true;titleflash.classList.add('seen');setStatus('act card');setTimeout(()=>titleflash.classList.remove('seen'),1250)},{passive:false});
+setStatus('waiting');
 </script>
 </body>
 </html>
