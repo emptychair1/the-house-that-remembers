@@ -1,6 +1,8 @@
 // The House That Remembers
-// Service-worker kill switch for old rosetta-stream caches.
+// Service-worker kill switch for old book caches.
 // This file intentionally does not cache or serve book assets.
+
+const CURRENT_BOOK_QUERY = 'book-foreword-v223-soft-crawl-phone';
 
 self.addEventListener('install', event => {
   self.skipWaiting();
@@ -16,7 +18,7 @@ self.addEventListener('activate', event => {
     await Promise.all(clients.map(client => {
       try {
         const url = new URL(client.url);
-        url.searchParams.set('sw-kill', 'book-foreword-v221-glyph-drop-phone');
+        url.searchParams.set('sw-kill', CURRENT_BOOK_QUERY);
         return client.navigate(url.toString());
       } catch (_) {
         return null;
