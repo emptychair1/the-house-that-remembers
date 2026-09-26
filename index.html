@@ -7,17 +7,32 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="The House">
-<link rel="manifest" href="./manifest.json?v=rosetta-stream-final-v1">
+<link rel="manifest" href="./manifest.json?v=rosetta-hard-reset-v2">
 <link rel="apple-touch-icon" sizes="180x180" href="./static/icons/apple-touch-icon.png">
 <link rel="apple-touch-icon-precomposed" sizes="180x180" href="./static/icons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="./static/icons/icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="./static/icons/icon-512.png">
 <title>The House That Remembers</title>
-<link rel="stylesheet" href="./style.css?v=rosetta-stream-final-v1">
+<link rel="stylesheet" href="./style.css?v=rosetta-hard-reset-v2">
 </head>
 <body>
 <main id="reader" aria-label="The House That Remembers"></main>
-<script src="./audio.js?v=rosetta-stream-final-v1"></script>
-<script src="./app.js?v=rosetta-stream-final-v1"></script>
+<script type="module">
+const BUILD='rosetta-hard-reset-v2';
+try{
+  if('caches' in window){
+    const keys=await caches.keys();
+    await Promise.all(keys.map(key=>caches.delete(key)));
+  }
+  if('serviceWorker' in navigator){
+    const regs=await navigator.serviceWorker.getRegistrations();
+    await Promise.all(regs.map(reg=>reg.unregister()));
+    navigator.serviceWorker.register=()=>Promise.resolve({disabled:true,build:BUILD});
+  }
+}catch(err){console.warn('cache reset skipped',err)}
+function loadScript(src){return new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=src;s.onload=resolve;s.onerror=reject;document.body.appendChild(s)})}
+await loadScript('./audio.js?v='+BUILD);
+await loadScript('./app.js?v='+BUILD);
+</script>
 </body>
 </html>
