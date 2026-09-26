@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-store, max-age=0">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Rubik Letter Cell Stack Split v233C</title>
+<title>Rubik Row Light Stack Split v233D</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
@@ -46,7 +46,7 @@ html,body{
   position:fixed;
   z-index:30;
   color:rgba(255,255,255,.52);
-  background:rgba(0,0,0,.72);
+  background:#000;
   border:1px solid rgba(255,255,255,.18);
   padding:4px 6px;
   font:700 8px/1.15 ui-monospace,SFMono-Regular,Menlo,monospace;
@@ -61,6 +61,7 @@ html,body{
   inset:0;
   display:grid;
   place-items:center;
+  background:#000;
 }
 .word{
   position:absolute;
@@ -80,50 +81,42 @@ html,body{
 }
 .word.the{animation:splitThe var(--split-duration) cubic-bezier(.18,.78,.16,1) forwards}
 .word.void{animation:splitVoid var(--split-duration) cubic-bezier(.18,.78,.16,1) forwards}
-.layer{
+.row-light{
+  position:absolute;
+  left:50%;
+  top:50%;
+  z-index:1;
+  width:100%;
+  height:.82em;
+  transform:translate(-50%,-50%);
+  background:#fff;
+  filter:blur(.22em);
+  opacity:.38;
+  box-shadow:0 0 .12em #fff,0 0 .34em #fff;
+  animation:rowLight var(--strobe-cycle) infinite steps(1,end);
+}
+.face{
   position:absolute;
   inset:0;
+  z-index:3;
   display:grid;
   width:100%;
   height:1em;
   align-items:center;
   justify-items:center;
+  color:#000;
+  opacity:1;
+  text-shadow:none;
+  animation:titleFace var(--strobe-cycle) infinite steps(1,end);
 }
-.the .layer{grid-template-columns:repeat(3,1fr)}
-.void .layer{grid-template-columns:repeat(4,1fr)}
+.the .face{grid-template-columns:repeat(3,1fr)}
+.void .face{grid-template-columns:repeat(4,1fr)}
 .cell{
   display:grid;
   place-items:center;
   width:100%;
   height:1em;
   text-align:center;
-}
-.face{
-  z-index:3;
-  color:#000;
-  opacity:1;
-  text-shadow:none;
-  animation:titleFace var(--strobe-cycle) infinite steps(1,end);
-}
-.light{
-  z-index:2;
-  color:#fff;
-  filter:blur(.18em);
-  opacity:.50;
-  transform:scale(1.018);
-  text-shadow:
-    0 0 .10em #fff,
-    0 0 .24em #fff,
-    0 0 .50em #fff;
-  animation:titleLight var(--strobe-cycle) infinite steps(1,end);
-}
-.halo{
-  z-index:1;
-  color:#fff;
-  filter:blur(.46em);
-  opacity:.16;
-  transform:scale(1.05);
-  animation:titleHalo var(--strobe-cycle) infinite steps(1,end);
 }
 .guide-gap{
   position:absolute;
@@ -132,8 +125,8 @@ html,body{
   width:var(--block-width);
   height:clamp(2.4rem,10vh,6.4rem);
   transform:translate(-50%,-50%);
-  border-top:1px solid rgba(255,255,255,.07);
-  border-bottom:1px solid rgba(255,255,255,.07);
+  border-top:1px solid rgba(255,255,255,.055);
+  border-bottom:1px solid rgba(255,255,255,.055);
   opacity:0;
   animation:gapGhost var(--split-duration) cubic-bezier(.18,.78,.16,1) forwards;
 }
@@ -147,46 +140,39 @@ html,body{
 }
 @keyframes titleFace{
   0%,100%{opacity:1;color:#000}
-  50%{opacity:.08;color:#000}
+  50%{opacity:0;color:#000}
 }
-@keyframes titleLight{
-  0%,100%{opacity:.50}
-  50%{opacity:0}
-}
-@keyframes titleHalo{
-  0%,100%{opacity:.16}
+@keyframes rowLight{
+  0%,100%{opacity:.38}
   50%{opacity:0}
 }
 @keyframes gapGhost{
   0%,32%{opacity:0}
-  100%{opacity:.28}
+  100%{opacity:.22}
 }
 @media (prefers-reduced-motion:reduce){
   .word.the{animation:none;transform:translate(-50%,calc(-50% + var(--the-end)))}
   .word.void{animation:none;transform:translate(-50%,calc(-50% + var(--void-end)))}
-  .face,.light,.halo,.guide-gap{animation:none!important}
+  .face,.row-light,.guide-gap{animation:none!important}
   .face{opacity:1;color:#000}
-  .light{opacity:.36}
-  .halo{opacity:.12}
-  .guide-gap{opacity:.22}
+  .row-light{opacity:.28}
+  .guide-gap{opacity:.18}
 }
 </style>
 </head>
 <body>
-<main class="scene" aria-label="Rubik Mono One fixed letter-cell title split proof">
-  <div class="badge">PROOF v233C FIXED LETTER CELLS</div>
-  <div class="status">6.5s split · 1s pure-white strobe</div>
+<main class="scene" aria-label="Rubik Mono One row-light title split proof">
+  <div class="badge">PROOF v233D ROW LIGHT</div>
+  <div class="status">6.5s split · 1s white row-strobe</div>
   <section class="title-stage" aria-hidden="true">
     <div class="guide-gap"></div>
     <div class="word the">
-      <span class="layer halo"><span class="cell">T</span><span class="cell">H</span><span class="cell">E</span></span>
-      <span class="layer light"><span class="cell">T</span><span class="cell">H</span><span class="cell">E</span></span>
-      <span class="layer face"><span class="cell">T</span><span class="cell">H</span><span class="cell">E</span></span>
+      <span class="row-light"></span>
+      <span class="face"><span class="cell">T</span><span class="cell">H</span><span class="cell">E</span></span>
     </div>
     <div class="word void">
-      <span class="layer halo"><span class="cell">V</span><span class="cell">O</span><span class="cell">I</span><span class="cell">D</span></span>
-      <span class="layer light"><span class="cell">V</span><span class="cell">O</span><span class="cell">I</span><span class="cell">D</span></span>
-      <span class="layer face"><span class="cell">V</span><span class="cell">O</span><span class="cell">I</span><span class="cell">D</span></span>
+      <span class="row-light"></span>
+      <span class="face"><span class="cell">V</span><span class="cell">O</span><span class="cell">I</span><span class="cell">D</span></span>
     </div>
   </section>
 </main>
