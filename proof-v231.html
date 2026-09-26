@@ -7,145 +7,40 @@
 <meta http-equiv="Cache-Control" content="no-store, max-age=0">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Question Sandwich / VOID Polyrhythm Strobe Proof v237</title>
+<title>The House That Remembers — v239 stable bridge</title>
 <style>
-:root{
-  --measure:min(94vw,58rem);
-  --question-size:clamp(1.55rem,7.4vw,4.9rem);
-  --void-size:clamp(4.0rem,25vw,13.2rem);
-}
-html,body{
-  margin:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:#000;
-  color:#fff;
-  touch-action:none;
-  -webkit-user-select:none;
-  user-select:none;
-}
-body{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-family:'Arial',sans-serif;
-}
-.badge,.status{
-  position:fixed;
-  z-index:20;
-  color:rgba(255,255,255,.52);
-  background:#000;
-  border:1px solid rgba(255,255,255,.18);
-  padding:4px 6px;
-  font:700 8px/1.15 ui-monospace,SFMono-Regular,Menlo,monospace;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  pointer-events:none;
-}
-.badge{left:10px;top:calc(env(safe-area-inset-top) + 10px)}
-.status{right:10px;top:calc(env(safe-area-inset-top) + 10px);border-radius:999px}
-.strobe-container{
-  position:fixed;
-  inset:0;
-  width:100vw;
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  gap:clamp(.72rem,3.2vh,2.35rem);
-  overflow:hidden;
-  background:#000;
-  isolation:isolate;
-}
-.scene-flash{
-  position:fixed;
-  inset:0;
-  z-index:8;
-  background:#fff;
-  opacity:0;
-  pointer-events:none;
-  animation:scene-strobe .1s infinite steps(1,end);
-}
-.glyph-row{
-  position:relative;
-  z-index:5;
-  width:var(--measure);
-  margin:0;
-  padding:0;
-  font-family:'Arial',sans-serif;
-  font-weight:700;
-  line-height:.82;
-  text-align:center;
-  white-space:nowrap;
-  text-transform:uppercase;
-}
-.glyphs{
-  display:grid;
-  width:100%;
-  align-items:center;
-  justify-items:center;
-}
-.question-text{
-  font-size:var(--question-size);
-  color:#f6f6f6;
-  animation:question-strobe 1s infinite steps(1,end);
-}
-.question-text .glyphs{grid-template-columns:repeat(9,1fr)}
-.void-text{
-  font-size:var(--void-size);
-  color:#fff;
-  animation:void-strobe .1s infinite steps(1,end);
-}
-.void-text .glyphs{grid-template-columns:repeat(4,1fr)}
-.cell{
-  display:grid;
-  place-items:center;
-  width:100%;
-  min-width:0;
-}
-.space{opacity:0}
-@keyframes scene-strobe{
-  0%,100%{opacity:.12}
-  50%{opacity:0}
-}
-@keyframes question-strobe{
-  0%,100%{
-    color:#f6f6f6;
-    text-shadow:0 0 8px #fff,0 0 18px #f1f1f1,0 0 32px #dddddd;
-  }
-  50%{
-    color:rgba(255,255,255,.18);
-    text-shadow:0 0 3px #fff;
-  }
-}
-@keyframes void-strobe{
-  0%,100%{
-    color:#fff;
-    text-shadow:0 0 10px #fff,0 0 20px #00d4ff,0 0 30px #ff005e,0 0 40px #ff8c00;
-  }
-  50%{
-    color:transparent;
-    text-shadow:0 0 5px #000,0 0 10px #000;
-  }
-}
-@media (prefers-reduced-motion:reduce){
-  .scene-flash,.question-text,.void-text{animation:none!important}
-  .scene-flash{opacity:0}
-  .question-text{color:#f6f6f6;text-shadow:0 0 12px #fff}
-  .void-text{color:#fff;text-shadow:0 0 12px #fff,0 0 22px #00d4ff,0 0 30px #ff005e,0 0 40px #ff8c00}
-}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:#fff;touch-action:manipulation;-webkit-user-select:none;user-select:none}
+.stage{position:fixed;inset:0;background:#000;overflow:hidden}
+.frame{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000;display:block}
+.gate{position:fixed;inset:0;z-index:5;display:grid;place-items:end center;padding:0 1rem max(1.1rem,env(safe-area-inset-bottom));background:linear-gradient(to top,rgba(0,0,0,.62),transparent 34%);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:opacity .42s ease}
+.gate.is-hidden{opacity:0;pointer-events:none}
+.gate-label{font:700 .58rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.22em;text-transform:uppercase;color:rgba(244,234,215,.55);text-align:center;text-shadow:0 0 .7rem rgba(0,0,0,.85)}
+.build{position:fixed;z-index:6;left:.55rem;bottom:max(.45rem,env(safe-area-inset-bottom));font:700 .48rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;color:rgba(244,234,215,.44);pointer-events:none;text-transform:uppercase}
+body.reader-mode .build{color:rgba(244,234,215,.18)}
 </style>
 </head>
 <body>
-<div class="badge">PROOF v237 QUESTION SANDWICH</div>
-<div class="status">scene .1s @ .12 · VOID .1s · questions 1s</div>
-<div class="strobe-container" aria-label="Question sandwich around Void polyrhythm strobe proof">
-  <h2 class="glyph-row question-text" aria-label="WHO AM I?"><span class="glyphs"><span class="cell">W</span><span class="cell">H</span><span class="cell">O</span><span class="cell space">_</span><span class="cell">A</span><span class="cell">M</span><span class="cell space">_</span><span class="cell">I</span><span class="cell">?</span></span></h2>
-  <h1 class="glyph-row void-text" aria-label="VOID"><span class="glyphs"><span class="cell">V</span><span class="cell">O</span><span class="cell">I</span><span class="cell">D</span></span></h1>
-  <h2 class="glyph-row question-text" aria-label="WHAT AM I?"><span class="glyphs"><span class="cell">W</span><span class="cell">H</span><span class="cell">A</span><span class="cell">T</span><span class="cell space">_</span><span class="cell">A</span><span class="cell">M</span><span class="cell">I</span><span class="cell">?</span></span></h2>
-</div>
-<div class="scene-flash" aria-hidden="true"></div>
+<main class="stage" aria-label="The House That Remembers cover-to-rollback proof">
+  <iframe id="proofFrame" class="frame" title="Approved cover proof" src="https://cdn.jsdelivr.net/gh/emptychair1/the-house-that-remembers@436e814/proof-motion.html?v=rosetta-stream-v6"></iframe>
+  <button id="gate" class="gate" type="button" aria-label="Enter rollback reader">
+    <span class="gate-label">tap to enter</span>
+  </button>
+  <div class="build">PROOF v239 STABLE COVER → v238 ROLLBACK</div>
+</main>
+<script>
+const gate=document.getElementById('gate');
+const frame=document.getElementById('proofFrame');
+let entered=false;
+function enter(){
+  if(entered)return;
+  entered=true;
+  gate.classList.add('is-hidden');
+  document.body.classList.add('reader-mode');
+  frame.title='v238 rollback reader';
+  frame.src='./proof-v238.html?v=rollback-6e5d105-from-stable-v239';
+}
+gate.addEventListener('click',enter,{passive:true});
+gate.addEventListener('touchend',enter,{passive:true});
+</script>
 </body>
 </html>
