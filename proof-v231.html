@@ -7,21 +7,8 @@
 <meta http-equiv="Cache-Control" content="no-store, max-age=0">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Rubik Row Light Stack Split v233D</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
+<title>CodePen VOID Strobe Proof v234</title>
 <style>
-:root{
-  --split-duration:6.5s;
-  --strobe-cycle:1s;
-  --block-width:min(88vw,34rem);
-  --word-size:clamp(3.35rem,16vw,9.5rem);
-  --the-start:-4.8rem;
-  --void-start:2.55rem;
-  --the-end:-18vh;
-  --void-end:16vh;
-}
 html,body{
   margin:0;
   width:100%;
@@ -33,18 +20,15 @@ html,body{
   -webkit-user-select:none;
   user-select:none;
 }
-.scene{
-  position:fixed;
-  inset:0;
-  overflow:hidden;
-  background:#000;
-  display:grid;
-  place-items:center;
-  isolation:isolate;
+body{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:'Arial',sans-serif;
 }
 .badge,.status{
   position:fixed;
-  z-index:30;
+  z-index:10;
   color:rgba(255,255,255,.52);
   background:#000;
   border:1px solid rgba(255,255,255,.18);
@@ -56,125 +40,46 @@ html,body{
 }
 .badge{left:10px;top:calc(env(safe-area-inset-top) + 10px)}
 .status{right:10px;top:calc(env(safe-area-inset-top) + 10px);border-radius:999px}
-.title-stage{
-  position:absolute;
-  inset:0;
-  display:grid;
-  place-items:center;
+.strobe-container{
+  width:100vw;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
   background:#000;
 }
-.word{
-  position:absolute;
-  left:50%;
-  top:50%;
-  width:var(--block-width);
-  height:1em;
-  transform:translate(-50%,-50%);
-  font-family:'Rubik Mono One',ui-monospace,SFMono-Regular,Menlo,monospace;
-  font-size:var(--word-size);
-  font-weight:400;
-  text-transform:uppercase;
-  white-space:nowrap;
+.strobe-text{
+  margin:0;
+  max-width:96vw;
+  color:#fff;
+  font-family:'Arial',sans-serif;
+  font-size:min(26vw,34vh);
+  font-weight:700;
   line-height:.82;
-  transform-origin:center center;
-  will-change:transform;
-}
-.word.the{animation:splitThe var(--split-duration) cubic-bezier(.18,.78,.16,1) forwards}
-.word.void{animation:splitVoid var(--split-duration) cubic-bezier(.18,.78,.16,1) forwards}
-.row-light{
-  position:absolute;
-  left:50%;
-  top:50%;
-  z-index:1;
-  width:100%;
-  height:.82em;
-  transform:translate(-50%,-50%);
-  background:#fff;
-  filter:blur(.22em);
-  opacity:.38;
-  box-shadow:0 0 .12em #fff,0 0 .34em #fff;
-  animation:rowLight var(--strobe-cycle) infinite steps(1,end);
-}
-.face{
-  position:absolute;
-  inset:0;
-  z-index:3;
-  display:grid;
-  width:100%;
-  height:1em;
-  align-items:center;
-  justify-items:center;
-  color:#000;
-  opacity:1;
-  text-shadow:none;
-  animation:titleFace var(--strobe-cycle) infinite steps(1,end);
-}
-.the .face{grid-template-columns:repeat(3,1fr)}
-.void .face{grid-template-columns:repeat(4,1fr)}
-.cell{
-  display:grid;
-  place-items:center;
-  width:100%;
-  height:1em;
+  letter-spacing:-.04em;
   text-align:center;
+  white-space:nowrap;
+  text-transform:uppercase;
+  animation:strobe-light .1s infinite;
 }
-.guide-gap{
-  position:absolute;
-  left:50%;
-  top:50%;
-  width:var(--block-width);
-  height:clamp(2.4rem,10vh,6.4rem);
-  transform:translate(-50%,-50%);
-  border-top:1px solid rgba(255,255,255,.055);
-  border-bottom:1px solid rgba(255,255,255,.055);
-  opacity:0;
-  animation:gapGhost var(--split-duration) cubic-bezier(.18,.78,.16,1) forwards;
-}
-@keyframes splitThe{
-  0%{transform:translate(-50%,calc(-50% + var(--the-start)))}
-  100%{transform:translate(-50%,calc(-50% + var(--the-end)))}
-}
-@keyframes splitVoid{
-  0%{transform:translate(-50%,calc(-50% + var(--void-start)))}
-  100%{transform:translate(-50%,calc(-50% + var(--void-end)))}
-}
-@keyframes titleFace{
-  0%,100%{opacity:1;color:#000}
-  50%{opacity:0;color:#000}
-}
-@keyframes rowLight{
-  0%,100%{opacity:.38}
-  50%{opacity:0}
-}
-@keyframes gapGhost{
-  0%,32%{opacity:0}
-  100%{opacity:.22}
-}
-@media (prefers-reduced-motion:reduce){
-  .word.the{animation:none;transform:translate(-50%,calc(-50% + var(--the-end)))}
-  .word.void{animation:none;transform:translate(-50%,calc(-50% + var(--void-end)))}
-  .face,.row-light,.guide-gap{animation:none!important}
-  .face{opacity:1;color:#000}
-  .row-light{opacity:.28}
-  .guide-gap{opacity:.18}
+@keyframes strobe-light{
+  0%,100%{
+    color:#fff;
+    text-shadow:0 0 10px #fff,0 0 20px #00d4ff,0 0 30px #ff005e,0 0 40px #ff8c00;
+  }
+  50%{
+    color:transparent;
+    text-shadow:0 0 5px #000,0 0 10px #000;
+  }
 }
 </style>
 </head>
 <body>
-<main class="scene" aria-label="Rubik Mono One row-light title split proof">
-  <div class="badge">PROOF v233D ROW LIGHT</div>
-  <div class="status">6.5s split · 1s white row-strobe</div>
-  <section class="title-stage" aria-hidden="true">
-    <div class="guide-gap"></div>
-    <div class="word the">
-      <span class="row-light"></span>
-      <span class="face"><span class="cell">T</span><span class="cell">H</span><span class="cell">E</span></span>
-    </div>
-    <div class="word void">
-      <span class="row-light"></span>
-      <span class="face"><span class="cell">V</span><span class="cell">O</span><span class="cell">I</span><span class="cell">D</span></span>
-    </div>
-  </section>
-</main>
+<div class="badge">PROOF v234 CODEPEN VOID</div>
+<div class="status">Arial · 0.1s · CodePen colors</div>
+<div class="strobe-container">
+  <h1 class="strobe-text">VOID</h1>
+</div>
 </body>
 </html>
