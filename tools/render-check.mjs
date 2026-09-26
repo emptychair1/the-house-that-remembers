@@ -12,8 +12,8 @@ const artifactDir = path.join(rootDir, '.render-check');
 const strictBook = process.env.STRICT_BOOK === '1';
 const expectTapAdvances = process.env.EXPECT_TAP_ADVANCES === '1';
 const requestedUrl = process.env.BOOK_URL || '';
-const expectedBuild = process.env.EXPECT_BUILD || 'BOOK FOREWORD v2';
-const expectedPageCount = String(process.env.EXPECT_PAGE_COUNT || '32');
+const expectedBuild = process.env.EXPECT_BUILD || 'BOOK FOREWORD v3';
+const expectedPageCount = String(process.env.EXPECT_PAGE_COUNT || '18');
 
 const mime = {
   '.html': 'text/html; charset=utf-8',
@@ -62,9 +62,7 @@ function serveFile(req, res) {
 function startServer() {
   return new Promise(resolve => {
     const server = http.createServer(serveFile);
-    server.listen(0, '127.0.0.1', () => {
-      resolve({ server, port: server.address().port });
-    });
+    server.listen(0, '127.0.0.1', () => resolve({ server, port: server.address().port }));
   });
 }
 
@@ -131,7 +129,7 @@ async function snapshot(page) {
       overflowY: getComputedStyle(el).overflowY,
       scrollHeight: el.scrollHeight,
       clientHeight: el.clientHeight,
-      text: (el.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 260)
+      text: (el.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 300)
     }));
 
     const visibleScrollables = all
@@ -149,7 +147,7 @@ async function snapshot(page) {
         scrollHeight: el.scrollHeight,
         clientHeight: el.clientHeight,
         rect: rectOf(el),
-        text: (el.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 140)
+        text: (el.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 160)
       }));
 
     const markers = [...document.querySelectorAll('.build-marker, [data-build], .debug-marker, .version-marker')]
@@ -254,8 +252,7 @@ async function main() {
       await page.mouse.click(Math.round(before.viewport.innerWidth * 0.86), Math.round(before.viewport.innerHeight * 0.52));
       await page.waitForTimeout(1100);
       afterRightTap = await snapshot(page);
-      const afterPath = path.join(artifactDir, 'iphone-after-right-tap.png');
-      await page.screenshot({ path: afterPath, fullPage: false });
+      await page.screenshot({ path: path.join(artifactDir, 'iphone-after-right-tap.png'), fullPage: false });
 
       await page.mouse.click(Math.round(before.viewport.innerWidth * 0.14), Math.round(before.viewport.innerHeight * 0.52));
       await page.waitForTimeout(1100);
@@ -303,7 +300,7 @@ async function main() {
       expectedBuild,
       expectedPageCount,
       artifacts: {
-        beforeScreenshot: path.relative(rootDir, beforePath),
+        beforeScreenshot: '.render-check/iphone-before.png',
         afterRightTapScreenshot: '.render-check/iphone-after-right-tap.png',
         report: '.render-check/render-check-report.json'
       },
