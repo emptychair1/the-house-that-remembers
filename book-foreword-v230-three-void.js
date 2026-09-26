@@ -42,6 +42,7 @@
   let state = 'sleeping';
   let audio = null;
   let cueMap = null;
+  let THREE = null;
   let three = null;
   let token = 0;
   let timers = [];
@@ -214,17 +215,17 @@
     ctx.textBaseline = 'middle';
     ctx.font = `${opts.weight || 900} ${opts.size || 210}px ${opts.family || 'Anton, Impact, Arial Black, sans-serif'}`;
     ctx.fillText(text, w / 2, h / 2 + (opts.dy || 0));
-    const texture = new three.Texture(canvas);
+    const texture = new THREE.Texture(canvas);
     texture.needsUpdate = true;
-    texture.colorSpace = three.SRGBColorSpace;
+    texture.colorSpace = THREE.SRGBColorSpace;
     return texture;
   }
 
   function makeTextPlane(text, opts = {}) {
     const tex = makeTextTexture(text, opts.tex || {});
-    const geom = new three.PlaneGeometry(opts.w || 18, opts.h || 4.4);
-    const mat = new three.MeshBasicMaterial({ map: tex, transparent: true, opacity: opts.opacity ?? 1, depthTest: false, depthWrite: false, color: 0x000000 });
-    const mesh = new three.Mesh(geom, mat);
+    const geom = new THREE.PlaneGeometry(opts.w || 18, opts.h || 4.4);
+    const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, opacity: opts.opacity ?? 1, depthTest: false, depthWrite: false, color: 0x000000 });
+    const mesh = new THREE.Mesh(geom, mat);
     mesh.renderOrder = opts.order || 10;
     mesh.position.set(opts.x || 0, opts.y || 0, opts.z || -10);
     return mesh;
@@ -250,20 +251,20 @@
       try { await Promise.race([document.fonts.ready, new Promise(resolve => setTimeout(resolve, 450))]); } catch (_) {}
     }
     try {
-      three = await import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js');
+      THREE = await import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js');
     } catch (err) {
       createFallbackScene(err?.name || 'import');
       throw err;
     }
 
-    const scene = new three.Scene();
-    const camera = new three.PerspectiveCamera(44, innerWidth / innerHeight, 0.1, 200);
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(44, innerWidth / innerHeight, 0.1, 200);
     camera.position.set(0, 0, 0);
     camera.lookAt(0, 0, -20);
 
     let renderer;
     try {
-      renderer = new three.WebGLRenderer({ antialias: true, alpha: false, powerPreference: 'high-performance' });
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: 'high-performance' });
     } catch (err) {
       createFallbackScene(err?.name || 'renderer');
       throw err;
@@ -273,13 +274,13 @@
     renderer.setSize(innerWidth, innerHeight);
     shell.mount.replaceChildren(renderer.domElement);
 
-    const lightMat = new three.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, depthWrite: false, depthTest: false });
-    const primaryLight = new three.Mesh(new three.PlaneGeometry(88, 52), lightMat.clone());
+    const lightMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, depthWrite: false, depthTest: false });
+    const primaryLight = new THREE.Mesh(new THREE.PlaneGeometry(88, 52), lightMat.clone());
     primaryLight.position.set(0, 0, -50);
     primaryLight.renderOrder = 1;
     scene.add(primaryLight);
 
-    const secondaryLight = new three.Mesh(new three.PlaneGeometry(15.5, 5.3), lightMat.clone());
+    const secondaryLight = new THREE.Mesh(new THREE.PlaneGeometry(15.5, 5.3), lightMat.clone());
     secondaryLight.position.set(0, 0, VOID_TUNING.secondaryZ);
     secondaryLight.renderOrder = 5;
     scene.add(secondaryLight);
