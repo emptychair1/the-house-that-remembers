@@ -1,11 +1,12 @@
-const CACHE_NAME = "house-rosetta-particles-v2";
+const CACHE_NAME = "house-foreword-seal-v1";
 const ASSETS = [
   "./",
   "./index.html",
-  "./style.css?v=rosetta-particles-v2",
-  "./app.js?v=rosetta-particles-v2",
-  "./audio.js?v=rosetta-particles-v2",
-  "./manifest.json?v=rosetta-particles-v2",
+  "./style.css?v=foreword-seal-v1",
+  "./app.js?v=foreword-seal-v1",
+  "./audio.js?v=foreword-seal-v1",
+  "./manifest.json?v=foreword-seal-v1",
+  "./assets/seals/474C63C0-32CC-407D-9FCA-1BECE724CB3E.png",
   "./proof-motion.html",
   "./proof-motion.js?v=rosetta-particles-v2",
   "./static/icons/apple-touch-icon.png",
