@@ -1,0 +1,196 @@
+:root{
+  font-family:Baskerville,"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  color:#fff;
+  background:#000;
+  --paper:#f6f0e6;
+  --ink:#171513;
+  --muted-paper:rgba(21,17,13,.56);
+  --warm:#f4ead7;
+}
+*{box-sizing:border-box}
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+  overflow:hidden!important;
+  overscroll-behavior:none;
+  background:#000;
+  color:#fff;
+  position:fixed;
+  inset:0;
+  touch-action:none;
+  -webkit-user-select:none;
+  user-select:none;
+}
+body{height:100dvh;min-height:100dvh}
+#reader{
+  position:fixed;
+  inset:0;
+  width:100vw;
+  height:100dvh;
+  overflow:hidden!important;
+  background:#000;
+  touch-action:none;
+  contain:layout paint size;
+}
+.book-stage{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  width:100vw;
+  height:100dvh;
+  overflow:hidden;
+  background:#000;
+}
+.book-root{
+  width:min(100vw,460px);
+  height:100dvh;
+  max-height:980px;
+  overflow:hidden;
+  background:#000;
+}
+.book-page{
+  position:relative;
+  width:100%;
+  height:100%;
+  overflow:hidden!important;
+  background:#000;
+  color:#fff;
+  -webkit-backface-visibility:hidden;
+  backface-visibility:hidden;
+}
+.cover-page{
+  isolation:isolate;
+  background:#000;
+}
+.rosetta-cover-canvas{
+  position:absolute;
+  inset:0;
+  display:block;
+  width:100%;
+  height:100%;
+  z-index:1;
+  background:#000;
+}
+.cover-fallback{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  z-index:2;
+  padding:2rem;
+  text-align:center;
+  font-size:clamp(2rem,9vw,4.5rem);
+  letter-spacing:.04em;
+  color:rgba(244,234,215,.82);
+}
+.cover-whisper{
+  position:absolute;
+  z-index:4;
+  left:50%;
+  bottom:max(1.25rem,env(safe-area-inset-bottom));
+  transform:translateX(-50%);
+  font:700 .55rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:rgba(244,234,215,.34);
+  opacity:0;
+  animation:whisperIn 1.8s ease forwards;
+  animation-delay:6.8s;
+  white-space:nowrap;
+  pointer-events:none;
+}
+@keyframes whisperIn{to{opacity:1}}
+.foreword-title-page{
+  display:grid;
+  place-items:center;
+  padding:clamp(2.2rem,7vh,4.8rem) clamp(1.4rem,7vw,3.8rem);
+  background:
+    radial-gradient(circle at 50% 9rem,rgba(255,255,255,.58),transparent 27rem),
+    linear-gradient(115deg,rgba(21,17,13,.035),transparent 34%,rgba(21,17,13,.03)),
+    var(--paper);
+  color:var(--ink);
+}
+.foreword-title-card{
+  width:min(38rem,100%);
+  text-align:center;
+}
+.kicker{
+  margin:0 0 1rem;
+  font:700 .64rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.26em;
+  text-transform:uppercase;
+  color:rgba(21,17,13,.48);
+}
+.foreword-title-card h1{
+  margin:0;
+  font-weight:400;
+  letter-spacing:.04em;
+  font-size:clamp(2.35rem,10.5vw,4.5rem);
+  line-height:1.02;
+}
+.subtitle{
+  margin:1rem 0 0;
+  font-size:clamp(1.08rem,4.4vw,1.48rem);
+  letter-spacing:.08em;
+  color:rgba(21,17,13,.66);
+}
+.first-line{
+  margin:clamp(2.4rem,7vh,4.4rem) auto 0;
+  max-width:31rem;
+  font-size:clamp(1.05rem,4.15vw,1.38rem);
+  line-height:1.5;
+  color:rgba(21,17,13,.68);
+}
+.tap-zones{
+  position:fixed;
+  inset:0;
+  z-index:60;
+  touch-action:none;
+  cursor:pointer;
+  background:transparent;
+}
+.build-marker{
+  position:fixed;
+  z-index:80;
+  left:.62rem;
+  bottom:max(.52rem,env(safe-area-inset-bottom));
+  font:700 .49rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.14em;
+  color:rgba(244,234,215,.44);
+  text-transform:uppercase;
+  pointer-events:none;
+}
+.tap-debug{
+  position:fixed;
+  z-index:82;
+  right:.62rem;
+  bottom:max(.52rem,env(safe-area-inset-bottom));
+  max-width:48vw;
+  font:700 .49rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:rgba(244,234,215,.58);
+  opacity:0;
+  transition:opacity .18s ease;
+  pointer-events:none;
+  text-align:right;
+}
+.tap-debug.seen{opacity:1}
+html[data-book-page="1"] .cover-whisper{display:none}
+.stf__parent,.stf__wrapper,.stf__block{
+  overflow:hidden!important;
+}
+.stf__parent{
+  background:#000!important;
+}
+@media(max-height:720px){
+  .foreword-title-page{padding-top:2rem;padding-bottom:3.4rem}
+  .foreword-title-card h1{font-size:clamp(2rem,8.2vw,3.4rem)}
+  .first-line{margin-top:2rem;font-size:clamp(1rem,3.75vw,1.2rem)}
+}
+@media(prefers-reduced-motion:reduce){
+  .cover-whisper{animation:none;opacity:.42}
+}
