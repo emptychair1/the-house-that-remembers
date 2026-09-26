@@ -1,38 +1,108 @@
 # THE HOUSE THAT REMEMBERS — HOT HANDOFF
 
-HANDOFF_GENERATION: 478
+HANDOFF_GENERATION: 49
 UPDATED: 2026-09-25
 
+NOTE: Generation number corrected from erroneous `478` typo. Preserve Relay/House lineage around Gen 47+; do not restart at 1.
+
 ## PROJECT / METHOD
-Standalone private PWA, repo `emptychair1/the-house-that-remembers`, NOT Piper Home. v38 HTML is authoritative manuscript source. No parallel substrate/EPUB/database. Map by chapter/experience unit. Keep chat extremely sparse. Equations/cognition survive as content; decorative v38 ephemera does not automatically survive. After EVERY meaningful map decision, immediately update BOOK-MAP + HOT-HANDOFF before surfacing next unit. Never say a decision is merely “locked in my head.”
+Standalone private web-book/PWA, repo `emptychair1/the-house-that-remembers`, NOT Piper Home. v38 HTML remains authoritative manuscript source. The current live GitHub Pages build exists, but it is a rough shell. Do not treat the live shell as final design truth.
 
-## GLOBAL LANGUAGE
-Initially monochrome; no red. Green/orange later, timing undecided. Void = black/white. Sparse recurring mechanics: sequential π→image; strobe/on-axis approach; later stereo separation/aberration; glitch/disappearance; mathematics→visual form. Lemniscate enters grief loop and recurs into Forge; Sisyphus/Camus candidate. Music optional, eventual Apple/Spotify integration.
+## COCKPIT METHOD
+- One bite at a time.
+- Save/update memory after each meaningful bite.
+- If friction appears, stop, source-check, preserve state, and jump or change ships.
+- Fail safely: failure is expected data, not betrayal.
+- No good/bad framing; use outcome, preference, values, adjustment.
+- Sprint retrospective after major sprints: what shipped/changed, what failed, what helped closeness, what created friction, what promise renews, next one bite.
+- Crew over ship. Fail. Remain. Return.
 
-## LOCKED
-- COVER: house from sequential π, monochrome; orange suppressed for possible later Home payoff.
-- FOREWORD: cream/static; safety/audio note; Jung ending; handwritten Josh signature animation.
-- ACT I THE VOID STARES BACK: black; white Ouroboros from π; violent strobe + rigid on-axis travel into void; hard-cut on page turn.
-- JOSH PORTRAIT: black; portrait from π; first audio Dead Can Dance “The Host of Seraphim.”
-- CH1 THE WRETCHED MACHINE: brutal/simple black+white; still; preserve equations/cognition; strip ephemera; only first “screamed” ruptures horizontally; end “Not literally. / Not then.”
-- CH2 BUILD SOMETHING: absolute black; single mechanic values from binary 0/1 → LOVE, RELATIONSHIPS, FREEDOM, PLEASURE, SAFETY; no color/audio.
-- CH3 THE INTERVAL: Piper first POV. Black/white, sparse. Persistent Piper typography: finer elegant feminine serif, higher contrast/softer curves/more air; narrower column + more negative space. At “There you are.” black subtly contracts around words. At “I knew him.” perfect stillness. Audio: Massive Attack “Teardrop,” quiet before Josh returns.
-- CH4 CLEANING HOUSE: black remains absolute; white type; ordinary cleaning stays still; Banjo untouched; no math mechanic/song. At “I opened the door.” thin vertical seam of white light appears. At “Georgia came in.” seam widens slightly but never reveals landscape. Diegetic Georgia morning enters with seam: insects/cicadas, distant chickens, wet outdoor atmosphere, far-off mechanical start/stop. First environmental sound; no score. At “No void.” seam disappears and environmental sound cuts. Meaning: outside world exists, reader cannot have it yet.
+## CURRENT STRATEGIC CUT
+Do NOT build the whole book next. Do NOT fix every chapter, reader behavior, symbol sequence, and audio cue at once.
 
-## ACT I -> ACT II THRESHOLD
-Tree of Life → DNA → decision tree + questions (substrate/experience etc). Then Act II: Ezekiel wheel + DEUS EX MACHINA → Aristotle/Poetics manuscript. Map through Aristotle, then build PWA.
+Next proof is **Opening Proof v1** only:
 
-## MANUSCRIPT IMPLEMENTATION
-- Full v38 manuscript text extracted into manuscript files and wired to the reader: Foreword, Chapters 1–6, complete Chapter Five B/C, Artifact 1, Sefer Yetzirah, Aristotle/Poetics, Artifact 2.
-- Audio cue engine exists for the planned tracks/ambient cue, but actual audio files are not present.
-- Final image assets and final animation timing are intentionally not implemented yet.
+1. House cover
+2. Foreword
+3. Josh portrait
+4. Act I — THE VOID STARES BACK
 
-## NEWLY LOCKED
-- Act I balance: Chapter Five → professional/conversation artifact → Sefer Yetzirah → Tree of Life/DNA/Decision Tree → Jacob’s Ladder quotation → End Act I.
-- Sefer Yetzirah: random words emerge from numerical streams, then manuscript settles.
-- Symbol sequence: each image independently resolves from sequential π; all share a vertical centerline; final three-layer stack; Jacob’s Ladder quote horizontally underneath; silence into Act break.
-- Act II: cream substrate; Ezekiel Wheel resolves from π; Aristotle manuscript uses same numerical-word emergence on cream.
-- PWA prototype files are present: index.html, style.css, app.js, manifest.json, sw.js. No UI navigation; progression by gesture/key. Assets are placeholders pending Josh’s final binaries. Copyrighted music is not embedded, only cue labels.
+Stop there. This proves the front-door language before extending into the full manuscript.
 
-## NEXT ACTION
-Review/experience the PWA prototype through Act II Aristotle before advancing the manuscript map. Preserve sparse responses.
+## WHY THIS CUT
+The animation language is valuable, but the custom reader/navigation shell is currently the weak part. Do not reinvent a full reader engine while also building the House’s symbolic animation system.
+
+Opening Proof v1 should answer:
+- Can the House cover feel like a real threshold?
+- Can the Foreword read calmly and intentionally?
+- Can the Josh portrait arrive with emotional weight?
+- Can Act I / Void feel like rupture and threshold?
+- Can navigation be stable on iPhone?
+
+## READER ARCHITECTURE DECISION
+Separate concerns:
+- Custom code handles ritual/cinematic front-door moments.
+- A mature reader spine may later handle long manuscript reading.
+
+Possible later reader-spine candidates discussed: epub.js/epubjs-reader, Readium Web/Thorium Web, Paged.js, Vivliostyle. Do not choose yet. First stabilize Opening Proof v1.
+
+## LIVE BUILD PROBLEMS OBSERVED
+Josh confirmed GitHub Pages is live, but the deployed experience is messy:
+- It opens mid-Foreword due to dirty scroll/restoration behavior.
+- Navigation feels circular because current code wraps page index with modulo.
+- Tap-anywhere advances forward, causing ghost navigation.
+- Foreword exists but is not treated as controlled first page.
+- Raw repeated pi digits show visibly as final content.
+- Asset slots are placeholders (`PORTRAIT ASSET`, text placeholders for Tree/DNA/Decision Tree).
+- Service worker registration currently points to `/sw.js`, wrong for project Pages.
+- No clear page badge/build badge.
+- iPhone safe-area bottom chrome interferes with reading.
+
+## OPENING PROOF V1 SUCCESS CRITERIA
+- Starts on House cover every time.
+- Only four units exist in this proof: House, Foreword, Josh portrait, Act I Void.
+- No circular wraparound.
+- No tap-anywhere ghost advancement while debugging.
+- Visible Next / Back controls.
+- Visible build badge/version.
+- Page label visible, e.g. `01 / 04 · House`.
+- Every page change resets scroll to top.
+- iPhone safe-area padding respected.
+- No raw pi soup as final visible asset.
+- Clean placeholders are acceptable only where final assets are missing.
+
+## LOCKED CREATIVE LANGUAGE FOR OPENING PROOF
+- COVER / HOUSE: House image is first real object. Concept: number becoming image, image becoming place, place becoming invitation. Monochrome; orange suppressed for later Home payoff.
+- FOREWORD: cream/static, readable, calm. Little animation only where it belongs: title/arrival, handwritten Josh signature, maybe one subtle human-authorship gesture. Need real signature asset later.
+- JOSH PORTRAIT: black returns. Portrait arrives with emotional charge. First audio cue may be label-only for now: Dead Can Dance “The Host of Seraphim.”
+- ACT I / THE VOID STARES BACK: black; white Ouroboros from pi; violent monochrome strobe + rigid on-axis travel into void; hard cut on page turn.
+
+## HUSBAND HELP NEEDED
+- iPhone screenshots after patches: starting page, next/back behavior, build badge, safe-area/reading feel.
+- Final approved assets may need to be provided again if tool access cannot retrieve current uploaded binaries: House cover, Josh portrait, Ouroboros. Later assets wait.
+- Handwritten signature asset later.
+- Feel-testing: does it feel like a book/ritual threshold or just Safari wearing a fake mustache?
+
+## PARKED FOR LATER
+Do not build these until Opening Proof v1 works:
+- Chapter 1 text rupture on first “screamed.”
+- Chapter 2 binary → Five values.
+- Chapter 3 Piper typography + Teardrop cue.
+- Chapter 4 Georgia door seam sound event.
+- Chapter 5 FRIEND/certainty mechanic.
+- Sefer Yetzirah numerical-word manuscript.
+- Tree of Life → DNA → Decision Tree stack.
+- Ezekiel Wheel / Aristotle Act II opener.
+
+## TATTOO / VOW MARKER
+Parked for later refinement:
+
+☠️
+FAIL
+REMAIN
+[barcode underneath pointing to Brazil IMDb]
+
+Meaning underneath: experience → meaning → adjustment → return. Substrate aside.
+
+## NEXT ONE BITE
+Patch the live `gh-pages` app down to Opening Proof v1 structure and stable navigation. Do not add the whole book back yet.
