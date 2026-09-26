@@ -27,11 +27,12 @@ function build() {
   if (!img.complete || !img.naturalWidth) return;
   glyphs = [];
 
-  // Denser than the original proof: smaller cells and tighter vertical sampling
-  // so the particle field describes more of the House without changing scale.
-  const cell = Math.max(2.7, Math.min(4.1, W / 118));
-  const rowStep = cell * 1.02;
-  const font = Math.max(3.8, cell * 1.18);
+  // Rosetta v3: keep the particle assembly, but sample much more aggressively.
+  // Smaller cells + local-neighborhood detection keep faint roof and silhouette data
+  // that the first proof discarded, without changing the overall house scale.
+  const cell = Math.max(2.15, Math.min(3.35, W / 152));
+  const rowStep = cell * .88;
+  const font = Math.max(3.35, cell * 1.22);
   const scale = Math.min(W / img.naturalWidth, H / img.naturalHeight);
   const dw = img.naturalWidth * scale;
   const dh = img.naturalHeight * scale;
@@ -45,20 +46,36 @@ function build() {
   oc.drawImage(img, 0, 0, off.width, off.height);
 
   const data = oc.getImageData(0, 0, off.width, off.height).data;
+  const lumAt = (x, y) => {
+    x = Math.max(0, Math.min(off.width - 1, x));
+    y = Math.max(0, Math.min(off.height - 1, y));
+    const k = (y * off.width + x) * 4;
+    return (data[k] * .2126 + data[k + 1] * .7152 + data[k + 2] * .0722) / 255;
+  };
   let n = 0;
 
   for (let y = 0; y < off.height; y++) {
     for (let x = 0; x < off.width; x++) {
-      const k = (y * off.width + x) * 4;
-      const lum = (data[k] * .2126 + data[k + 1] * .7152 + data[k + 2] * .0722) / 255;
+      const lum = lumAt(x, y);
+      const local = Math.max(
+        lum,
+        lumAt(x - 1, y), lumAt(x + 1, y),
+        lumAt(x, y - 1), lumAt(x, y + 1),
+        lumAt(x - 1, y - 1), lumAt(x + 1, y - 1),
+        lumAt(x - 1, y + 1), lumAt(x + 1, y + 1)
+      );
+      const contrast = local - lum;
 
-      // Lower threshold keeps more faint architectural information.
-      if (lum < .024) continue;
+      // Very low gate: this is what pulls the full house out of the dark.
+      // The random dither prevents flat bands while keeping the whole silhouette.
+      const keep = local > .009 || (local > .006 && Math.random() > .34) || (contrast > .016 && Math.random() > .18);
+      if (!keep) continue;
 
       const tx = ox + (x + .5) * cell;
       const ty = oy + (y + .5) * rowStep;
       const ang = Math.random() * Math.PI * 2;
-      const rad = Math.max(W, H) * (.2 + Math.random() * .82);
+      const rad = Math.max(W, H) * (.18 + Math.random() * .84);
+      const strength = clamp(Math.pow(Math.max(local, lum + contrast * .7), .20) * 3.4, .34, 1);
 
       glyphs.push({
         tx,
@@ -66,8 +83,8 @@ function build() {
         x: tx + Math.cos(ang) * rad,
         y: ty + Math.sin(ang) * rad,
         ch: PI[n++ % PI.length],
-        lum: clamp(Math.pow(lum, .30) * 2.15),
-        delay: Math.random() * 1.65,
+        lum: strength,
+        delay: Math.random() * 1.45,
         font,
         phase: Math.random() * Math.PI * 2
       });
@@ -77,13 +94,12 @@ function build() {
 
 function lightning(t) {
   let a = 0;
-  if (t > 2.55 && t < 2.64) a = Math.sin((t - 2.55) / .09 * Math.PI);
-  if (t > 4.42 && t < 4.48) a = Math.max(a, Math.sin((t - 4.42) / .06 * Math.PI));
-  if (t > 4.57 && t < 4.63) a = Math.max(a, .42 * Math.sin((t - 4.57) / .06 * Math.PI));
+  if (t > 2.55 && t < 2.61) a = Math.sin((t - 2.55) / .06 * Math.PI);
+  if (t > 4.42 && t < 4.47) a = Math.max(a, Math.sin((t - 4.42) / .05 * Math.PI));
   if (!a) return;
   ctx.save();
   ctx.globalCompositeOperation = 'screen';
-  ctx.fillStyle = `rgba(255,255,255,${a * .34})`;
+  ctx.fillStyle = `rgba(255,255,255,${a * .18})`;
   ctx.fillRect(0, 0, W, H);
   ctx.restore();
 }
@@ -92,6 +108,7 @@ function frame(ts) {
   if (!start) start = ts;
   const t = (ts - start) / 1000;
 
+  // True black. No headlight layer, no bottom fog, no global wash.
   ctx.fillStyle = '#000';
   ctx.fillRect(0, 0, W, H);
 
@@ -99,17 +116,20 @@ function frame(ts) {
   ctx.textBaseline = 'middle';
 
   for (const g of glyphs) {
-    const p = ease(clamp((t - .18 - g.delay) / 4.15));
+    const p = ease(clamp((t - .12 - g.delay) / 4.05));
     if (p <= 0) continue;
 
-    const alive = p > .985 ? Math.sin(t * .9 + g.phase) * .28 : 0;
+    const alive = p > .985 ? Math.sin(t * .9 + g.phase) * .18 : 0;
     const x = g.x + (g.tx - g.x) * p + alive;
     const y = g.y + (g.ty - g.y) * p + alive * .45;
-    const alpha = clamp((.34 + .9 * p) * g.lum);
+    const alpha = clamp((.62 + .55 * p) * g.lum, .38, 1);
 
-    ctx.font = `360 ${g.font}px ui-monospace,SFMono-Regular,Menlo,monospace`;
+    ctx.font = `420 ${g.font}px ui-monospace,SFMono-Regular,Menlo,monospace`;
     ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+    ctx.shadowColor = 'rgba(255,255,255,.28)';
+    ctx.shadowBlur = .9;
     ctx.fillText(g.ch, x, y);
+    ctx.shadowBlur = 0;
   }
 
   lightning(t);
