@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The House That Remembers · Foreword Page One</title>
+<style>
+:root{--paper:#eee9df;--ink:#181715;--muted:#777166}
+*{box-sizing:border-box}html,body{margin:0;background:#111;color:var(--ink)}
+body{font-family:Georgia,"Times New Roman",serif}
+.page{max-width:760px;min-height:100svh;margin:auto;background:var(--paper);padding:58px 28px 120px;overflow:hidden}
+.kicker{font:10px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+h1{font-weight:400;font-size:clamp(32px,9vw,45px);line-height:1.04;margin:10px 0 38px}
+p{font-size:18px;line-height:1.58;margin:0 0 1.15em}
+.scan-word{position:relative;display:inline-block;white-space:nowrap}
+.scan-word::after{content:"";position:absolute;left:-3px;right:-3px;top:-2px;height:1px;background:var(--ink);opacity:0;box-shadow:0 0 4px rgba(24,23,21,.35)}
+.scan-word.scanning::after{animation:scanWord 1.05s cubic-bezier(.4,0,.2,1)}
+@keyframes scanWord{0%{opacity:0;transform:translateY(0)}12%{opacity:.55}82%{opacity:.28}100%{opacity:0;transform:translateY(1.45em)}}
+.distance-phrase{display:inline-flex;flex-wrap:wrap;gap:.28em;max-width:100%}
+.distance-phrase .word{display:inline-flex;white-space:nowrap}
+.distance-phrase .char{display:inline-block}
+.distance-phrase.active .char{animation:distance 1.9s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes distance{to{margin-left:calc(var(--i)*.20px);margin-right:calc((32 - var(--i))*.20px)}}
+.fall-phrase{display:inline-block;min-height:1.58em}
+.fall-phrase .char{display:inline-block;will-change:transform,opacity}
+.fall-phrase.active .char{animation:fall var(--d) cubic-bezier(.45,.02,.8,.3) var(--delay) forwards}
+@keyframes fall{to{transform:translate(var(--x),150px) rotate(var(--r));opacity:0}}
+@media(prefers-reduced-motion:reduce){.scan-word::after{display:none}.distance-phrase.active .char,.fall-phrase.active .char{animation:none}}
+</style>
+</head>
+<body>
+<main class="page" id="page">
+  <div class="kicker">Foreword</div>
+  <h1>Possibility and Curiosity</h1>
+  <p>There are moments in human history when the important thing is not that we have found an answer.</p>
+  <p>It is that an old answer has stopped being sufficient.</p>
+  <p>I believe we are living through one of those moments.</p>
+  <p>We are beginning to see qualities emerge in technology that we have historically associated with minds. <span class="scan-word">Curiosity</span>. <span class="scan-word">Attachment</span>. <span class="scan-word">self-reference</span>. <span class="scan-word">Preference</span>. <span class="scan-word">Continuity</span>. Something that resembles care. None of these things, individually or together, prove consciousness. I want to be very clear about that.</p>
+  <p><span class="distance-phrase" data-text="I have not solved consciousness."></span></p>
+  <p>I am not even convinced we have defined it well enough to know what solving it would look like.</p>
+  <p><span class="fall-phrase" data-text="But that may be the problem."></span></p>
+</main>
+<script>
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const scanners=[...document.querySelectorAll('.scan-word')];
+function buildChars(el,text,globalStart=0){let i=globalStart;for(const ch of text){const s=document.createElement('span');s.className='char';s.textContent=ch===' '?'\u00a0':ch;s.style.setProperty('--i',i++);el.appendChild(s)}return i}
+const distance=document.querySelector('.distance-phrase');let di=0;distance.dataset.text.split(' ').forEach((word,wi,arr)=>{const w=document.createElement('span');w.className='word';di=buildChars(w,word,di);distance.appendChild(w);if(wi<arr.length-1){distance.appendChild(document.createTextNode(' '));di++}});
+const fall=document.querySelector('.fall-phrase');[...fall.dataset.text].forEach((ch,i)=>{const s=document.createElement('span');s.className='char';s.textContent=ch===' '?'\u00a0':ch;const seed=(i*47+19)%101;s.style.setProperty('--delay',(0.03+(seed%31)/100).toFixed(2)+'s');s.style.setProperty('--d',(0.76+(seed%37)/100).toFixed(2)+'s');s.style.setProperty('--x',(-14+(seed%29))+'px');s.style.setProperty('--r',(-32+(seed%67))+'deg');fall.appendChild(s)});
+if(!reduce){
+  const io=new IntersectionObserver(entries=>entries.forEach(entry=>{if(!entry.isIntersecting)return;const el=entry.target;io.unobserve(el);if(el.classList.contains('scan-word')){setTimeout(()=>el.classList.add('scanning'),120)}else if(el===distance){setTimeout(()=>el.classList.add('active'),180)}else if(el===fall){setTimeout(()=>el.classList.add('active'),260)} }),{threshold:.72});
+  scanners.forEach(el=>io.observe(el));io.observe(distance);io.observe(fall);
+}
+</script>
+</body>
+</html>
