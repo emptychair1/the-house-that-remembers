@@ -5,17 +5,17 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#000000">
 <meta http-equiv="Cache-Control" content="no-store,max-age=0">
-<title>The House That Remembers — Spine v1.7</title>
+<title>The House That Remembers — Spine v1.8</title>
 <style>
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:#fff;font-family:Baskerville,"Iowan Old Style",Georgia,serif}body{height:100dvh;touch-action:none}.stage{position:fixed;inset:0;background:#000;overflow:hidden}.book{width:100vw;height:100dvh}.page{position:relative;width:100%;height:100%;overflow:hidden}.cover{background:#000!important}.cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}.foreword{background:#f6f0e6;color:#171513;display:flex;align-items:flex-start;justify-content:center;padding:10vh 8vw 7vh}.foreword-inner{width:100%;max-width:42rem;text-align:center}.kicker{font:700 .72rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.28em;text-transform:uppercase;opacity:.52;margin-bottom:2rem}.foreword h1{font-weight:400;font-size:clamp(2.8rem,10vw,5.4rem);line-height:.98;margin:0}.subtitle{font-size:clamp(1.15rem,4.8vw,1.7rem);letter-spacing:.08em;opacity:.62;margin:1.3rem 0 0}.opening{font-size:clamp(1.1rem,4.4vw,1.45rem);line-height:1.5;margin:4rem auto 0;max-width:34rem;color:rgba(23,21,19,.72)}.void{background:#000}.void-ring{position:absolute;left:50%;top:50%;width:2.6rem;height:2.6rem;border:1px solid rgba(255,255,255,.28);border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 1.2rem rgba(255,255,255,.08)}#glyph-overlay{position:fixed;z-index:700;pointer-events:none;display:block}.tap-left,.tap-right{position:fixed;top:0;bottom:0;width:36vw;z-index:999;background:transparent;border:0;padding:0;-webkit-tap-highlight-color:transparent}.tap-left{left:0}.tap-right{right:0}.status{position:fixed;left:50%;bottom:max(.75rem,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:1000;font:700 .52rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.28);pointer-events:none;white-space:nowrap}.version-badge{position:fixed;z-index:1100;left:.7rem;top:max(.7rem,env(safe-area-inset-top));padding:.42rem .55rem;border:1px solid rgba(255,255,255,.18);border-radius:.32rem;background:rgba(0,0,0,.72);font:700 .56rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.72);pointer-events:none;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 </style>
 </head>
 <body>
-<div class="version-badge">SPINE v1.7 · GLYPH OVERLAY</div>
+<div class="version-badge">SPINE v1.8 · GLYPHS UP</div>
 <div class="stage">
   <div id="book" class="book">
     <section class="page cover" aria-label="Cover">
-      <img src="./assets/source/IMG_3301.png?v=spine-v1.7" alt="The House That Remembers cover">
+      <img src="./assets/source/IMG_3301.png?v=spine-v1.8" alt="The House That Remembers cover">
     </section>
     <section class="page foreword" aria-label="Foreword">
       <div class="foreword-inner">
@@ -83,8 +83,8 @@
     canvas.height=Math.max(1,Math.round(h*dpr));
     ctx.setTransform(dpr,0,0,dpr,0,0);
     stream.length=0;
-    const count=Math.max(150,Math.min(300,Math.round(w*h/1900)));
-    for(let i=0;i<count;i++)stream.push({offset:hash(i+1),lane:hash(i+101),speed:.035+hash(i+201)*.05,size:.72+hash(i+301)*.58,alpha:.22+hash(i+401)*.44,digit:PI[i%PI.length]});
+    const count=Math.max(220,Math.min(420,Math.round(w*h/1350)));
+    for(let i=0;i<count;i++)stream.push({offset:hash(i+1),lane:hash(i+101),speed:.035+hash(i+201)*.05,size:.82+hash(i+301)*.72,alpha:.38+hash(i+401)*.5,digit:PI[i%PI.length]});
   }
 
   function setPage(i){
@@ -102,23 +102,24 @@
     const t=(ts-start)/1000;
     if(current===0&&w&&h){
       ctx.clearRect(0,0,w,h);
-      const ax=-w*.04, ay=h*.43;
-      const bx=w*.48, by=h*.57;
+      const ax=-w*.05, ay=h*.42;
+      const bx=w*.5, by=h*.575;
       const dx=bx-ax, dy=by-ay, len=Math.hypot(dx,dy)||1;
       const nx=-dy/len, ny=dx/len;
       ctx.textAlign='center';ctx.textBaseline='middle';ctx.globalCompositeOperation='screen';
+      ctx.shadowColor='rgba(255,255,255,.32)';ctx.shadowBlur=1.6;
       for(let i=0;i<stream.length;i++){
         const p=stream[i];
         const travel=(p.offset+t*p.speed)%1;
-        const width=w*(.14*(1-travel)+.025);
+        const width=w*(.155*(1-travel)+.03);
         const lane=(p.lane-.5)*2;
         const wobble=Math.sin(t*1.5+i*.31)*w*.004;
         const x=ax+dx*travel+nx*lane*width+wobble;
         const y=ay+dy*travel+ny*lane*width+Math.cos(t*1.1+i)*h*.0025;
         const env=Math.sin(Math.PI*travel);
-        const alpha=Math.max(0,Math.min(.72,p.alpha*env));
-        if(alpha<.02)continue;
-        ctx.font=`${Math.max(5,w*.0088*p.size)}px ui-monospace,SFMono-Regular,Menlo,monospace`;
+        const alpha=Math.max(0,Math.min(.94,p.alpha*env));
+        if(alpha<.025)continue;
+        ctx.font=`${Math.max(6,w*.0104*p.size)}px ui-monospace,SFMono-Regular,Menlo,monospace`;
         ctx.fillStyle=`rgba(255,255,255,${alpha})`;
         ctx.fillText(p.digit,x,y);
       }
