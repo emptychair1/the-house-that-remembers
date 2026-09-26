@@ -35,12 +35,12 @@ function build() {
   if (!img.complete || !img.naturalWidth) return;
   glyphs = [];
 
-  // V4: keep the particle assembly, but stop sampling the cover typography.
-  // The crop isolates the House art; the density model favors edges and
-  // broken interior texture instead of filling the whole source into a stamp.
-  const cell = Math.max(2.55, Math.min(3.95, W / 132));
-  const rowStep = cell * .98;
-  const font = Math.max(3.55, cell * 1.18);
+  // V5: keep the full House and bright glyphs, but stop rendering it as a
+  // solid filled sticker. Edges/roof/windows carry the form; the interior is
+  // deliberately thinned into spectral dust.
+  const cell = Math.max(2.75, Math.min(4.15, W / 124));
+  const rowStep = cell * 1.04;
+  const font = Math.max(3.7, cell * 1.16);
   const scale = Math.min(W / img.naturalWidth, H / img.naturalHeight);
   const dw = img.naturalWidth * scale;
   const dh = img.naturalHeight * scale;
@@ -66,9 +66,9 @@ function build() {
   for (let y = 0; y < off.height; y++) {
     const v = y / off.height;
 
-    // House-only band. This removes the logo/title at the top and the text at
-    // the bottom while keeping the roof, body, porch, and lower silhouette.
-    if (v < .35 || v > .88) continue;
+    // House-only band. Tight enough to kill cover title/text residue while
+    // leaving the chimney/roof and lower silhouette in the particle field.
+    if (v < .365 || v > .862) continue;
 
     for (let x = 0; x < off.width; x++) {
       const u = x / off.width;
@@ -81,31 +81,65 @@ function build() {
       const tr = lumAt(x + 1, y - 1);
       const bl = lumAt(x - 1, y + 1);
       const br = lumAt(x + 1, y + 1);
-      const local = Math.max(lum, l, r, t, b, tl, tr, bl, br);
+      const localMax = Math.max(lum, l, r, t, b, tl, tr, bl, br);
+      const localMin = Math.min(lum, l, r, t, b, tl, tr, bl, br);
       const avg = (lum + l + r + t + b + tl + tr + bl + br) / 9;
-      const edge = Math.max(Math.abs(r - l), Math.abs(b - t), Math.abs(br - tl), Math.abs(bl - tr));
+      const edge = Math.max(
+        localMax - localMin,
+        Math.abs(r - l),
+        Math.abs(b - t),
+        Math.abs(br - tl),
+        Math.abs(bl - tr)
+      );
 
-      // Soft spatial guard against leftover cover-border debris. It is wide
-      // enough to keep the house asymmetry, but trims far-out flecks.
-      const cx = Math.abs(u - .52);
-      const withinHouseField = cx < .43 || (v > .50 && v < .82 && cx < .49);
-      if (!withinHouseField) continue;
+      // Spatial guard trims stray bands/flecks, but keeps the asymmetric left
+      // roof/porch character and the broader right body.
+      const cx = Math.abs(u - .53);
+      const inCore = cx < .37;
+      const inLowerWide = v > .55 && v < .80 && cx < .47;
+      const inLeftRoof = v < .56 && u > .16 && u < .61;
+      const inRightBody = v > .48 && v < .83 && u > .39 && u < .92;
+      if (!(inCore || inLowerWide || inLeftRoof || inRightBody)) continue;
 
-      // Keep high-detail edges, then lace the interior with a controlled dither.
-      // This lands between v2's sparse ghost and v3's solid glyph brick.
-      const source = Math.max(local, avg * 1.15);
-      const edgeKeep = edge > .022 && local > .018;
-      const bodyKeep = source > .035 && noise(x, y, 1) > .23;
-      const shadowKeep = source > .018 && noise(x, y, 2) > .66;
-      const roofBoost = v < .50 && source > .014 && noise(x, y, 3) > .50;
-      const lowerBoost = v > .76 && source > .02 && noise(x, y, 4) > .48;
-      if (!(edgeKeep || bodyKeep || shadowKeep || roofBoost || lowerBoost)) continue;
+      const source = Math.max(localMax, avg * 1.08);
+      if (source < .015) continue;
+
+      const roofZone = v < .51;
+      const lowerZone = v > .75;
+      const outlineish = edge > .024 && source > .016;
+      const detailish = edge > .014 && source > .022;
+      const interior = !outlineish && !detailish;
+
+      // Dense on contours/detail. Thinned in flat interior, so the House is
+      // complete but airy instead of a packed silhouette.
+      let keep = false;
+      let role = 'interior';
+      if (outlineish) {
+        keep = true;
+        role = 'edge';
+      } else if (detailish) {
+        keep = noise(x, y, 1) > .16;
+        role = 'detail';
+      } else if (source > .050) {
+        keep = noise(x, y, 2) > .58;
+      } else if (source > .028) {
+        keep = noise(x, y, 3) > .72;
+      } else if ((roofZone || lowerZone) && source > .018) {
+        keep = noise(x, y, 4) > .78;
+      }
+      if (!keep) continue;
+
+      // Cull isolated residual title/text rows: long horizontal bands with very
+      // little local vertical contrast are usually cover typography, not House.
+      const bandLike = edge < .020 && Math.abs(l - r) < .010 && Math.abs(t - b) < .007;
+      if (bandLike && (v < .44 || v > .80) && noise(x, y, 9) < .82) continue;
 
       const tx = ox + (x + .5) * cell;
       const ty = oy + (y + .5) * rowStep;
       const ang = hash(x, y, 5) * Math.PI * 2;
       const rad = Math.max(W, H) * (.18 + hash(x, y, 6) * .84);
-      const strength = clamp(.52 + Math.pow(source, .28) * .82 + edge * 1.8, .45, 1);
+      const roleBoost = role === 'edge' ? .27 : role === 'detail' ? .13 : 0;
+      const strength = clamp(.46 + Math.pow(source, .30) * .72 + edge * 1.55 + roleBoost, .38, 1);
 
       glyphs.push({
         tx,
@@ -129,7 +163,7 @@ function lightning(t) {
   if (!a) return;
   ctx.save();
   ctx.globalCompositeOperation = 'screen';
-  ctx.fillStyle = `rgba(255,255,255,${a * .16})`;
+  ctx.fillStyle = `rgba(255,255,255,${a * .14})`;
   ctx.fillRect(0, 0, W, H);
   ctx.restore();
 }
@@ -152,12 +186,12 @@ function frame(ts) {
     const alive = p > .985 ? Math.sin(t * .9 + g.phase) * .16 : 0;
     const x = g.x + (g.tx - g.x) * p + alive;
     const y = g.y + (g.ty - g.y) * p + alive * .45;
-    const alpha = clamp((.58 + .48 * p) * g.lum, .34, 1);
+    const alpha = clamp((.52 + .46 * p) * g.lum, .26, .96);
 
-    ctx.font = `380 ${g.font}px ui-monospace,SFMono-Regular,Menlo,monospace`;
+    ctx.font = `360 ${g.font}px ui-monospace,SFMono-Regular,Menlo,monospace`;
     ctx.fillStyle = `rgba(255,255,255,${alpha})`;
-    ctx.shadowColor = 'rgba(255,255,255,.22)';
-    ctx.shadowBlur = .65;
+    ctx.shadowColor = 'rgba(255,255,255,.18)';
+    ctx.shadowBlur = .45;
     ctx.fillText(g.ch, x, y);
     ctx.shadowBlur = 0;
   }
