@@ -12,7 +12,8 @@ const artifactDir = path.join(rootDir, '.render-check');
 const strictBook = process.env.STRICT_BOOK === '1';
 const expectTapAdvances = process.env.EXPECT_TAP_ADVANCES === '1';
 const requestedUrl = process.env.BOOK_URL || '';
-const expectedBuild = process.env.EXPECT_BUILD || 'BOOK CLEAN SURFACE v1';
+const expectedBuild = process.env.EXPECT_BUILD || 'BOOK FOREWORD v2';
+const expectedPageCount = String(process.env.EXPECT_PAGE_COUNT || '32');
 
 const mime = {
   '.html': 'text/html; charset=utf-8',
@@ -130,7 +131,7 @@ async function snapshot(page) {
       overflowY: getComputedStyle(el).overflowY,
       scrollHeight: el.scrollHeight,
       clientHeight: el.clientHeight,
-      text: (el.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 240)
+      text: (el.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 260)
     }));
 
     const visibleScrollables = all
@@ -232,7 +233,7 @@ async function main() {
     });
     const page = await context.newPage();
     const consoleLines = [];
-    page.on('console', msg => consoleLines.push({ type: msg.type(), text: msg.text() }).slice(-60));
+    page.on('console', msg => consoleLines.push({ type: msg.type(), text: msg.text() }).slice(-80));
 
     console.log(`Opening ${url}`);
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 25000 });
@@ -268,8 +269,8 @@ async function main() {
     assert(checks, before.markers.includes(expectedBuild), 'visible build marker matches expected build', { expectedBuild, markers: before.markers });
     assert(checks, before.facts.build === expectedBuild, 'render facts expose expected build', before.facts);
     assert(checks, before.facts.surface === 'root-pwa', 'render facts identify root PWA surface', before.facts);
-    assert(checks, before.facts.pageCount === '2', 'clean surface exposes exactly two intentional pages', before.facts);
-    assert(checks, before.bookPages.length === 2, 'DOM contains exactly two .book-page elements', before.bookPages.map(p => ({ dataPage: p.dataPage, text: p.text })));
+    assert(checks, before.facts.pageCount === expectedPageCount, 'clean surface exposes expected page count', { expectedPageCount, facts: before.facts });
+    assert(checks, before.bookPages.length === Number(expectedPageCount), 'DOM contains expected .book-page count', { expectedPageCount, actual: before.bookPages.length });
     assert(checks, before.flipEngine === 'stpageflip' || !strictBook, 'StPageFlip initialized in strict mode', { flipEngine: before.flipEngine });
     assert(checks, before.document.htmlOverflowY === 'hidden' && before.document.bodyOverflowY === 'hidden', 'html/body vertical overflow is hidden', before.document);
     assert(checks, before.document.htmlScrollHeight <= before.viewport.innerHeight + 8, 'document is not taller than viewport', before.document);
@@ -300,6 +301,7 @@ async function main() {
       strictBook,
       expectTapAdvances,
       expectedBuild,
+      expectedPageCount,
       artifacts: {
         beforeScreenshot: path.relative(rootDir, beforePath),
         afterRightTapScreenshot: '.render-check/iphone-after-right-tap.png',
@@ -322,7 +324,7 @@ async function main() {
       facts: before.facts,
       flipEngine: before.flipEngine,
       bookPages: before.bookPages.length,
-      visiblePages: before.visiblePages.map(p => ({ dataPage: p.dataPage, text: p.text })),
+      visiblePages: before.visiblePages.slice(0, 6).map(p => ({ dataPage: p.dataPage, text: p.text })),
       scrollHeight: before.document.htmlScrollHeight,
       visibleScrollables: before.visibleScrollables.length,
       afterRightTapPage: afterRightTap && !afterRightTap.interactionError ? (afterRightTap.facts.currentPage || afterRightTap.htmlBookPage) : afterRightTap
