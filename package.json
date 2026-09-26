@@ -1,0 +1,11 @@
+{
+  "name": "the-house-that-remembers-render-check",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check:render": "node tools/render-check.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.49.1"
+  }
+}
