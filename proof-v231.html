@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-store, max-age=0">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>CodePen VOID Strobe Proof v234</title>
+<title>Question / VOID Strobe Proof v235</title>
 <style>
 html,body{
   margin:0;
@@ -44,26 +44,46 @@ body{
   width:100vw;
   height:100vh;
   display:flex;
+  flex-direction:column;
   justify-content:center;
   align-items:center;
+  gap:clamp(1.0rem,4.5vh,3.4rem);
   overflow:hidden;
   background:#000;
 }
-.strobe-text{
+.question-text,.void-text{
   margin:0;
   max-width:96vw;
-  color:#fff;
   font-family:'Arial',sans-serif;
-  font-size:min(26vw,34vh);
   font-weight:700;
   line-height:.82;
-  letter-spacing:-.04em;
   text-align:center;
   white-space:nowrap;
   text-transform:uppercase;
-  animation:strobe-light .1s infinite;
 }
-@keyframes strobe-light{
+.question-text{
+  color:#f4f4f4;
+  font-size:min(12vw,15vh);
+  letter-spacing:-.02em;
+  animation:question-strobe .1s infinite;
+}
+.void-text{
+  color:#fff;
+  font-size:min(26vw,34vh);
+  letter-spacing:-.04em;
+  animation:void-strobe .1s infinite;
+}
+@keyframes question-strobe{
+  0%,100%{
+    color:#f4f4f4;
+    text-shadow:0 0 10px #f4f4f4,0 0 20px #e8e8e8,0 0 30px #d6d6d6,0 0 40px #ffffff;
+  }
+  50%{
+    color:transparent;
+    text-shadow:0 0 5px #000,0 0 10px #000;
+  }
+}
+@keyframes void-strobe{
   0%,100%{
     color:#fff;
     text-shadow:0 0 10px #fff,0 0 20px #00d4ff,0 0 30px #ff005e,0 0 40px #ff8c00;
@@ -76,10 +96,11 @@ body{
 </style>
 </head>
 <body>
-<div class="badge">PROOF v234 CODEPEN VOID</div>
-<div class="status">Arial · 0.1s · CodePen colors</div>
+<div class="badge">PROOF v235 QUESTION / VOID</div>
+<div class="status">Arial · 0.1s · question grayscale</div>
 <div class="strobe-container">
-  <h1 class="strobe-text">VOID</h1>
+  <h2 class="question-text">WHO AM I?</h2>
+  <h1 class="void-text">VOID</h1>
 </div>
 </body>
 </html>
