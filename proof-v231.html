@@ -7,13 +7,20 @@
 <meta http-equiv="Cache-Control" content="no-store, max-age=0">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Void Resolve Harness v232D</title>
+<title>Rubik Stack Opening Proof v233</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
 <style>
 :root{
-  --strobe-cycle:.1s;
-  --resolve-duration:12s;
-  --void-font:clamp(7.9rem,34vw,32rem);
-  --void-letter-spacing:-.09em;
+  --open-duration:5.8s;
+  --the-start-y:0rem;
+  --void-start-y:-.18rem;
+  --the-end-y:-3.25rem;
+  --void-end-y:3.25rem;
+  --the-size:clamp(1.3rem,7.8vw,4.4rem);
+  --void-size:clamp(3.9rem,19vw,11rem);
+  --letter-space:.04em;
 }
 html,body{
   margin:0;
@@ -21,7 +28,7 @@ html,body{
   height:100%;
   overflow:hidden;
   background:#000;
-  color:#fff;
+  color:#f6f6f6;
   touch-action:none;
   -webkit-user-select:none;
   user-select:none;
@@ -40,9 +47,9 @@ html,body{
   left:10px;
   top:calc(env(safe-area-inset-top) + 10px);
   z-index:30;
-  color:rgba(255,255,255,.48);
+  color:rgba(255,255,255,.46);
   background:rgba(0,0,0,.66);
-  border:1px solid rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.14);
   padding:4px 6px;
   font:700 8px/1.15 ui-monospace,SFMono-Regular,Menlo,monospace;
   letter-spacing:.12em;
@@ -54,9 +61,9 @@ html,body{
   right:10px;
   top:calc(env(safe-area-inset-top) + 10px);
   z-index:30;
-  color:rgba(255,255,255,.40);
+  color:rgba(255,255,255,.38);
   background:rgba(0,0,0,.52);
-  border:1px solid rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.10);
   border-radius:999px;
   padding:4px 7px;
   font:700 8px/1.15 ui-monospace,SFMono-Regular,Menlo,monospace;
@@ -64,134 +71,88 @@ html,body{
   text-transform:uppercase;
   pointer-events:none;
 }
-.void-stack{
+.title-stack{
   position:absolute;
   left:50%;
   top:50%;
-  width:160vw;
-  height:60vh;
+  width:100vw;
+  height:70vh;
+  transform:translate(-50%,-50%);
   display:grid;
   place-items:center;
-  transform:translate(-50%,-50%) scale(6.2);
-  transform-origin:center center;
-  animation:voidResolve var(--resolve-duration) cubic-bezier(.11,.82,.08,1) forwards;
-  will-change:transform,filter;
-}
-.void-face,
-.void-light,
-.void-halo{
-  position:absolute;
-  inset:0;
-  display:grid;
-  place-items:center;
-  font:900 var(--void-font)/.78 Impact,'Arial Black',Anton,sans-serif;
-  letter-spacing:var(--void-letter-spacing);
+  text-align:center;
+  font-family:'Rubik Mono One', ui-monospace, SFMono-Regular, Menlo, monospace;
   text-transform:uppercase;
-  white-space:nowrap;
-  transform:translateZ(0);
 }
-.void-face{
-  z-index:4;
-  color:#000;
-  opacity:1;
-  text-shadow:none;
-  animation:voidBlackFace var(--strobe-cycle) infinite steps(1,end);
-}
-.void-light{
-  z-index:2;
-  color:rgba(255,255,255,.88);
-  filter:blur(.86rem);
-  opacity:.58;
-  transform:translateZ(0) scale(1.018);
-  text-shadow:
-    0 0 12px rgba(255,255,255,.88),
-    0 0 26px rgba(223,243,255,.76),
-    0 0 44px rgba(180,214,255,.56),
-    0 0 70px rgba(255,255,255,.34);
-  animation:voidLetterLight var(--strobe-cycle) infinite steps(1,end);
-}
-.void-halo{
-  z-index:1;
-  color:rgba(255,255,255,.22);
-  filter:blur(2.6rem);
-  opacity:.20;
-  transform:translateZ(0) scale(1.05);
-  animation:voidHalo var(--strobe-cycle) infinite steps(1,end);
-}
-.void-core{
+.word{
   position:absolute;
-  inset:-30vh -46vw;
-  z-index:0;
-  background:radial-gradient(ellipse at center,rgba(245,250,255,.13) 0%,rgba(196,220,240,.042) 20%,rgba(0,0,0,0) 50%);
-  opacity:.08;
-  animation:voidCoreStrobe var(--strobe-cycle) infinite steps(1,end);
+  left:50%;
+  top:50%;
+  margin:0;
+  transform:translate(-50%,-50%);
+  white-space:nowrap;
+  font-weight:400;
+  letter-spacing:var(--letter-space);
+  line-height:.86;
+  color:rgba(246,246,246,.94);
+  text-shadow:0 0 .22rem rgba(255,255,255,.18);
+  will-change:transform;
 }
-.floor-black{
-  position:fixed;
-  inset:0;
-  z-index:10;
+.word.the{
+  font-size:var(--the-size);
+  transform:translate(-50%,calc(-50% + var(--the-start-y)));
+  animation:theOpen var(--open-duration) cubic-bezier(.18,.86,.12,1) forwards;
+}
+.word.void{
+  font-size:var(--void-size);
+  transform:translate(-50%,calc(-50% + var(--void-start-y)));
+  animation:voidOpen var(--open-duration) cubic-bezier(.18,.86,.12,1) forwards;
+}
+.guide{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:min(82vw,34rem);
+  height:clamp(2.4rem,12vw,6.2rem);
+  transform:translate(-50%,-50%);
+  border-top:1px solid rgba(255,255,255,.09);
+  border-bottom:1px solid rgba(255,255,255,.09);
+  opacity:.28;
   pointer-events:none;
-  background:radial-gradient(ellipse at center,rgba(0,0,0,0) 0%,rgba(0,0,0,.08) 40%,rgba(0,0,0,.34) 72%,rgba(0,0,0,.52) 100%);
 }
-@keyframes voidResolve{
-  0%{
-    transform:translate(-50%,-50%) scale(6.2);
-    filter:blur(.02rem) contrast(1.18);
-  }
-  18%{
-    transform:translate(-50%,-50%) scale(5.4);
-    filter:blur(.03rem) contrast(1.15);
-  }
-  42%{
-    transform:translate(-50%,-50%) scale(3.25);
-    filter:blur(.04rem) contrast(1.08);
-  }
-  72%{
-    transform:translate(-50%,-50%) scale(1.65);
-    filter:blur(.03rem) contrast(1.04);
-  }
-  100%{
-    transform:translate(-50%,-50%) scale(1);
-    filter:blur(0) contrast(1);
-  }
+.guide::after{
+  content:'QUESTION SPACE';
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  color:rgba(255,255,255,.18);
+  font:700 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.18em;
 }
-@keyframes voidBlackFace{
-  0%,100%{opacity:1;color:#000}
-  50%{opacity:.02;color:#000}
+@keyframes theOpen{
+  0%{transform:translate(-50%,calc(-50% + var(--the-start-y)))}
+  100%{transform:translate(-50%,calc(-50% + var(--the-end-y)))}
 }
-@keyframes voidLetterLight{
-  0%,100%{opacity:.58}
-  50%{opacity:0}
-}
-@keyframes voidHalo{
-  0%,100%{opacity:.20}
-  50%{opacity:0}
-}
-@keyframes voidCoreStrobe{
-  0%,100%{opacity:.08}
-  50%{opacity:.004}
+@keyframes voidOpen{
+  0%{transform:translate(-50%,calc(-50% + var(--void-start-y)))}
+  100%{transform:translate(-50%,calc(-50% + var(--void-end-y)))}
 }
 @media (prefers-reduced-motion:reduce){
-  .void-stack{animation:none;transform:translate(-50%,-50%) scale(1)}
-  .void-face,.void-light,.void-halo,.void-core{animation:none!important}
-  .void-face{opacity:1;color:#000}
-  .void-light{opacity:.38}
-  .void-halo{opacity:.16}
-  .void-core{opacity:.04}
+  .word.the{animation:none;transform:translate(-50%,calc(-50% + var(--the-end-y)))}
+  .word.void{animation:none;transform:translate(-50%,calc(-50% + var(--void-end-y)))}
 }
 </style>
 </head>
 <body>
-<main id="scene" class="scene" aria-label="Void resolve test">
-  <div class="badge">PROOF v232D VOID RESOLVE</div>
-  <div class="status">12s · 0.1s strobe</div>
-  <section class="void-stack" aria-hidden="true">
-    <div class="void-core"></div>
-    <div class="void-halo">THE VOID</div>
-    <div class="void-light">THE VOID</div>
-    <div class="void-face">THE VOID</div>
+<main class="scene" aria-label="Rubik Mono One title opening proof">
+  <div class="badge">PROOF v233 RUBIK STACK OPEN</div>
+  <div class="status">title split only</div>
+  <section class="title-stack" aria-hidden="true">
+    <p class="word the">THE</p>
+    <div class="guide"></div>
+    <p class="word void">VOID</p>
   </section>
-  <div class="floor-black"></div>
 </main>
 </body>
 </html>
