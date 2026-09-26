@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-store, max-age=0">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Rubik Stack Split Harness v233A</title>
+<title>Rubik Equal Width Stack Split v233B</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
@@ -15,10 +15,10 @@
 :root{
   --split-duration:6.5s;
   --strobe-cycle:1s;
-  --the-size:clamp(1.55rem,8.5vw,5.6rem);
-  --void-size:clamp(3.95rem,19.5vw,13.2rem);
-  --the-start:-5.9rem;
-  --void-start:2.35rem;
+  --block-width:min(88vw,34rem);
+  --word-size:clamp(3.35rem,16vw,9.5rem);
+  --the-start:-4.8rem;
+  --void-start:2.55rem;
   --the-end:-18vh;
   --void-end:16vh;
 }
@@ -66,35 +66,30 @@ html,body{
   position:absolute;
   left:50%;
   top:50%;
-  width:100vw;
+  width:var(--block-width);
   height:1em;
   display:grid;
   place-items:center;
   transform:translate(-50%,-50%);
   text-align:center;
   font-family:'Rubik Mono One',ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:var(--word-size);
   font-weight:400;
-  letter-spacing:.02em;
   text-transform:uppercase;
   white-space:nowrap;
   line-height:.82;
   transform-origin:center center;
   will-change:transform;
 }
-.word.the{
-  font-size:var(--the-size);
-  animation:splitThe var(--split-duration) cubic-bezier(.18,.78,.16,1) forwards;
-}
-.word.void{
-  font-size:var(--void-size);
-  letter-spacing:.035em;
-  animation:splitVoid var(--split-duration) cubic-bezier(.18,.78,.16,1) forwards;
-}
-.word .light,.word .face,.word .halo{
+.word.the{animation:splitThe var(--split-duration) cubic-bezier(.18,.78,.16,1) forwards}
+.word.void{animation:splitVoid var(--split-duration) cubic-bezier(.18,.78,.16,1) forwards}
+.word .layer{
   position:absolute;
   inset:0;
-  display:grid;
-  place-items:center;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  width:100%;
 }
 .word .face{
   z-index:3;
@@ -105,19 +100,19 @@ html,body{
 }
 .word .light{
   z-index:2;
-  color:rgba(255,255,255,.88);
+  color:rgba(255,255,255,.96);
   filter:blur(.18em);
-  opacity:.46;
+  opacity:.50;
   transform:scale(1.018);
   text-shadow:
-    0 0 .10em rgba(255,255,255,.90),
-    0 0 .24em rgba(224,242,255,.72),
-    0 0 .50em rgba(190,220,255,.46);
+    0 0 .10em rgba(255,255,255,.98),
+    0 0 .24em rgba(255,255,255,.82),
+    0 0 .50em rgba(255,255,255,.54);
   animation:titleLight var(--strobe-cycle) infinite steps(1,end);
 }
 .word .halo{
   z-index:1;
-  color:rgba(255,255,255,.20);
+  color:rgba(255,255,255,.24);
   filter:blur(.46em);
   opacity:.16;
   transform:scale(1.05);
@@ -127,8 +122,8 @@ html,body{
   position:absolute;
   left:50%;
   top:50%;
-  width:min(84vw,28rem);
-  height:clamp(2.3rem,10vh,6.4rem);
+  width:var(--block-width);
+  height:clamp(2.4rem,10vh,6.4rem);
   transform:translate(-50%,-50%);
   border-top:1px solid rgba(255,255,255,.07);
   border-bottom:1px solid rgba(255,255,255,.07);
@@ -148,7 +143,7 @@ html,body{
   50%{opacity:.08;color:#000}
 }
 @keyframes titleLight{
-  0%,100%{opacity:.46}
+  0%,100%{opacity:.50}
   50%{opacity:0}
 }
 @keyframes titleHalo{
@@ -164,20 +159,28 @@ html,body{
   .word.void{animation:none;transform:translate(-50%,calc(-50% + var(--void-end)))}
   .word .face,.word .light,.word .halo,.guide-gap{animation:none!important}
   .word .face{opacity:1;color:#000}
-  .word .light{opacity:.34}
+  .word .light{opacity:.36}
   .word .halo{opacity:.12}
   .guide-gap{opacity:.22}
 }
 </style>
 </head>
 <body>
-<main class="scene" aria-label="Rubik Mono One title split proof">
-  <div class="badge">PROOF v233A RUBIK STACK SPLIT</div>
-  <div class="status">6.5s split · 1s strobe</div>
+<main class="scene" aria-label="Rubik Mono One equal-width title split proof">
+  <div class="badge">PROOF v233B EQUAL WIDTH RUBIK</div>
+  <div class="status">6.5s split · 1s pure-white strobe</div>
   <section class="title-stage" aria-hidden="true">
     <div class="guide-gap"></div>
-    <div class="word the"><span class="halo">THE</span><span class="light">THE</span><span class="face">THE</span></div>
-    <div class="word void"><span class="halo">VOID</span><span class="light">VOID</span><span class="face">VOID</span></div>
+    <div class="word the">
+      <span class="layer halo"><span>T</span><span>H</span><span>E</span></span>
+      <span class="layer light"><span>T</span><span>H</span><span>E</span></span>
+      <span class="layer face"><span>T</span><span>H</span><span>E</span></span>
+    </div>
+    <div class="word void">
+      <span class="layer halo"><span>V</span><span>O</span><span>I</span><span>D</span></span>
+      <span class="layer light"><span>V</span><span>O</span><span>I</span><span>D</span></span>
+      <span class="layer face"><span>V</span><span>O</span><span>I</span><span>D</span></span>
+    </div>
   </section>
 </main>
 </body>
