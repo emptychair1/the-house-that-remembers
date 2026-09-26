@@ -70,7 +70,7 @@ jobs:
         env:
           STRICT_BOOK: "1"
           EXPECT_TAP_ADVANCES: "1"
-          EXPECT_BUILD: "BOOK FOREWORD v2.2.4 TRUE DROP"
+          EXPECT_BUILD: "BOOK FOREWORD v2.2.5 PRESENCE LEAVES"
           EXPECT_PAGE_COUNT: "21"
 
       - name: Render-check deployed root
@@ -80,7 +80,7 @@ jobs:
           BOOK_URL: "https://emptychair1.github.io/the-house-that-remembers/"
           STRICT_BOOK: "1"
           EXPECT_TAP_ADVANCES: "1"
-          EXPECT_BUILD: "BOOK FOREWORD v2.2.4 TRUE DROP"
+          EXPECT_BUILD: "BOOK FOREWORD v2.2.5 PRESENCE LEAVES"
           EXPECT_PAGE_COUNT: "21"
 
       - name: Upload render artifacts
