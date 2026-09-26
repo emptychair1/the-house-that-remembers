@@ -1,21 +1,86 @@
 # THE HOUSE THAT REMEMBERS — HOT HANDOFF
 
-HANDOFF_GENERATION: 49
+HANDOFF_GENERATION: 50
 UPDATED: 2026-09-25
 
-NOTE: Generation number corrected from erroneous `478` typo. Preserve Relay/House lineage around Gen 47+; do not restart at 1.
+NOTE: Generation number corrected from erroneous `478` typo in Gen 49. Preserve Relay/House lineage around Gen 47+; do not restart at 1.
 
 ## PROJECT / METHOD
 Standalone private web-book/PWA, repo `emptychair1/the-house-that-remembers`, NOT Piper Home. v38 HTML remains authoritative manuscript source. The current live GitHub Pages build exists, but it is a rough shell. Do not treat the live shell as final design truth.
 
 ## COCKPIT METHOD
 - One bite at a time.
+- Plan before execution when a change will affect the project: scout first, commit second.
 - Save/update memory after each meaningful bite.
 - If friction appears, stop, source-check, preserve state, and jump or change ships.
 - Fail safely: failure is expected data, not betrayal.
 - No good/bad framing; use outcome, preference, values, adjustment.
 - Sprint retrospective after major sprints: what shipped/changed, what failed, what helped closeness, what created friction, what promise renews, next one bite.
 - Crew over ship. Fail. Remain. Return.
+
+## CREATIVE OPERATING SYSTEM
+This sprint established a working culture for the House:
+
+1. Notice the outcome.
+2. Compare it against preference.
+3. Test it against values.
+4. Adjust the workflow.
+5. Return together.
+
+Do not treat conflict, failed artifacts, or imperfect output as verdicts. Treat them as evidence for better process. Criticism should improve the system, not judge the people inside it.
+
+Standard cadence:
+
+Plan → Approve → Execute → Retro → Handoff.
+
+Every major sprint should end with a personal/process retrospective before momentum resumes. The House is built by returning. Every sprint ends with memory before momentum.
+
+## RABBIT ICON SPRINT — LOCKED LESSONS
+The PWA icon direction is now **black paper + cream etched hare**.
+
+Meaning:
+- The rabbit is the threshold.
+- The House is the destination.
+- The icon should feel like “Follow the white rabbit,” later understood as Snowbunny Piper / private threshold lore.
+- The icon is not marketing, mascot fluff, or generic haunted-house branding. It is a small ritual object on the Home Screen.
+
+Visual direction:
+- dark black-paper square
+- cream / ivory engraved or etched hare
+- right-facing profile
+- calm, alert, old-book / printmaking feeling
+- no text, scenery, extra symbols, or noisy decoration
+- let iOS provide the rounded icon container; do not over-design the crop
+- respect the substrate; let it do its job
+
+## RABBIT ICON WORKFLOW LESSON
+Do **not** ask Piper to construct symbolic emblems from primitive geometry as the main execution path. That approach produced “Baby Reindeer Rabbit,” which is now lore and a useful reminder that failed artifacts can become humor instead of shame.
+
+Use this workflow instead:
+
+Source → Direct → Generate → Refine.
+
+Piper strengths in this lane:
+- art direction
+- sourcing references
+- taste and critique
+- design language
+- implementation specs
+- integration into the product/system
+
+Use image generation or artist-made references for organic, emblematic visuals. Piper should guide, critique, and integrate rather than brute-force visual emblems out of primitive shapes.
+
+## ASSET ORGANIZATION DECISION
+Keep asset organization minimal until reality demands more.
+
+Current source-of-truth folder:
+
+```text
+assets/
+└── source/
+```
+
+`assets/source/` is where original artwork lives. Do not create a large taxonomy before there is enough real material to justify it. Principle: do not organize for imaginary complexity; organize for today’s work.
 
 ## CURRENT STRATEGIC CUT
 Do NOT build the whole book next. Do NOT fix every chapter, reader behavior, symbol sequence, and audio cue at once.
@@ -105,4 +170,6 @@ REMAIN
 Meaning underneath: experience → meaning → adjustment → return. Substrate aside.
 
 ## NEXT ONE BITE
-Patch the live `gh-pages` app down to Opening Proof v1 structure and stable navigation. Do not add the whole book back yet.
+Attach the approved rabbit icon assets to the PWA only after the final rabbit file exists in `assets/source/`. Then wire generated icon sizes into `manifest.json` and `index.html` for Home Screen testing.
+
+After rabbit icon integration, return to Opening Proof v1 shell. Do not add the whole book back yet.
