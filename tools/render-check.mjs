@@ -1,0 +1,322 @@
+#!/usr/bin/env node
+import http from 'node:http';
+import path from 'node:path';
+import { createReadStream, existsSync } from 'node:fs';
+import { mkdir, writeFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+import { chromium, devices } from 'playwright';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const rootDir = path.resolve(__dirname, '..');
+const artifactDir = path.join(rootDir, '.render-check');
+const strictBook = process.env.STRICT_BOOK === '1';
+const expectTapAdvances = process.env.EXPECT_TAP_ADVANCES === '1';
+const requestedUrl = process.env.BOOK_URL || '';
+
+const mime = {
+  '.html': 'text/html; charset=utf-8',
+  '.css': 'text/css; charset=utf-8',
+  '.js': 'application/javascript; charset=utf-8',
+  '.mjs': 'application/javascript; charset=utf-8',
+  '.json': 'application/json; charset=utf-8',
+  '.md': 'text/markdown; charset=utf-8',
+  '.svg': 'image/svg+xml',
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.webp': 'image/webp',
+  '.mp3': 'audio/mpeg',
+  '.wav': 'audio/wav'
+};
+
+function serveFile(req, res) {
+  try {
+    const url = new URL(req.url, 'http://local-render-check.test');
+    let pathname = decodeURIComponent(url.pathname);
+    if (pathname.endsWith('/')) pathname += 'index.html';
+    const filePath = path.resolve(rootDir, `.${pathname}`);
+    if (!filePath.startsWith(rootDir)) {
+      res.writeHead(403);
+      res.end('Forbidden');
+      return;
+    }
+    if (!existsSync(filePath)) {
+      res.writeHead(404);
+      res.end(`Not found: ${pathname}`);
+      return;
+    }
+    const ext = path.extname(filePath).toLowerCase();
+    res.writeHead(200, {
+      'content-type': mime[ext] || 'application/octet-stream',
+      'cache-control': 'no-store, max-age=0'
+    });
+    createReadStream(filePath).pipe(res);
+  } catch (err) {
+    res.writeHead(500);
+    res.end(String(err?.stack || err));
+  }
+}
+
+function startServer() {
+  return new Promise(resolve => {
+    const server = http.createServer(serveFile);
+    server.listen(0, '127.0.0.1', () => {
+      const { port } = server.address();
+      resolve({ server, port });
+    });
+  });
+}
+
+function addCacheBuster(url) {
+  const u = new URL(url);
+  u.searchParams.set('renderCheck', String(Date.now()));
+  return u.toString();
+}
+
+function assert(checks, ok, message, details = {}) {
+  checks.push({ ok: Boolean(ok), message, details });
+}
+
+function summarizeChecks(checks) {
+  const failed = checks.filter(c => !c.ok);
+  const passed = checks.length - failed.length;
+  console.log(`\nRender check: ${passed}/${checks.length} checks passed`);
+  for (const c of checks) {
+    const mark = c.ok ? '✓' : '✗';
+    console.log(`${mark} ${c.message}`);
+    if (!c.ok && Object.keys(c.details || {}).length) {
+      console.log(`  ${JSON.stringify(c.details, null, 2)}`);
+    }
+  }
+  return failed;
+}
+
+async function snapshot(page) {
+  return page.evaluate(() => {
+    const vv = window.visualViewport;
+    const html = document.documentElement;
+    const body = document.body;
+    const reader = document.getElementById('reader');
+    const all = [...document.querySelectorAll('*')];
+
+    const rectOf = el => {
+      if (!el) return null;
+      const r = el.getBoundingClientRect();
+      return {
+        top: Math.round(r.top * 100) / 100,
+        left: Math.round(r.left * 100) / 100,
+        width: Math.round(r.width * 100) / 100,
+        height: Math.round(r.height * 100) / 100,
+        bottom: Math.round(r.bottom * 100) / 100,
+        right: Math.round(r.right * 100) / 100
+      };
+    };
+
+    const isVisible = el => {
+      if (!el) return false;
+      const cs = getComputedStyle(el);
+      const r = el.getBoundingClientRect();
+      return cs.display !== 'none' && cs.visibility !== 'hidden' && Number(cs.opacity || 1) !== 0 && r.width > 0 && r.height > 0 && r.bottom > 0 && r.right > 0 && r.top < innerHeight && r.left < innerWidth;
+    };
+
+    const units = [...document.querySelectorAll('.unit')].map((el, index) => ({
+      index,
+      className: el.className,
+      active: el.classList.contains('active'),
+      visible: isVisible(el),
+      rect: rectOf(el),
+      overflowY: getComputedStyle(el).overflowY,
+      scrollHeight: el.scrollHeight,
+      clientHeight: el.clientHeight,
+      text: (el.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 220)
+    }));
+
+    const visibleScrollables = all
+      .filter(el => {
+        if (!isVisible(el)) return false;
+        const cs = getComputedStyle(el);
+        return /(auto|scroll)/.test(cs.overflowY) && el.scrollHeight > el.clientHeight + 4;
+      })
+      .slice(0, 20)
+      .map(el => ({
+        tag: el.tagName.toLowerCase(),
+        id: el.id || '',
+        className: String(el.className || ''),
+        overflowY: getComputedStyle(el).overflowY,
+        scrollHeight: el.scrollHeight,
+        clientHeight: el.clientHeight,
+        rect: rectOf(el),
+        text: (el.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 140)
+      }));
+
+    const markers = [...document.querySelectorAll('.build-marker, [data-build], .debug-marker, .version-marker')]
+      .filter(isVisible)
+      .map(el => (el.innerText || el.getAttribute('data-build') || '').trim())
+      .filter(Boolean);
+
+    const visibleText = units.filter(u => u.visible).map(u => u.text).join(' | ');
+    const activeUnit = units.find(u => u.active) || units.find(u => u.visible) || null;
+
+    return {
+      href: location.href,
+      title: document.title,
+      viewport: {
+        innerWidth,
+        innerHeight,
+        devicePixelRatio,
+        visualWidth: vv ? Math.round(vv.width * 100) / 100 : null,
+        visualHeight: vv ? Math.round(vv.height * 100) / 100 : null
+      },
+      document: {
+        scrollX,
+        scrollY,
+        htmlClientHeight: html.clientHeight,
+        htmlScrollHeight: html.scrollHeight,
+        bodyClientHeight: body.clientHeight,
+        bodyScrollHeight: body.scrollHeight,
+        htmlOverflowY: getComputedStyle(html).overflowY,
+        bodyOverflowY: getComputedStyle(body).overflowY,
+        bodyPosition: getComputedStyle(body).position
+      },
+      reader: reader ? {
+        exists: true,
+        rect: rectOf(reader),
+        overflowY: getComputedStyle(reader).overflowY,
+        position: getComputedStyle(reader).position,
+        scrollHeight: reader.scrollHeight,
+        clientHeight: reader.clientHeight
+      } : { exists: false },
+      units,
+      activeUnit,
+      visibleUnits: units.filter(u => u.visible),
+      visibleScrollables,
+      markers,
+      visibleText,
+      forbiddenVisibleText: ['FLAT v2', 'PORTRAIT ASSET', 'One thing at a time', 'THE VOID']
+        .filter(term => visibleText.includes(term)),
+      fullTextHasOldScaffold: strictBook
+        ? ['PORTRAIT ASSET', 'One thing at a time', 'THE VOID', 'DEUS EX MACHINA'].filter(term => document.body.innerText.includes(term))
+        : []
+    };
+  });
+}
+
+async function main() {
+  await mkdir(artifactDir, { recursive: true });
+  let server;
+  let url = requestedUrl;
+  if (!url) {
+    const local = await startServer();
+    server = local.server;
+    url = `http://127.0.0.1:${local.port}/`;
+  }
+  url = addCacheBuster(url);
+
+  const browser = await chromium.launch({ headless: true });
+  try {
+    const iPhone = devices['iPhone 14 Pro'] || {
+      viewport: { width: 393, height: 852 },
+      deviceScaleFactor: 3,
+      isMobile: true,
+      hasTouch: true,
+      defaultBrowserType: 'webkit'
+    };
+    const context = await browser.newContext({
+      ...iPhone,
+      reducedMotion: 'reduce',
+      ignoreHTTPSErrors: true
+    });
+    const page = await context.newPage();
+
+    console.log(`Opening ${url}`);
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 20000 });
+    await page.waitForLoadState('networkidle', { timeout: 7000 }).catch(() => {});
+    await page.waitForTimeout(1200);
+
+    const before = await snapshot(page);
+
+    await page.evaluate(() => window.scrollTo(0, 160));
+    await page.waitForTimeout(120);
+    const afterForcedScroll = await snapshot(page);
+
+    let afterRightTap = null;
+    let afterLeftTap = null;
+    try {
+      await page.touchscreen.tap(Math.round(before.viewport.innerWidth * 0.86), Math.round(before.viewport.innerHeight * 0.52));
+      await page.waitForTimeout(500);
+      afterRightTap = await snapshot(page);
+      await page.touchscreen.tap(Math.round(before.viewport.innerWidth * 0.14), Math.round(before.viewport.innerHeight * 0.52));
+      await page.waitForTimeout(500);
+      afterLeftTap = await snapshot(page);
+    } catch (err) {
+      afterRightTap = { interactionError: String(err?.message || err) };
+    }
+
+    const screenshotPath = path.join(artifactDir, 'iphone-render.png');
+    await page.screenshot({ path: screenshotPath, fullPage: false });
+
+    const checks = [];
+    assert(checks, before.reader.exists, 'reader element exists');
+    assert(checks, before.document.htmlOverflowY === 'hidden' && before.document.bodyOverflowY === 'hidden', 'html/body vertical overflow is hidden', before.document);
+    assert(checks, Math.abs(before.document.htmlScrollHeight - before.viewport.innerHeight) <= 6 || before.document.htmlScrollHeight <= before.viewport.innerHeight + 6, 'document is not taller than viewport', before.document);
+    assert(checks, afterForcedScroll.document.scrollY === 0, 'forced window scroll remains locked at 0', { scrollY: afterForcedScroll.document.scrollY });
+    assert(checks, before.reader.exists && before.reader.rect && Math.abs(before.reader.rect.height - before.viewport.innerHeight) <= 8, 'reader height matches viewport', before.reader);
+    assert(checks, before.visibleUnits.length <= 1, 'at most one top-level .unit is visible', before.visibleUnits.map(u => ({ index: u.index, className: u.className, text: u.text })));
+    assert(checks, before.visibleScrollables.length === 0, 'no visible nested scroll containers', before.visibleScrollables);
+    assert(checks, before.forbiddenVisibleText.length === 0, 'visible page does not contain old scaffold text', before.forbiddenVisibleText);
+    if (strictBook) {
+      assert(checks, before.fullTextHasOldScaffold.length === 0, 'strict mode: old scaffold text is not present anywhere in DOM', before.fullTextHasOldScaffold);
+    }
+    if (expectTapAdvances && afterRightTap && !afterRightTap.interactionError) {
+      assert(checks, afterRightTap.visibleText !== before.visibleText, 'right-edge tap changes the visible page', {
+        before: before.visibleText,
+        after: afterRightTap.visibleText
+      });
+    }
+
+    const report = {
+      generatedAt: new Date().toISOString(),
+      url,
+      strictBook,
+      expectTapAdvances,
+      screenshotPath,
+      before,
+      afterForcedScroll,
+      afterRightTap,
+      afterLeftTap,
+      checks
+    };
+    await writeFile(path.join(artifactDir, 'render-check-report.json'), JSON.stringify(report, null, 2));
+
+    console.log('\nSnapshot:');
+    console.log(JSON.stringify({
+      url: before.href,
+      viewport: before.viewport,
+      markers: before.markers,
+      activeUnit: before.activeUnit ? {
+        index: before.activeUnit.index,
+        className: before.activeUnit.className,
+        text: before.activeUnit.text
+      } : null,
+      visibleUnits: before.visibleUnits.length,
+      scrollHeight: before.document.htmlScrollHeight,
+      visibleScrollables: before.visibleScrollables.length,
+      afterRightTap: afterRightTap && !afterRightTap.interactionError ? afterRightTap.visibleText : afterRightTap
+    }, null, 2));
+
+    console.log(`\nArtifacts written to ${path.relative(rootDir, artifactDir)}/`);
+    console.log(`- ${path.relative(rootDir, screenshotPath)}`);
+    console.log(`- ${path.relative(rootDir, path.join(artifactDir, 'render-check-report.json'))}`);
+
+    const failed = summarizeChecks(checks);
+    if (failed.length) process.exitCode = 1;
+  } finally {
+    await browser.close();
+    if (server) server.close();
+  }
+}
+
+main().catch(err => {
+  console.error(err?.stack || err);
+  process.exit(1);
+});
