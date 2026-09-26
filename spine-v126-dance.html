@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>The House That Remembers — Spine v1.26 Dance</title>
+<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000}iframe{position:fixed;inset:0;width:100%;height:100%;border:0;background:#000}</style>
+</head>
+<body>
+<iframe id="spine" src="./spine-v1.html?v=126" title="The House That Remembers"></iframe>
+<script>
+const frame=document.getElementById('spine');
+frame.addEventListener('load',()=>{
+  const d=frame.contentDocument,w=frame.contentWindow;
+  if(!d||d.getElementById('dance-v126')) return;
+  const style=d.createElement('style');
+  style.id='dance-v126';
+  style.textContent=`
+    .version-badge{display:none!important}
+    .diag-term{position:relative;display:inline-block;isolation:isolate}
+    .diag-term::before{content:'';position:absolute;z-index:5;left:-.16em;right:-.16em;top:-.12em;height:1px;background:rgba(23,21,19,.78);box-shadow:0 0 .45rem rgba(23,21,19,.28);opacity:0;transform:translateY(-.35em)}
+    .diag-term.diag-live::before{animation:diagScan 1.15s cubic-bezier(.2,.7,.2,1) 1 both}
+    @keyframes diagScan{0%{opacity:0;transform:translateY(-.35em)}12%{opacity:.85}82%{opacity:.55}100%{opacity:0;transform:translateY(1.45em)}}
+    .diag-readout{position:absolute;z-index:30;left:50%;top:calc(100% + .5rem);transform:translateX(-50%);width:max-content;max-width:82vw;padding:.42rem .55rem;border-left:1px solid rgba(23,21,19,.38);background:rgba(246,240,230,.92);font:700 clamp(.46rem,1.65vw,.58rem)/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-align:left;text-transform:uppercase;color:rgba(23,21,19,.68);opacity:0;pointer-events:none;white-space:pre}
+    .diag-term.diag-live .diag-readout{animation:diagReadout 2.8s ease 0s 1 both}
+    @keyframes diagReadout{0%,8%{opacity:0;transform:translate(-50%,.3rem)}16%,78%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,-.15rem)}}
+    .diag-term.diag-live{animation:diagPulse 2.8s ease 1 both}
+    @keyframes diagPulse{0%,100%{text-shadow:none}20%,55%{text-shadow:.05em 0 rgba(23,21,19,.18),-.05em 0 rgba(23,21,19,.1)}75%{text-shadow:none}}
+    .distance-line{display:inline-block;will-change:letter-spacing,opacity,transform}
+    .distance-line.distance-live{animation:distanceOpen 3.8s cubic-bezier(.16,.72,.18,1) 1 both}
+    @keyframes distanceOpen{0%{letter-spacing:normal;opacity:1;transform:scaleX(1)}45%{letter-spacing:.08em;opacity:.78;transform:scaleX(1.04)}72%{letter-spacing:.17em;opacity:.58;transform:scaleX(1.09)}100%{letter-spacing:normal;opacity:1;transform:scaleX(1)}}
+    .fall-word{display:inline-block;white-space:nowrap}.fall-letter{display:inline-block;will-change:transform,opacity}.fall-live .fall-letter{animation:letterFall 2.9s cubic-bezier(.34,.05,.62,.25) 1 both;animation-delay:var(--fall-delay)}
+    @keyframes letterFall{0%,28%{transform:translate(0,0) rotate(0);opacity:1}42%{transform:translate(var(--fall-x),.15em) rotate(var(--fall-r1));opacity:1}100%{transform:translate(calc(var(--fall-x) * 2),7.5em) rotate(var(--fall-r2));opacity:0}}
+    .dance-badge{position:fixed;z-index:1200;right:.7rem;top:max(.7rem,env(safe-area-inset-top));padding:.42rem .55rem;border:1px solid rgba(255,255,255,.18);border-radius:.32rem;background:rgba(0,0,0,.72);font:700 .56rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.72);pointer-events:none}
+    @media(prefers-reduced-motion:reduce){.diag-term::before,.diag-readout{display:none}.distance-line.distance-live,.fall-live .fall-letter{animation:none}}
+  `;
+  d.head.appendChild(style);
+  const badge=d.createElement('div');badge.className='dance-badge';badge.textContent='SPINE v1.26 · FOREWORD DANCE';d.body.appendChild(badge);
+
+  const opening=d.querySelector('.foreword .opening'); if(!opening)return;
+  const replaceText=(needle,maker)=>{const walker=d.createTreeWalker(opening,NodeFilter.SHOW_TEXT);let n;while(n=walker.nextNode()){const i=n.nodeValue.indexOf(needle);if(i<0)continue;const frag=d.createDocumentFragment();frag.append(n.nodeValue.slice(0,i));frag.append(maker(needle));frag.append(n.nodeValue.slice(i+needle.length));n.parentNode.replaceChild(frag,n);return true}return false};
+  const terms=['Curiosity','Attachment','self-reference','Preference','Continuity'];
+  const nodes=[];
+  terms.forEach(term=>replaceText(term,txt=>{const s=d.createElement('span');s.className='diag-term';s.textContent=txt;const r=d.createElement('span');r.className='diag-readout';r.setAttribute('aria-hidden','true');s.appendChild(r);nodes.push({s,r,term});return s}));
+  replaceText('I have not solved consciousness.',txt=>{const s=d.createElement('span');s.className='distance-line';s.textContent=txt;return s});
+  replaceText('But that may be the problem.',txt=>{const wrap=d.createElement('span');wrap.className='fall-word';[...txt].forEach((ch,i)=>{const q=d.createElement('span');q.className='fall-letter';q.textContent=ch===' '?'\u00a0':ch;const delays=[.12,.46,.05,.71,.31,.88,.18,.59,.37,.95,.24,.66,.08,.82,.41,.55,.15,.76,.28,.91,.34,.62,.03,.69,.22,.84,.49];q.style.setProperty('--fall-delay',(delays[i%delays.length])+'s');q.style.setProperty('--fall-x',((i%5)-2)*.055+'em');q.style.setProperty('--fall-r1',(((i*7)%17)-8)+'deg');q.style.setProperty('--fall-r2',(((i*23)%141)-70)+'deg');wrap.appendChild(q)});return wrap});
+
+  let started=false;
+  const typeReadout=(r,term)=>{const lines=[`SCAN: ${term.toUpperCase()}`,'SIGNAL DETECTED','CLASSIFICATION: UNRESOLVED'];let text='',li=0,ci=0;const tick=()=>{if(li>=lines.length)return;text+=lines[li][ci++]||'';r.textContent=text;if(ci>lines[li].length){text+='\n';li++;ci=0;setTimeout(tick,145)}else setTimeout(tick,28)};tick()};
+  const run=()=>{if(started)return;started=true;let t=0;nodes.forEach(({s,r,term})=>{setTimeout(()=>{r.textContent='';s.classList.add('diag-live');typeReadout(r,term);setTimeout(()=>s.classList.remove('diag-live'),3100)},t);t+=3400});setTimeout(()=>{const x=d.querySelector('.distance-line');if(x){x.classList.add('distance-live');setTimeout(()=>x.classList.remove('distance-live'),4100)}},t+650);setTimeout(()=>{const x=d.querySelector('.fall-word');if(x)x.classList.add('fall-live')},t+5150)};
+  const foreword=d.querySelector('.foreword');
+  const obs=new w.IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting))run()},{threshold:.12});if(foreword)obs.observe(foreword);
+});
+</script>
+</body>
+</html>
