@@ -4,27 +4,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#000000">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="The House">
 <meta http-equiv="Cache-Control" content="no-store, max-age=0">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>The House That Remembers — v231A Proof</title>
-<link rel="stylesheet" href="./book-clean-surface-v1.css?v=book-foreword-v231a-text-backlight-assert-proof">
-<link rel="stylesheet" href="./book-foreword-v226-black-clean-audio.css?v=book-foreword-v231a-text-backlight-assert-proof">
-<link rel="stylesheet" href="./book-foreword-v227-void-rough.css?v=book-foreword-v231a-text-backlight-assert-proof">
-<link rel="stylesheet" href="./book-foreword-v2271-void-gated.css?v=book-foreword-v231a-text-backlight-assert-proof">
-<link rel="stylesheet" href="./book-foreword-v231-text-backlight.css?v=book-foreword-v231a-text-backlight-assert-proof">
+<title>The House That Remembers — v231B Proof</title>
+<link rel="stylesheet" href="./book-clean-surface-v1.css?v=book-foreword-v231b-no-v226-proof">
+<link rel="stylesheet" href="./book-foreword-v226-black-clean-audio.css?v=book-foreword-v231b-no-v226-proof">
+<link rel="stylesheet" href="./book-foreword-v227-void-rough.css?v=book-foreword-v231b-no-v226-proof">
+<link rel="stylesheet" href="./book-foreword-v2271-void-gated.css?v=book-foreword-v231b-no-v226-proof">
+<link rel="stylesheet" href="./book-foreword-v231-text-backlight.css?v=book-foreword-v231b-no-v226-proof">
 <style>
 #v231-root-assert{position:fixed;left:12px;bottom:86px;z-index:2147483647;color:#fff;background:rgba(0,0,0,.82);border:1px solid rgba(255,255,255,.35);padding:6px 8px;font:700 10px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;pointer-events:none}
 </style>
 </head>
 <body>
 <main id="reader" aria-label="The House That Remembers"></main>
-<div id="v231-root-assert">PROOF v231A START</div>
+<div id="v231-root-assert">PROOF v231B START</div>
 <script type="module">
-const BUILD='book-foreword-v231a-text-backlight-assert-proof';
+const BUILD='book-foreword-v231b-no-v226-proof';
 const assertEl=document.getElementById('v231-root-assert');
 const setAssert=text=>{ if(assertEl) assertEl.textContent=text; };
 window.__HOUSE_ROOT_ASSERT=BUILD;
@@ -44,14 +41,13 @@ try{
 function loadScript(src){return new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=src;s.onload=()=>resolve(src);s.onerror=()=>reject(new Error('failed '+src));document.body.appendChild(s)})}
 await loadScript('https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js').catch(err=>console.warn('StPageFlip unavailable, static fallback will run',err));
 await loadScript('./book-clean-surface-v1.js?v='+BUILD);
-await loadScript('./book-foreword-v226-black-clean-audio.js?v='+BUILD);
 try{
   await loadScript('./book-foreword-v231-text-backlight.js?v='+BUILD+'&assert=1');
   window.__VOID_V231_ASSERT='loaded';
-  setAssert('PROOF v231A: V231 SCRIPT LOADED');
+  setAssert('PROOF v231B: V231 SCRIPT LOADED');
 }catch(err){
   window.__VOID_V231_ASSERT='failed';
-  setAssert('PROOF v231A: V231 SCRIPT FAILED');
+  setAssert('PROOF v231B: V231 SCRIPT FAILED');
   console.error(err);
 }
 </script>
