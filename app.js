@@ -55,6 +55,6 @@ if(f[0]==="act2")units.push(section("act2",'<div class="copy center"><div class=
 }
 let i=0;units.forEach(u=>u.classList.remove("active"));units[0].classList.add("active");
 function show(n){if(!units.length)return;stopAudio();units[i].classList.remove("active");i=(n+units.length)%units.length;units[i].classList.add("active");if(i===3)playCue("portrait");if(i===6)playCue("interval");if(i===3){units[i].classList.add("strobe");setTimeout(()=>units[i].classList.remove("strobe"),2400)}}
-let sx=0;reader.addEventListener("touchstart",e=>sx=e.touches[0].clientX,{passive:true});reader.addEventListener("touchend",e=>{const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>45)show(i+(d<0?1:-1))},{passive:true});document.addEventListener("keydown",e=>{if(e.key==="ArrowRight"||e.key===" ")show(i+1);if(e.key==="ArrowLeft")show(i-1)});reader.addEventListener("click",e=>{if(e.target.closest("a,button"))return;show(i+1)});if("serviceWorker"in navigator)navigator.serviceWorker.register("/sw.js");
+let sx=0;reader.addEventListener("touchstart",e=>sx=e.touches[0].clientX,{passive:true});reader.addEventListener("touchend",e=>{const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>45)show(i+(d<0?1:-1))},{passive:true});document.addEventListener("keydown",e=>{if(e.key==="ArrowRight"||e.key===" ")show(i+1);if(e.key==="ArrowLeft")show(i-1)});reader.addEventListener("click",e=>{if(e.target.closest("a,button"))return;show(i+1)});if("serviceWorker"in navigator)navigator.serviceWorker.register("./sw.js");
 }
 load();
