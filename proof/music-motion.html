@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>The House · Music + Motion Proof</title>
+<style>
+  :root{
+    --p:0;
+    --cream:0;
+    --ink:#050505;
+    --paper:#f0e2c5;
+    --bone:#eee6d7;
+  }
+  *{box-sizing:border-box}
+  html{background:#050505;color:var(--bone);font-family:Georgia,serif;scroll-behavior:smooth}
+  body{margin:0;min-height:320vh;background:linear-gradient(to bottom,#050505 0%,#050505 54%,#f0e2c5 72%,#f0e2c5 100%);overflow-x:hidden}
+  .stage{position:fixed;inset:0;overflow:hidden;background:#050505;transition:background .2s linear}
+  .stage::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 45%,transparent 0 20%,rgba(0,0,0,.35) 45%,rgba(0,0,0,.92) 100%);opacity:calc(1 - var(--cream));pointer-events:none}
+  .pi{position:absolute;inset:-15%;font:600 12px/1.35 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.15em;color:rgba(255,255,255,.16);word-break:break-all;transform:translateY(calc(var(--p) * -18vh)) scale(calc(1 + var(--p) * .16));opacity:calc(.22 + var(--p) * .44);filter:blur(calc((1 - var(--p)) * 1.8px));mask-image:radial-gradient(circle at 50% 42%,#000 0 38%,transparent 68%)}
+  .threshold{position:absolute;left:50%;top:50%;width:72vmin;height:72vmin;transform:translate(-50%,-50%) scale(calc(.76 + var(--p) * .44));border:1px solid rgba(238,230,215,.12);box-shadow:0 0 calc(30px + var(--p) * 70px) rgba(238,230,215,.12), inset 0 0 90px rgba(0,0,0,.9);opacity:calc(.28 + var(--p) * .55)}
+  .threshold::before{content:"";position:absolute;inset:16%;border-left:1px solid rgba(238,230,215,.25);border-right:1px solid rgba(238,230,215,.25);transform:perspective(500px) rotateX(calc(var(--p) * 12deg));box-shadow:0 0 60px rgba(238,230,215,.08)}
+  .house-title{position:absolute;left:50%;top:43%;transform:translate(-50%,-50%) translateY(calc((1 - var(--p)) * 26px)) scale(calc(.92 + var(--p) * .06));width:min(84vw,680px);text-align:center;letter-spacing:.18em;text-transform:uppercase;opacity:calc(var(--p) * 1.35);text-shadow:0 0 28px rgba(238,230,215,.2)}
+  .house-title h1{font-size:clamp(2.1rem,9vw,5.8rem);font-weight:400;line-height:.95;margin:0}
+  .house-title p{font:500 12px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.24em;margin:1rem 0 0;color:rgba(238,230,215,.72)}
+  .control{position:fixed;z-index:10;left:max(18px,env(safe-area-inset-left));right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));display:grid;gap:.75rem;justify-items:center;padding:1rem;border:1px solid rgba(238,230,215,.18);background:rgba(5,5,5,.72);backdrop-filter:blur(12px);transition:opacity .3s ease,transform .3s ease}
+  .control.started{opacity:.22;transform:translateY(12px)}
+  .control.started:focus-within,.control.started:hover{opacity:1;transform:none}
+  button,.file-label{border:1px solid rgba(238,230,215,.36);background:rgba(238,230,215,.08);color:var(--bone);padding:.8rem 1rem;border-radius:999px;font:700 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.16em;text-transform:uppercase}
+  input[type=file]{max-width:min(86vw,420px);color:var(--bone);font:12px ui-monospace,SFMono-Regular,Menlo,monospace}
+  .status{font:12px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;color:rgba(238,230,215,.72);text-align:center;max-width:48rem}
+  .foreword{position:absolute;inset:0;background:var(--paper);color:#15120e;opacity:var(--cream);transform:translateY(calc((1 - var(--cream)) * 20vh));display:grid;place-items:center;padding:9vh 8vw;text-align:left}
+  .foreword-card{max-width:720px;width:100%;border:1px solid rgba(21,18,14,.18);padding:clamp(1.6rem,6vw,4rem);background:rgba(255,250,238,.45);box-shadow:0 20px 90px rgba(21,18,14,.12)}
+  .foreword h2{font-size:clamp(2rem,8vw,5rem);font-weight:400;letter-spacing:.08em;margin:0 0 1rem;text-transform:uppercase}
+  .foreword p{font-size:clamp(1.05rem,4.4vw,1.65rem);line-height:1.48;margin:0;color:#272017}
+  .meter{position:fixed;z-index:9;left:1rem;top:max(1rem,env(safe-area-inset-top));font:11px ui-monospace,SFMono-Regular,Menlo,monospace;color:rgba(238,230,215,.55);letter-spacing:.12em;text-transform:uppercase}
+  .scroll-cue{position:absolute;left:50%;bottom:18vh;transform:translateX(-50%);font:11px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.24em;text-transform:uppercase;color:rgba(238,230,215,.6);opacity:calc(1 - var(--p))}
+</style>
+</head>
+<body>
+  <main class="stage" aria-label="The House music and motion proof">
+    <div class="pi" id="piLayer" aria-hidden="true"></div>
+    <div class="threshold" aria-hidden="true"></div>
+    <section class="house-title" aria-label="House Cover Threshold">
+      <h1>The House<br>That Remembers</h1>
+      <p>music + motion proof · page 1</p>
+    </section>
+    <div class="scroll-cue">scroll to cross the threshold</div>
+    <section class="foreword" aria-label="Foreword Opening">
+      <article class="foreword-card">
+        <h2>Foreword</h2>
+        <p>This is the first reading room: cream, calm, and legible after the black threshold. The test is not the final prose. The test is whether music continues while the House changes rooms.</p>
+      </article>
+    </section>
+  </main>
+
+  <aside class="meter" id="meter">proof · waiting</aside>
+
+  <section class="control" id="control" aria-label="Proof controls">
+    <input id="audioFile" type="file" accept="audio/*">
+    <button id="enterButton">Enter + Start Music</button>
+    <button id="pauseButton" hidden>Pause / Resume</button>
+    <div class="status" id="status">Choose the MP3, then tap Enter. The file stays local in your browser; it is not committed to the repo.</div>
+  </section>
+
+<script>
+const pi = "3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679";
+const piLayer = document.getElementById("piLayer");
+piLayer.textContent = Array(95).fill(pi).join(" ");
+
+const root = document.documentElement;
+const meter = document.getElementById("meter");
+const control = document.getElementById("control");
+const status = document.getElementById("status");
+const audioFile = document.getElementById("audioFile");
+const enterButton = document.getElementById("enterButton");
+const pauseButton = document.getElementById("pauseButton");
+let audio = null;
+let started = false;
+
+function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
+function updateMotion(){
+  const y = window.scrollY || 0;
+  const p = clamp(y / (window.innerHeight * 1.18),0,1);
+  const cream = clamp((y - window.innerHeight * 1.05) / (window.innerHeight * .72),0,1);
+  root.style.setProperty("--p", p.toFixed(4));
+  root.style.setProperty("--cream", cream.toFixed(4));
+  meter.textContent = started ? `proof · motion ${(p*100|0)} · foreword ${(cream*100|0)}` : "proof · waiting";
+}
+window.addEventListener("scroll", updateMotion, {passive:true});
+window.addEventListener("resize", updateMotion);
+updateMotion();
+
+function loadSelectedAudio(){
+  const file = audioFile.files && audioFile.files[0];
+  if(!file) return null;
+  if(audio){ audio.pause(); URL.revokeObjectURL(audio.src); }
+  audio = new Audio(URL.createObjectURL(file));
+  audio.preload = "auto";
+  audio.loop = false;
+  audio.volume = 1;
+  audio.addEventListener("ended",()=>{ status.textContent = "Song ended. Full-track cue test completed."; });
+  return audio;
+}
+
+enterButton.addEventListener("click", async () => {
+  started = true;
+  control.classList.add("started");
+  const chosen = loadSelectedAudio();
+  if(chosen){
+    try{
+      await chosen.play();
+      status.textContent = "Music playing. Scroll slowly: the song should continue from threshold into Foreword.";
+      pauseButton.hidden = false;
+    }catch(err){
+      status.textContent = "Audio did not start. iPhone may need another tap on Enter or a different file source.";
+    }
+  } else {
+    status.textContent = "No MP3 selected. Visual motion test is running without audio.";
+  }
+  window.scrollTo({top:0,behavior:"smooth"});
+  updateMotion();
+});
+
+pauseButton.addEventListener("click", async () => {
+  if(!audio) return;
+  if(audio.paused){ await audio.play(); status.textContent = "Music resumed."; }
+  else { audio.pause(); status.textContent = "Music paused."; }
+});
+</script>
+</body>
+</html>
