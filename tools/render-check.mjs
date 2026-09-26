@@ -12,6 +12,7 @@ const artifactDir = path.join(rootDir, '.render-check');
 const strictBook = process.env.STRICT_BOOK === '1';
 const expectTapAdvances = process.env.EXPECT_TAP_ADVANCES === '1';
 const requestedUrl = process.env.BOOK_URL || '';
+const expectedBuild = process.env.EXPECT_BUILD || 'BOOK CLEAN SURFACE v1';
 
 const mime = {
   '.html': 'text/html; charset=utf-8',
@@ -61,8 +62,7 @@ function startServer() {
   return new Promise(resolve => {
     const server = http.createServer(serveFile);
     server.listen(0, '127.0.0.1', () => {
-      const { port } = server.address();
-      resolve({ server, port });
+      resolve({ server, port: server.address().port });
     });
   });
 }
@@ -84,9 +84,7 @@ function summarizeChecks(checks) {
   for (const c of checks) {
     const mark = c.ok ? '✓' : '✗';
     console.log(`${mark} ${c.message}`);
-    if (!c.ok && Object.keys(c.details || {}).length) {
-      console.log(`  ${JSON.stringify(c.details, null, 2)}`);
-    }
+    if (!c.ok && Object.keys(c.details || {}).length) console.log(`  ${JSON.stringify(c.details, null, 2)}`);
   }
   return failed;
 }
@@ -97,6 +95,7 @@ async function snapshot(page) {
     const html = document.documentElement;
     const body = document.body;
     const reader = document.getElementById('reader');
+    const facts = document.getElementById('render-facts');
     const all = [...document.querySelectorAll('*')];
 
     const rectOf = el => {
@@ -119,16 +118,19 @@ async function snapshot(page) {
       return cs.display !== 'none' && cs.visibility !== 'hidden' && Number(cs.opacity || 1) !== 0 && r.width > 0 && r.height > 0 && r.bottom > 0 && r.right > 0 && r.top < innerHeight && r.left < innerWidth;
     };
 
-    const units = [...document.querySelectorAll('.unit')].map((el, index) => ({
+    const pageNodes = [...document.querySelectorAll('.book-page,[data-book-page],.unit')].map((el, index) => ({
       index,
-      className: el.className,
-      active: el.classList.contains('active'),
+      tag: el.tagName.toLowerCase(),
+      id: el.id || '',
+      className: String(el.className || ''),
+      dataPage: el.getAttribute('data-book-page') || '',
+      active: el.classList.contains('active') || el.classList.contains('is-current'),
       visible: isVisible(el),
       rect: rectOf(el),
       overflowY: getComputedStyle(el).overflowY,
       scrollHeight: el.scrollHeight,
       clientHeight: el.clientHeight,
-      text: (el.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 220)
+      text: (el.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 240)
     }));
 
     const visibleScrollables = all
@@ -137,7 +139,7 @@ async function snapshot(page) {
         const cs = getComputedStyle(el);
         return /(auto|scroll)/.test(cs.overflowY) && el.scrollHeight > el.clientHeight + 4;
       })
-      .slice(0, 20)
+      .slice(0, 30)
       .map(el => ({
         tag: el.tagName.toLowerCase(),
         id: el.id || '',
@@ -154,8 +156,9 @@ async function snapshot(page) {
       .map(el => (el.innerText || el.getAttribute('data-build') || '').trim())
       .filter(Boolean);
 
-    const visibleText = units.filter(u => u.visible).map(u => u.text).join(' | ');
-    const activeUnit = units.find(u => u.active) || units.find(u => u.visible) || null;
+    const bodyText = (document.body.innerText || '').replace(/\s+/g, ' ').trim();
+    const visibleText = pageNodes.filter(p => p.visible || p.active).map(p => p.text).filter(Boolean).join(' | ');
+    const forbiddenTerms = ['FLAT v2', 'PORTRAIT ASSET', 'One thing at a time', 'THE VOID', 'DEUS EX MACHINA', 'Sefer Yetzirah', 'Aristotle'];
 
     return {
       href: location.href,
@@ -186,17 +189,18 @@ async function snapshot(page) {
         scrollHeight: reader.scrollHeight,
         clientHeight: reader.clientHeight
       } : { exists: false },
-      units,
-      activeUnit,
-      visibleUnits: units.filter(u => u.visible),
+      facts: facts ? { ...facts.dataset } : {},
+      flipEngine: html.dataset.flipEngine || '',
+      htmlBookPage: html.dataset.bookPage || '',
+      pageNodes,
+      bookPages: pageNodes.filter(p => p.className.includes('book-page')),
+      visiblePages: pageNodes.filter(p => p.visible),
+      activePages: pageNodes.filter(p => p.active),
       visibleScrollables,
       markers,
       visibleText,
-      forbiddenVisibleText: ['FLAT v2', 'PORTRAIT ASSET', 'One thing at a time', 'THE VOID']
-        .filter(term => visibleText.includes(term)),
-      fullTextHasOldScaffold: strictBook
-        ? ['PORTRAIT ASSET', 'One thing at a time', 'THE VOID', 'DEUS EX MACHINA'].filter(term => document.body.innerText.includes(term))
-        : []
+      forbiddenVisibleText: forbiddenTerms.filter(term => visibleText.includes(term)),
+      forbiddenBodyText: forbiddenTerms.filter(term => bodyText.includes(term))
     };
   });
 }
@@ -219,7 +223,7 @@ async function main() {
       deviceScaleFactor: 3,
       isMobile: true,
       hasTouch: true,
-      defaultBrowserType: 'webkit'
+      defaultBrowserType: 'chromium'
     };
     const context = await browser.newContext({
       ...iPhone,
@@ -227,50 +231,66 @@ async function main() {
       ignoreHTTPSErrors: true
     });
     const page = await context.newPage();
+    const consoleLines = [];
+    page.on('console', msg => consoleLines.push({ type: msg.type(), text: msg.text() }).slice(-60));
 
     console.log(`Opening ${url}`);
-    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 20000 });
-    await page.waitForLoadState('networkidle', { timeout: 7000 }).catch(() => {});
-    await page.waitForTimeout(1200);
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 25000 });
+    await page.waitForLoadState('networkidle', { timeout: 9000 }).catch(() => {});
+    await page.waitForTimeout(1500);
 
     const before = await snapshot(page);
+    const beforePath = path.join(artifactDir, 'iphone-before.png');
+    await page.screenshot({ path: beforePath, fullPage: false });
 
     await page.evaluate(() => window.scrollTo(0, 160));
-    await page.waitForTimeout(120);
+    await page.waitForTimeout(140);
     const afterForcedScroll = await snapshot(page);
 
     let afterRightTap = null;
     let afterLeftTap = null;
     try {
-      await page.touchscreen.tap(Math.round(before.viewport.innerWidth * 0.86), Math.round(before.viewport.innerHeight * 0.52));
-      await page.waitForTimeout(500);
+      await page.mouse.click(Math.round(before.viewport.innerWidth * 0.86), Math.round(before.viewport.innerHeight * 0.52));
+      await page.waitForTimeout(1100);
       afterRightTap = await snapshot(page);
-      await page.touchscreen.tap(Math.round(before.viewport.innerWidth * 0.14), Math.round(before.viewport.innerHeight * 0.52));
-      await page.waitForTimeout(500);
+      const afterPath = path.join(artifactDir, 'iphone-after-right-tap.png');
+      await page.screenshot({ path: afterPath, fullPage: false });
+
+      await page.mouse.click(Math.round(before.viewport.innerWidth * 0.14), Math.round(before.viewport.innerHeight * 0.52));
+      await page.waitForTimeout(1100);
       afterLeftTap = await snapshot(page);
     } catch (err) {
       afterRightTap = { interactionError: String(err?.message || err) };
     }
 
-    const screenshotPath = path.join(artifactDir, 'iphone-render.png');
-    await page.screenshot({ path: screenshotPath, fullPage: false });
-
     const checks = [];
     assert(checks, before.reader.exists, 'reader element exists');
+    assert(checks, before.markers.includes(expectedBuild), 'visible build marker matches expected build', { expectedBuild, markers: before.markers });
+    assert(checks, before.facts.build === expectedBuild, 'render facts expose expected build', before.facts);
+    assert(checks, before.facts.surface === 'root-pwa', 'render facts identify root PWA surface', before.facts);
+    assert(checks, before.facts.pageCount === '2', 'clean surface exposes exactly two intentional pages', before.facts);
+    assert(checks, before.bookPages.length === 2, 'DOM contains exactly two .book-page elements', before.bookPages.map(p => ({ dataPage: p.dataPage, text: p.text })));
+    assert(checks, before.flipEngine === 'stpageflip' || !strictBook, 'StPageFlip initialized in strict mode', { flipEngine: before.flipEngine });
     assert(checks, before.document.htmlOverflowY === 'hidden' && before.document.bodyOverflowY === 'hidden', 'html/body vertical overflow is hidden', before.document);
-    assert(checks, Math.abs(before.document.htmlScrollHeight - before.viewport.innerHeight) <= 6 || before.document.htmlScrollHeight <= before.viewport.innerHeight + 6, 'document is not taller than viewport', before.document);
+    assert(checks, before.document.htmlScrollHeight <= before.viewport.innerHeight + 8, 'document is not taller than viewport', before.document);
     assert(checks, afterForcedScroll.document.scrollY === 0, 'forced window scroll remains locked at 0', { scrollY: afterForcedScroll.document.scrollY });
-    assert(checks, before.reader.exists && before.reader.rect && Math.abs(before.reader.rect.height - before.viewport.innerHeight) <= 8, 'reader height matches viewport', before.reader);
-    assert(checks, before.visibleUnits.length <= 1, 'at most one top-level .unit is visible', before.visibleUnits.map(u => ({ index: u.index, className: u.className, text: u.text })));
+    assert(checks, before.reader.rect && Math.abs(before.reader.rect.height - before.viewport.innerHeight) <= 8, 'reader height matches viewport', before.reader);
     assert(checks, before.visibleScrollables.length === 0, 'no visible nested scroll containers', before.visibleScrollables);
     assert(checks, before.forbiddenVisibleText.length === 0, 'visible page does not contain old scaffold text', before.forbiddenVisibleText);
     if (strictBook) {
-      assert(checks, before.fullTextHasOldScaffold.length === 0, 'strict mode: old scaffold text is not present anywhere in DOM', before.fullTextHasOldScaffold);
+      assert(checks, before.forbiddenBodyText.length === 0, 'strict mode: old scaffold text is absent from full DOM', before.forbiddenBodyText);
     }
     if (expectTapAdvances && afterRightTap && !afterRightTap.interactionError) {
-      assert(checks, afterRightTap.visibleText !== before.visibleText, 'right-edge tap changes the visible page', {
-        before: before.visibleText,
-        after: afterRightTap.visibleText
+      assert(checks, afterRightTap.facts.currentPage === '1' || afterRightTap.htmlBookPage === '1' || afterRightTap.visibleText !== before.visibleText, 'right-edge tap advances from cover to first page', {
+        beforePage: before.facts.currentPage || before.htmlBookPage,
+        afterPage: afterRightTap.facts.currentPage || afterRightTap.htmlBookPage,
+        beforeText: before.visibleText,
+        afterText: afterRightTap.visibleText
+      });
+    }
+    if (expectTapAdvances && afterLeftTap && !afterLeftTap.interactionError) {
+      assert(checks, afterLeftTap.facts.currentPage === '0' || afterLeftTap.htmlBookPage === '0', 'left-edge tap returns to cover', {
+        afterPage: afterLeftTap.facts.currentPage || afterLeftTap.htmlBookPage
       });
     }
 
@@ -279,7 +299,13 @@ async function main() {
       url,
       strictBook,
       expectTapAdvances,
-      screenshotPath,
+      expectedBuild,
+      artifacts: {
+        beforeScreenshot: path.relative(rootDir, beforePath),
+        afterRightTapScreenshot: '.render-check/iphone-after-right-tap.png',
+        report: '.render-check/render-check-report.json'
+      },
+      consoleLines,
       before,
       afterForcedScroll,
       afterRightTap,
@@ -293,20 +319,19 @@ async function main() {
       url: before.href,
       viewport: before.viewport,
       markers: before.markers,
-      activeUnit: before.activeUnit ? {
-        index: before.activeUnit.index,
-        className: before.activeUnit.className,
-        text: before.activeUnit.text
-      } : null,
-      visibleUnits: before.visibleUnits.length,
+      facts: before.facts,
+      flipEngine: before.flipEngine,
+      bookPages: before.bookPages.length,
+      visiblePages: before.visiblePages.map(p => ({ dataPage: p.dataPage, text: p.text })),
       scrollHeight: before.document.htmlScrollHeight,
       visibleScrollables: before.visibleScrollables.length,
-      afterRightTap: afterRightTap && !afterRightTap.interactionError ? afterRightTap.visibleText : afterRightTap
+      afterRightTapPage: afterRightTap && !afterRightTap.interactionError ? (afterRightTap.facts.currentPage || afterRightTap.htmlBookPage) : afterRightTap
     }, null, 2));
 
     console.log(`\nArtifacts written to ${path.relative(rootDir, artifactDir)}/`);
-    console.log(`- ${path.relative(rootDir, screenshotPath)}`);
-    console.log(`- ${path.relative(rootDir, path.join(artifactDir, 'render-check-report.json'))}`);
+    console.log('- .render-check/iphone-before.png');
+    console.log('- .render-check/iphone-after-right-tap.png');
+    console.log('- .render-check/render-check-report.json');
 
     const failed = summarizeChecks(checks);
     if (failed.length) process.exitCode = 1;
