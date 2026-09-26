@@ -16,6 +16,8 @@ on:
       - gh-pages
     paths:
       - "index.html"
+      - "book-clean-surface-v1.css"
+      - "book-clean-surface-v1.js"
       - "rosetta-final.html"
       - "*.html"
       - "*.css"
@@ -67,22 +69,23 @@ jobs:
         if: ${{ github.event_name == 'push' || github.event.inputs.target == 'local' }}
         run: npm run check:render
         env:
-          STRICT_BOOK: "0"
-          EXPECT_TAP_ADVANCES: "0"
+          STRICT_BOOK: "1"
+          EXPECT_TAP_ADVANCES: "1"
+          EXPECT_BUILD: "BOOK CLEAN SURFACE v1"
 
       - name: Render-check deployed root
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.target == 'deployed' }}
         run: npm run check:render
         env:
           BOOK_URL: "https://emptychair1.github.io/the-house-that-remembers/"
-          STRICT_BOOK: "0"
-          EXPECT_TAP_ADVANCES: "0"
+          STRICT_BOOK: "1"
+          EXPECT_TAP_ADVANCES: "1"
+          EXPECT_BUILD: "BOOK CLEAN SURFACE v1"
 
       - name: Upload render artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: render-check-${{ github.run_number }}
+          name: render-check-${{ github.run_id }}
           path: .render-check/
           if-no-files-found: warn
-          retention-days: 14
