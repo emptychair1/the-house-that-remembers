@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f6f0e6">
+<title>Foreword — The House That Remembers</title>
+<style>
+:root{
+  --paper:#f6f0e6;
+  --ink:#15110d;
+  --soft:#7b715f;
+  --rule:rgba(21,17,13,.16);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--paper);color:var(--ink)}
+body{
+  min-height:100dvh;
+  font-family:Baskerville,"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  background:
+    radial-gradient(circle at 50% 9rem,rgba(255,255,255,.66),transparent 28rem),
+    linear-gradient(115deg,rgba(21,17,13,.035),transparent 34%,rgba(21,17,13,.03)),
+    var(--paper);
+}
+.page{
+  width:min(100%,48rem);
+  margin:0 auto;
+  padding:clamp(3.8rem,8vh,6.6rem) clamp(1.35rem,5vw,4.8rem) max(5.5rem,calc(3rem + env(safe-area-inset-bottom)));
+}
+header{text-align:center;margin:0 0 clamp(3.3rem,8vh,5.8rem)}
+.eyebrow{
+  margin:0 0 1rem;
+  font:700 .62rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:rgba(21,17,13,.48);
+}
+h1{
+  margin:0;
+  font-weight:400;
+  letter-spacing:.04em;
+  font-size:clamp(2.05rem,8vw,4.4rem);
+  line-height:1.02;
+}
+.subtitle{
+  margin:1rem 0 0;
+  font-size:clamp(1.1rem,4vw,1.55rem);
+  letter-spacing:.08em;
+  color:rgba(21,17,13,.66);
+}
+article{font-size:clamp(1.08rem,2.65vw,1.28rem);line-height:1.78}
+p{margin:0 0 1.26em}
+p:first-child::first-letter{
+  float:left;
+  font-size:4.8em;
+  line-height:.78;
+  padding:.08em .12em 0 0;
+  color:rgba(21,17,13,.88);
+}
+.loading,.error{
+  text-align:center;
+  color:rgba(21,17,13,.55);
+  font:700 .62rem/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.signature-block{
+  margin:clamp(3.5rem,9vh,6rem) 0 0;
+  display:grid;
+  justify-items:end;
+  gap:.55rem;
+}
+.signature-card{
+  width:min(62vw,22rem);
+  min-height:7.2rem;
+  display:grid;
+  place-items:center;
+  position:relative;
+}
+.signature-card svg,
+.signature-card img{width:100%;height:auto;display:block;overflow:visible}
+.signature-card img{filter:contrast(1.14) brightness(.78)}
+.signature-card.loaded .fallback{display:none}
+.signature-caption{
+  margin:0;
+  font:700 .58rem/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(21,17,13,.44);
+}
+.disclaimer{
+  margin:clamp(4.5rem,10vh,7rem) 0 0;
+  padding:1.15rem 0 0;
+  border-top:1px solid var(--rule);
+  font:700 .58rem/1.65 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  color:rgba(21,17,13,.48);
+}
+.build{
+  position:fixed;
+  left:.65rem;
+  bottom:max(.55rem,env(safe-area-inset-bottom));
+  font:700 .48rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.14em;
+  color:rgba(21,17,13,.34);
+  text-transform:uppercase;
+  pointer-events:none;
+}
+.home-link{
+  position:fixed;
+  right:.65rem;
+  bottom:max(.55rem,env(safe-area-inset-bottom));
+  color:rgba(21,17,13,.38);
+  text-decoration:none;
+  font:700 .48rem/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.sig-stroke{
+  fill:none;
+  stroke:var(--ink);
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-dasharray:1;
+  stroke-dashoffset:1;
+  animation:write 1.15s cubic-bezier(.58,.02,.17,1) forwards;
+  filter:drop-shadow(0 .04rem .035rem rgba(21,17,13,.18));
+}
+.fallback .s1{stroke-width:13;animation-delay:.25s}
+.fallback .s2{stroke-width:12;animation-delay:.95s}
+.fallback .s3{stroke-width:11;animation-delay:1.46s}
+.fallback .s4{stroke-width:10;animation-delay:1.88s}
+.fallback .s5{stroke-width:6;opacity:.76;animation-delay:2.74s}
+@keyframes write{to{stroke-dashoffset:0}}
+.real-signature .sig-stroke,
+.real-signature path,
+.real-signature polyline,
+.real-signature line{
+  fill:none!important;
+  stroke:var(--ink)!important;
+  stroke-linecap:round!important;
+  stroke-linejoin:round!important;
+  stroke-dasharray:1!important;
+  stroke-dashoffset:1!important;
+  animation:write 1.15s cubic-bezier(.58,.02,.17,1) forwards!important;
+}
+.real-signature path:nth-of-type(1),.real-signature polyline:nth-of-type(1),.real-signature line:nth-of-type(1){animation-delay:.22s!important}
+.real-signature path:nth-of-type(2),.real-signature polyline:nth-of-type(2),.real-signature line:nth-of-type(2){animation-delay:.64s!important}
+.real-signature path:nth-of-type(3),.real-signature polyline:nth-of-type(3),.real-signature line:nth-of-type(3){animation-delay:1.06s!important}
+.real-signature path:nth-of-type(4),.real-signature polyline:nth-of-type(4),.real-signature line:nth-of-type(4){animation-delay:1.48s!important}
+.real-signature path:nth-of-type(n+5),.real-signature polyline:nth-of-type(n+5),.real-signature line:nth-of-type(n+5){animation-delay:1.9s!important}
+@media (prefers-reduced-motion:reduce){
+  .sig-stroke,.real-signature path,.real-signature polyline,.real-signature line{stroke-dashoffset:0!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+<main class="page">
+  <header>
+    <p class="eyebrow">Foreword</p>
+    <h1>Possibility<br>and Curiosity</h1>
+    <p class="subtitle">The House That Remembers</p>
+  </header>
+  <article id="foreword"><p class="loading">loading foreword</p></article>
+  <section class="signature-block" aria-label="author signature">
+    <div class="signature-card" id="signatureCard">
+      <svg class="fallback" viewBox="0 0 420 170" role="img" aria-label="Fallback JD signature mark">
+        <path class="sig-stroke s1" pathLength="1" d="M155 20 C135 38 118 57 108 83 C97 111 102 137 125 143 C151 150 174 124 171 96 C168 66 139 54 107 68"/>
+        <path class="sig-stroke s2" pathLength="1" d="M154 21 C183 16 209 20 227 32"/>
+        <path class="sig-stroke s3" pathLength="1" d="M222 30 C219 61 215 95 212 138"/>
+        <path class="sig-stroke s4" pathLength="1" d="M220 36 C276 18 331 48 330 88 C329 129 272 151 213 136"/>
+        <path class="sig-stroke s5" pathLength="1" d="M80 151 C134 162 220 160 302 149 C339 144 366 145 386 154"/>
+      </svg>
+    </div>
+    <p class="signature-caption">Joshua Daniels</p>
+  </section>
+  <aside class="disclaimer">
+    Accessibility note: Later sections of this book may contain flashing, strobing, high-contrast motion, or rapid visual changes. These effects may trigger seizures or discomfort in people with photosensitive epilepsy or related sensitivities. Reader controls and reduced-motion alternatives are planned before final release.
+  </aside>
+</main>
+<div class="build">FOREWORD v1</div>
+<a class="home-link" href="./">home</a>
+<script>
+const article=document.getElementById('foreword');
+const signatureCard=document.getElementById('signatureCard');
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function renderMarkdown(md){
+  const parts=md.split(/\n{2,}/).map(x=>x.trim()).filter(Boolean);
+  const body=parts.slice(2);
+  article.innerHTML=body.map(p=>`<p>${esc(p)}</p>`).join('');
+}
+async function loadForeword(){
+  try{
+    const res=await fetch('./manuscript/FOREWORD.md?v=foreword-page-v1',{cache:'no-store'});
+    if(!res.ok)throw new Error('foreword fetch failed');
+    renderMarkdown(await res.text());
+  }catch(err){
+    article.innerHTML='<p class="error">Foreword text could not load.</p>';
+  }
+}
+async function loadSignature(){
+  const url='./assets/signatures/joshua-daniels-signature.svg?v=1';
+  try{
+    const res=await fetch(url,{cache:'no-store'});
+    if(!res.ok)throw new Error('signature not found');
+    const svg=await res.text();
+    if(!/<svg[\s>]/i.test(svg))throw new Error('not svg');
+    signatureCard.innerHTML=svg;
+    signatureCard.classList.add('loaded','real-signature');
+    const root=signatureCard.querySelector('svg');
+    if(root){
+      root.removeAttribute('width');
+      root.removeAttribute('height');
+      root.setAttribute('aria-label','Joshua Daniels signature');
+      root.setAttribute('role','img');
+    }
+    signatureCard.querySelectorAll('path,polyline,line').forEach((el,i)=>{
+      if(!el.getAttribute('pathLength'))el.setAttribute('pathLength','1');
+      el.style.animationDelay=(.22+i*.42).toFixed(2)+'s';
+    });
+  }catch(err){
+    signatureCard.classList.remove('loaded','real-signature');
+  }
+}
+loadForeword();
+loadSignature();
+</script>
+</body>
+</html>
