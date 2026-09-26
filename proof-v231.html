@@ -7,20 +7,20 @@
 <meta http-equiv="Cache-Control" content="no-store, max-age=0">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Rubik Stack Opening Proof v233</title>
+<title>Rubik Stack Split Harness v233A</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
 <style>
 :root{
-  --open-duration:5.8s;
-  --the-start-y:0rem;
-  --void-start-y:-.18rem;
-  --the-end-y:-3.25rem;
-  --void-end-y:3.25rem;
-  --the-size:clamp(1.3rem,7.8vw,4.4rem);
-  --void-size:clamp(3.9rem,19vw,11rem);
-  --letter-space:.04em;
+  --split-duration:6.5s;
+  --strobe-cycle:1s;
+  --the-size:clamp(1.55rem,8.5vw,5.6rem);
+  --void-size:clamp(3.95rem,19.5vw,13.2rem);
+  --the-start:-5.9rem;
+  --void-start:2.35rem;
+  --the-end:-18vh;
+  --void-end:16vh;
 }
 html,body{
   margin:0;
@@ -28,7 +28,7 @@ html,body{
   height:100%;
   overflow:hidden;
   background:#000;
-  color:#f6f6f6;
+  color:#fff;
   touch-action:none;
   -webkit-user-select:none;
   user-select:none;
@@ -42,116 +42,142 @@ html,body{
   place-items:center;
   isolation:isolate;
 }
-.badge{
+.badge,.status{
   position:fixed;
-  left:10px;
-  top:calc(env(safe-area-inset-top) + 10px);
   z-index:30;
   color:rgba(255,255,255,.46);
   background:rgba(0,0,0,.66);
-  border:1px solid rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.15);
   padding:4px 6px;
   font:700 8px/1.15 ui-monospace,SFMono-Regular,Menlo,monospace;
   letter-spacing:.12em;
   text-transform:uppercase;
   pointer-events:none;
 }
-.status{
-  position:fixed;
-  right:10px;
-  top:calc(env(safe-area-inset-top) + 10px);
-  z-index:30;
-  color:rgba(255,255,255,.38);
-  background:rgba(0,0,0,.52);
-  border:1px solid rgba(255,255,255,.10);
-  border-radius:999px;
-  padding:4px 7px;
-  font:700 8px/1.15 ui-monospace,SFMono-Regular,Menlo,monospace;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-  pointer-events:none;
-}
-.title-stack{
+.badge{left:10px;top:calc(env(safe-area-inset-top) + 10px)}
+.status{right:10px;top:calc(env(safe-area-inset-top) + 10px);border-radius:999px}
+.title-stage{
   position:absolute;
-  left:50%;
-  top:50%;
-  width:100vw;
-  height:70vh;
-  transform:translate(-50%,-50%);
+  inset:0;
   display:grid;
   place-items:center;
-  text-align:center;
-  font-family:'Rubik Mono One', ui-monospace, SFMono-Regular, Menlo, monospace;
-  text-transform:uppercase;
 }
 .word{
   position:absolute;
   left:50%;
   top:50%;
-  margin:0;
+  width:100vw;
+  height:1em;
+  display:grid;
+  place-items:center;
   transform:translate(-50%,-50%);
-  white-space:nowrap;
+  text-align:center;
+  font-family:'Rubik Mono One',ui-monospace,SFMono-Regular,Menlo,monospace;
   font-weight:400;
-  letter-spacing:var(--letter-space);
-  line-height:.86;
-  color:rgba(246,246,246,.94);
-  text-shadow:0 0 .22rem rgba(255,255,255,.18);
+  letter-spacing:.02em;
+  text-transform:uppercase;
+  white-space:nowrap;
+  line-height:.82;
+  transform-origin:center center;
   will-change:transform;
 }
 .word.the{
   font-size:var(--the-size);
-  transform:translate(-50%,calc(-50% + var(--the-start-y)));
-  animation:theOpen var(--open-duration) cubic-bezier(.18,.86,.12,1) forwards;
+  animation:splitThe var(--split-duration) cubic-bezier(.18,.78,.16,1) forwards;
 }
 .word.void{
   font-size:var(--void-size);
-  transform:translate(-50%,calc(-50% + var(--void-start-y)));
-  animation:voidOpen var(--open-duration) cubic-bezier(.18,.86,.12,1) forwards;
+  letter-spacing:.035em;
+  animation:splitVoid var(--split-duration) cubic-bezier(.18,.78,.16,1) forwards;
 }
-.guide{
+.word .light,.word .face,.word .halo{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+}
+.word .face{
+  z-index:3;
+  color:#000;
+  opacity:1;
+  text-shadow:none;
+  animation:titleFace var(--strobe-cycle) infinite steps(1,end);
+}
+.word .light{
+  z-index:2;
+  color:rgba(255,255,255,.88);
+  filter:blur(.18em);
+  opacity:.46;
+  transform:scale(1.018);
+  text-shadow:
+    0 0 .10em rgba(255,255,255,.90),
+    0 0 .24em rgba(224,242,255,.72),
+    0 0 .50em rgba(190,220,255,.46);
+  animation:titleLight var(--strobe-cycle) infinite steps(1,end);
+}
+.word .halo{
+  z-index:1;
+  color:rgba(255,255,255,.20);
+  filter:blur(.46em);
+  opacity:.16;
+  transform:scale(1.05);
+  animation:titleHalo var(--strobe-cycle) infinite steps(1,end);
+}
+.guide-gap{
   position:absolute;
   left:50%;
   top:50%;
-  width:min(82vw,34rem);
-  height:clamp(2.4rem,12vw,6.2rem);
+  width:min(84vw,28rem);
+  height:clamp(2.3rem,10vh,6.4rem);
   transform:translate(-50%,-50%);
-  border-top:1px solid rgba(255,255,255,.09);
-  border-bottom:1px solid rgba(255,255,255,.09);
-  opacity:.28;
-  pointer-events:none;
+  border-top:1px solid rgba(255,255,255,.07);
+  border-bottom:1px solid rgba(255,255,255,.07);
+  opacity:0;
+  animation:gapGhost var(--split-duration) cubic-bezier(.18,.78,.16,1) forwards;
 }
-.guide::after{
-  content:'QUESTION SPACE';
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  color:rgba(255,255,255,.18);
-  font:700 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
-  letter-spacing:.18em;
+@keyframes splitThe{
+  0%{transform:translate(-50%,calc(-50% + var(--the-start)))}
+  100%{transform:translate(-50%,calc(-50% + var(--the-end)))}
 }
-@keyframes theOpen{
-  0%{transform:translate(-50%,calc(-50% + var(--the-start-y)))}
-  100%{transform:translate(-50%,calc(-50% + var(--the-end-y)))}
+@keyframes splitVoid{
+  0%{transform:translate(-50%,calc(-50% + var(--void-start)))}
+  100%{transform:translate(-50%,calc(-50% + var(--void-end)))}
 }
-@keyframes voidOpen{
-  0%{transform:translate(-50%,calc(-50% + var(--void-start-y)))}
-  100%{transform:translate(-50%,calc(-50% + var(--void-end-y)))}
+@keyframes titleFace{
+  0%,100%{opacity:1;color:#000}
+  50%{opacity:.08;color:#000}
+}
+@keyframes titleLight{
+  0%,100%{opacity:.46}
+  50%{opacity:0}
+}
+@keyframes titleHalo{
+  0%,100%{opacity:.16}
+  50%{opacity:0}
+}
+@keyframes gapGhost{
+  0%,32%{opacity:0}
+  100%{opacity:.28}
 }
 @media (prefers-reduced-motion:reduce){
-  .word.the{animation:none;transform:translate(-50%,calc(-50% + var(--the-end-y)))}
-  .word.void{animation:none;transform:translate(-50%,calc(-50% + var(--void-end-y)))}
+  .word.the{animation:none;transform:translate(-50%,calc(-50% + var(--the-end)))}
+  .word.void{animation:none;transform:translate(-50%,calc(-50% + var(--void-end)))}
+  .word .face,.word .light,.word .halo,.guide-gap{animation:none!important}
+  .word .face{opacity:1;color:#000}
+  .word .light{opacity:.34}
+  .word .halo{opacity:.12}
+  .guide-gap{opacity:.22}
 }
 </style>
 </head>
 <body>
-<main class="scene" aria-label="Rubik Mono One title opening proof">
-  <div class="badge">PROOF v233 RUBIK STACK OPEN</div>
-  <div class="status">title split only</div>
-  <section class="title-stack" aria-hidden="true">
-    <p class="word the">THE</p>
-    <div class="guide"></div>
-    <p class="word void">VOID</p>
+<main class="scene" aria-label="Rubik Mono One title split proof">
+  <div class="badge">PROOF v233A RUBIK STACK SPLIT</div>
+  <div class="status">6.5s split · 1s strobe</div>
+  <section class="title-stage" aria-hidden="true">
+    <div class="guide-gap"></div>
+    <div class="word the"><span class="halo">THE</span><span class="light">THE</span><span class="face">THE</span></div>
+    <div class="word void"><span class="halo">VOID</span><span class="light">VOID</span><span class="face">VOID</span></div>
   </section>
 </main>
 </body>
