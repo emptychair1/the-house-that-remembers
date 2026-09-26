@@ -6,13 +6,7 @@
 <meta name="theme-color" content="#000000">
 <title>The House · Music + Motion Proof</title>
 <style>
-  :root{
-    --p:0;
-    --cream:0;
-    --ink:#050505;
-    --paper:#f0e2c5;
-    --bone:#eee6d7;
-  }
+  :root{--p:0;--cream:0;--ink:#050505;--paper:#f0e2c5;--bone:#eee6d7}
   *{box-sizing:border-box}
   html{background:#050505;color:var(--bone);font-family:Georgia,serif;scroll-behavior:smooth}
   body{margin:0;min-height:320vh;background:linear-gradient(to bottom,#050505 0%,#050505 54%,#f0e2c5 72%,#f0e2c5 100%);overflow-x:hidden}
@@ -27,7 +21,7 @@
   .control{position:fixed;z-index:10;left:max(18px,env(safe-area-inset-left));right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));display:grid;gap:.75rem;justify-items:center;padding:1rem;border:1px solid rgba(238,230,215,.18);background:rgba(5,5,5,.72);backdrop-filter:blur(12px);transition:opacity .3s ease,transform .3s ease}
   .control.started{opacity:.22;transform:translateY(12px)}
   .control.started:focus-within,.control.started:hover{opacity:1;transform:none}
-  button,.file-label{border:1px solid rgba(238,230,215,.36);background:rgba(238,230,215,.08);color:var(--bone);padding:.8rem 1rem;border-radius:999px;font:700 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.16em;text-transform:uppercase}
+  button{border:1px solid rgba(238,230,215,.36);background:rgba(238,230,215,.08);color:var(--bone);padding:.8rem 1rem;border-radius:999px;font:700 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.16em;text-transform:uppercase}
   input[type=file]{max-width:min(86vw,420px);color:var(--bone);font:12px ui-monospace,SFMono-Regular,Menlo,monospace}
   .status{font:12px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;color:rgba(238,230,215,.72);text-align:center;max-width:48rem}
   .foreword{position:absolute;inset:0;background:var(--paper);color:#15120e;opacity:var(--cream);transform:translateY(calc((1 - var(--cream)) * 20vh));display:grid;place-items:center;padding:9vh 8vw;text-align:left}
@@ -39,95 +33,65 @@
 </style>
 </head>
 <body>
-  <main class="stage" aria-label="The House music and motion proof">
-    <div class="pi" id="piLayer" aria-hidden="true"></div>
-    <div class="threshold" aria-hidden="true"></div>
-    <section class="house-title" aria-label="House Cover Threshold">
-      <h1>The House<br>That Remembers</h1>
-      <p>music + motion proof · page 1</p>
-    </section>
-    <div class="scroll-cue">scroll to cross the threshold</div>
-    <section class="foreword" aria-label="Foreword Opening">
-      <article class="foreword-card">
-        <h2>Foreword</h2>
-        <p>This is the first reading room: cream, calm, and legible after the black threshold. The test is not the final prose. The test is whether music continues while the House changes rooms.</p>
-      </article>
-    </section>
-  </main>
-
-  <aside class="meter" id="meter">proof · waiting</aside>
-
-  <section class="control" id="control" aria-label="Proof controls">
-    <input id="audioFile" type="file" accept="audio/*">
-    <button id="enterButton">Enter + Start Music</button>
-    <button id="pauseButton" hidden>Pause / Resume</button>
-    <div class="status" id="status">Choose the MP3, then tap Enter. The file stays local in your browser; it is not committed to the repo.</div>
-  </section>
-
+<div class="stage" aria-hidden="true">
+  <div class="pi" id="pi"></div>
+  <div class="threshold"></div>
+  <div class="house-title"><h1>The House<br>That Remembers</h1><p>music + motion proof v2</p></div>
+  <div class="scroll-cue">scroll to cross threshold</div>
+  <section class="foreword"><div class="foreword-card"><h2>Foreword</h2><p>This is not the finished reader. This is the audition room: one song-length cue, one threshold, one controlled crossing from black into cream.</p></div></section>
+</div>
+<div class="meter" id="meter">proof v2 · waiting</div>
+<div class="control" id="control">
+  <input id="audioFile" type="file" accept=".mp3,audio/mpeg,audio/mp3,audio/x-mpeg,audio/*">
+  <button id="start">Enter + Start Music</button>
+  <div class="status" id="status">Choose an MP3 or audio file, then tap Enter. The file stays local in this browser session.</div>
+</div>
+<audio id="audio" playsinline preload="auto"></audio>
 <script>
-const pi = "3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679";
-const piLayer = document.getElementById("piLayer");
-piLayer.textContent = Array(95).fill(pi).join(" ");
-
-const root = document.documentElement;
-const meter = document.getElementById("meter");
-const control = document.getElementById("control");
-const status = document.getElementById("status");
-const audioFile = document.getElementById("audioFile");
-const enterButton = document.getElementById("enterButton");
-const pauseButton = document.getElementById("pauseButton");
-let audio = null;
-let started = false;
-
-function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
+const root=document.documentElement;
+const piEl=document.getElementById('pi');
+const meter=document.getElementById('meter');
+const file=document.getElementById('audioFile');
+const audio=document.getElementById('audio');
+const start=document.getElementById('start');
+const status=document.getElementById('status');
+const control=document.getElementById('control');
+const digits='31415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679';
+piEl.textContent=(digits+' ').repeat(620);
+let objectUrl=null;
 function updateMotion(){
-  const y = window.scrollY || 0;
-  const p = clamp(y / (window.innerHeight * 1.18),0,1);
-  const cream = clamp((y - window.innerHeight * 1.05) / (window.innerHeight * .72),0,1);
-  root.style.setProperty("--p", p.toFixed(4));
-  root.style.setProperty("--cream", cream.toFixed(4));
-  meter.textContent = started ? `proof · motion ${(p*100|0)} · foreword ${(cream*100|0)}` : "proof · waiting";
+  const max=Math.max(1,document.body.scrollHeight-innerHeight);
+  const p=Math.min(1,Math.max(0,scrollY/max*1.65));
+  const cream=Math.min(1,Math.max(0,(p-.62)/.28));
+  root.style.setProperty('--p',p.toFixed(3));
+  root.style.setProperty('--cream',cream.toFixed(3));
+  meter.textContent='proof v2 · motion '+Math.round(p*100)+'% · room '+Math.round(cream*100)+'%';
 }
-window.addEventListener("scroll", updateMotion, {passive:true});
-window.addEventListener("resize", updateMotion);
+addEventListener('scroll',updateMotion,{passive:true});
+addEventListener('resize',updateMotion);
 updateMotion();
-
-function loadSelectedAudio(){
-  const file = audioFile.files && audioFile.files[0];
-  if(!file) return null;
-  if(audio){ audio.pause(); URL.revokeObjectURL(audio.src); }
-  audio = new Audio(URL.createObjectURL(file));
-  audio.preload = "auto";
-  audio.loop = false;
-  audio.volume = 1;
-  audio.addEventListener("ended",()=>{ status.textContent = "Song ended. Full-track cue test completed."; });
-  return audio;
-}
-
-enterButton.addEventListener("click", async () => {
-  started = true;
-  control.classList.add("started");
-  const chosen = loadSelectedAudio();
-  if(chosen){
-    try{
-      await chosen.play();
-      status.textContent = "Music playing. Scroll slowly: the song should continue from threshold into Foreword.";
-      pauseButton.hidden = false;
-    }catch(err){
-      status.textContent = "Audio did not start. iPhone may need another tap on Enter or a different file source.";
-    }
-  } else {
-    status.textContent = "No MP3 selected. Visual motion test is running without audio.";
+file.addEventListener('change',()=>{
+  const chosen=file.files && file.files[0];
+  if(!chosen){status.textContent='No file chosen yet.';return;}
+  if(objectUrl) URL.revokeObjectURL(objectUrl);
+  objectUrl=URL.createObjectURL(chosen);
+  audio.src=objectUrl;
+  status.textContent='Loaded '+chosen.name+'. Tap Enter to start full-track playback.';
+});
+start.addEventListener('click',async()=>{
+  try{
+    if(!audio.src){status.textContent='Choose an MP3/audio file first. On iPhone, try Files > Downloads or On My iPhone.';return;}
+    audio.currentTime=0;
+    audio.volume=1;
+    await audio.play();
+    control.classList.add('started');
+    status.textContent='Music playing. Scroll slowly through the threshold.';
+  }catch(err){
+    status.textContent='Audio did not start: '+(err && err.message ? err.message : 'unknown browser block')+'. Try tapping Enter again after choosing the file.';
   }
-  window.scrollTo({top:0,behavior:"smooth"});
-  updateMotion();
 });
-
-pauseButton.addEventListener("click", async () => {
-  if(!audio) return;
-  if(audio.paused){ await audio.play(); status.textContent = "Music resumed."; }
-  else { audio.pause(); status.textContent = "Music paused."; }
-});
+audio.addEventListener('ended',()=>{status.textContent='Track ended. That means full-song playback reached completion.'});
+audio.addEventListener('error',()=>{status.textContent='The browser could not read that audio file. Try another MP3 or audio file.'});
 </script>
 </body>
 </html>
