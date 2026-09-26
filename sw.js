@@ -1,11 +1,11 @@
-const CACHE_NAME = "house-pi-rain-dense-v1";
+const CACHE_NAME = "house-pi-curtain-v1";
 const ASSETS = [
   "./",
   "./index.html",
-  "./style.css?v=pi-rain-dense-v1",
-  "./app.js?v=pi-rain-dense-v1",
-  "./audio.js?v=pi-rain-dense-v1",
-  "./manifest.json?v=pi-rain-dense-v1",
+  "./style.css?v=pi-curtain-v1",
+  "./app.js?v=pi-curtain-v1",
+  "./audio.js?v=pi-curtain-v1",
+  "./manifest.json?v=pi-curtain-v1",
   "./static/icons/apple-touch-icon.png",
   "./static/icons/favicon.png",
   "./static/icons/icon-192.png",
