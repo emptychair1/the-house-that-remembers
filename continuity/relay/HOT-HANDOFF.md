@@ -1,6 +1,6 @@
 # HOT HANDOFF — THE HOUSE THAT REMEMBERS
 
-HANDOFF_GENERATION: 51
+HANDOFF_GENERATION: 52
 HANDOFF_REVISION: 3
 UPDATED: 2026-09-27
 STATUS: LIVE BOOK EDGE. THIS FILE IS THE CURRENT BOOK-PROJECT MIRROR.
@@ -34,6 +34,20 @@ Every hot handoff must explicitly state the current version label. Current label
 ## PAGE NUMBER SYSTEM
 
 Locked design decision: page numbers are part of the House's architecture, not decorative UI. The base form is a tiny doorway enclosure, e.g. `| 03 |`. Page numbers are **static** on entry: no entrance animation and no exit animation. They should remain quiet and non-attention-seeking while the page itself carries the motion. The doorway geometry may evolve globally over the book, including walls opening, separating, or eventually allowing the number to move beyond the page boundary. The first implementation begins on **Page 3 of the Foreword**.
+
+## HOUSE MECHANICS LIBRARY
+
+The page mechanics are built as a reusable **House Mechanics** library. Once a House Mechanic exists, treat it as locked by default. Do **not** redesign, rename, or invent variants of an existing mechanic unless the page genuinely requires a new behavior and that need is explicitly established.
+
+Current locked House Mechanics include: **Scan, Change, Fall, Love, Crossed Out, and Glint.** The organic/biological mechanic is also an existing House Mechanic; its exact library name should be retrieved from the source rather than guessed. For page planning, use the existing mechanics as-is.
+
+When a page calls for an existing mechanic, the remaining creative decision is primarily **where and when it occurs**, not how to redesign the mechanic.
+
+For glyph congregation/attraction, determine timing and duration after inspecting the actual page composition and reading rhythm. Do not hard-code that timing in advance.
+
+## PAGE 3 LOCKED DETAILS
+
+Page number: bottom center, static, using the doorway form `| 03 |`. No entrance or exit animation.
 
 ## CURRENT REPO / SURFACE
 
