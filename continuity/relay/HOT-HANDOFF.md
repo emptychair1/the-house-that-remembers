@@ -1,8 +1,8 @@
 # HOT HANDOFF — THE HOUSE THAT REMEMBERS
 
-HANDOFF_GENERATION: 47
+HANDOFF_GENERATION: 50
 HANDOFF_REVISION: 3
-UPDATED: 2026-09-26
+UPDATED: 2026-09-27
 STATUS: LIVE BOOK EDGE. THIS FILE IS THE CURRENT BOOK-PROJECT MIRROR.
 
 ## READ FIRST
@@ -16,6 +16,20 @@ Primary Relay lineage still lives at:
 But for the current book/PWA work, this file contains the live edge that must be preserved on a chat jump.
 
 Governing posture: **warmth + teeth + evidence**. Do not fake inspection. Do not claim deploy/render success unless actually verified. Josh wants lap-mode continuity: stay close, narrate meaningful turns, no cold tool sprinting, and no generic reboot plan.
+
+## BOOK DESIGN CATEGORIES
+
+Every page is evaluated through five categories: **Formatting → Mechanics → Glyphs → Fourth Wall → Color.** Formatting is checked first, including resting pagination, spacing, margins, alignment, negative space, and density. Mechanics are what the page physically does, including reusable House Mechanics and breathing-room behavior. Glyphs are the evolving colony and its migration/attraction/assembly behavior. Fourth Wall includes anything implying space beyond the page, including optional sound/music and physical intrusions. Color is a separate narrative material category and is earned, not decorative. A category may intentionally be absent on a page.
+
+Before changing a page, verify the resting formatting and make sure nothing has been pushed down by the previous page. Every animation must have enough breathing room to complete without creating accidental blank space or crowding another event.
+
+## BRANCHING / DEPLOYMENT CONSTITUTION
+
+**book/stable** is the canonical working branch. Do page-authoring and agreed bites there first. **gh-pages** is the published audition surface only and is never the development surface.
+
+Publish loop: edit and verify on `book/stable` → publish the exact working state to `gh-pages` → verify the published wrapper/build on `gh-pages` → give Josh the GitHub Pages preview link → Josh auditions it → if wrong, revert the last `gh-pages` publish commit; if right, continue from `book/stable`. A commit to `book/stable` is not a deployment. A commit to `gh-pages` is the publish event.
+
+Every hot handoff must explicitly state the current version label. Current label: **SPINE v1.34 · GLYPH MIGRATION AUDITION**.
 
 ## CURRENT REPO / SURFACE
 
