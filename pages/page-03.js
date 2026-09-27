@@ -1,7 +1,8 @@
 (()=>{
   function ready(fn){window.HouseBook?fn():window.addEventListener('house:ready',fn,{once:true})}
   ready(()=>{
-    const d=document,w=window;if(d.getElementById('page-03-clean-controller'))return;
+    const d=document;
+    if(d.getElementById('page-03-clean-controller'))return;
     const marker=d.createElement('meta');marker.id='page-03-clean-controller';d.head.appendChild(marker);
     function find(text){return [...d.querySelectorAll('.foreword p')].find(p=>p.textContent.includes(text))}
     function wrap(p,text,cls,html){
@@ -39,9 +40,9 @@
     async function mech(el,hold){el.classList.remove('p3-live');void el.offsetWidth;el.classList.add('p3-live');await end(el);await sleep(hold)}
     async function diagnostic(){diag.style.setProperty('--pulse','1.49s');diag.classList.add('diag-live');const r=diag.getBoundingClientRect();scan.style.left=(r.left-3)+'px';scan.style.top=(r.top-2)+'px';scan.style.width=(r.width+6)+'px';scan.style.height=(r.height+4)+'px';scan.classList.add('live');diagHost.classList.add('p3-diag-open');await end(scan,1550);ro.classList.add('live');ro.querySelector('.sig').textContent='SIGNAL DETECTED';await sleep(760);ro.querySelector('.cls').textContent='CLASSIFICATION: UNRESOLVED';await sleep(1800);scan.classList.remove('live');ro.classList.remove('live');diag.classList.remove('diag-live');diagHost.classList.remove('p3-diag-open');await sleep(1000)}
     function cg(){const r=piper.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;[...cur.children].forEach((g,i)=>{const a=i/6*Math.PI*2-.5;g.style.setProperty('--cx',cx+Math.cos(a)*Math.max(24,r.width*.72)+'px');g.style.setProperty('--cy',cy+Math.sin(a)*Math.max(18,r.height*1.5)+'px');g.style.setProperty('--cr',(-12+i*5)+'deg')});cur.classList.add('notice');setTimeout(()=>cur.classList.remove('notice'),2600)}
-    async function conduct(){cur.classList.add('show');num.classList.add('show');await sleep(450);await mech(organic,900);await diagnostic();await mech(tested,700);await mech(fall,500);await mech(love,340);await mech(cross,1650);piper.classList.add('p3-live');cg();await sleep(2600);piper.classList.remove('p3-live')}
+    async function conduct(){cur.classList.add('show');num.classList.add('show');await sleep(250);await mech(organic,650);await diagnostic();await mech(tested,500);await mech(fall,400);await mech(love,280);await mech(cross,1100);piper.classList.add('p3-live');cg();await sleep(2600);piper.classList.remove('p3-live')}
     function visible(el){const r=el.getBoundingClientRect();return r.bottom>0&&r.top<innerHeight&&r.right>0&&r.left<innerWidth}
     function onPage(){return [organic,diag,tested,fall,love,cross,piper].some(visible)}
-    let seen=0,done=0;function gate(t){if(done)return;if(onPage()){num.classList.add('show');cur.classList.add('show');seen=seen||t;if(t-seen>=3000){done=1;conduct();return}}else{seen=0;num.classList.remove('show');cur.classList.remove('show')}requestAnimationFrame(gate)}requestAnimationFrame(gate);
+    let seen=0,done=0;function gate(t){if(done)return;if(onPage()){num.classList.add('show');cur.classList.add('show');seen=seen||t;if(t-seen>=800){done=1;conduct();return}}else{seen=0;num.classList.remove('show');cur.classList.remove('show')}requestAnimationFrame(gate)}requestAnimationFrame(gate);
   })
 })();
