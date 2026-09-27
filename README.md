@@ -29,3 +29,13 @@ Page 4 does use a tiny phrase-wrapping helper. The difference is that Page 4 per
 The architecture that works is:
 
 **approved previous Spine → thin next-page controller → four known local targets → one content-based visibility gate → one sequential conductor → existing effect mechanics → page-scoped glyph adjustment.**
+
+## Architecture Guardrails
+
+### No New Iframes Without Josh's Explicit Approval
+
+Do not create, add, introduce, or nest a new iframe without asking Josh first and receiving explicit confirmation. Existing iframe architecture may remain, be inspected, and be reused as-is. Adding another iframe is always a stop-and-ask event.
+
+### Source Check Before Architecture Claims
+
+Before describing, changing, reproducing, or extending a page's architecture, inspect the actual known-good source first. Do not reconstruct architecture from conversational memory when the source exists. If uncertain, inspect the known-good previous page rather than inventing a mechanism.
