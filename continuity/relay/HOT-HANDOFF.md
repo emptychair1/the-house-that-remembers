@@ -39,7 +39,7 @@ Locked design decision: page numbers are part of the House's architecture, not d
 
 The page mechanics are built as a reusable **House Mechanics** library. Once a House Mechanic exists, treat it as locked by default. Do **not** redesign, rename, or invent variants of an existing mechanic unless the page genuinely requires a new behavior and that need is explicitly established.
 
-Current locked House Mechanics include: **Scan, Change, Fall, Love, Crossed Out, and Glint.** The organic/biological mechanic is also an existing House Mechanic; its exact library name should be retrieved from the source rather than guessed. For page planning, use the existing mechanics as-is.
+Current locked House Mechanics include: **Diagnostics, Change, Fall, Love, Crossed Out, and Glint.** The organic/biological mechanic is also an existing House Mechanic; its exact library name should be retrieved from the source rather than guessed. For page planning, use the existing mechanics as-is.
 
 When a page calls for an existing mechanic, the remaining creative decision is primarily **where and when it occurs**, not how to redesign the mechanic.
 
