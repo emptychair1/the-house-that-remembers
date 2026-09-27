@@ -1,6 +1,6 @@
 # HOT HANDOFF — THE HOUSE THAT REMEMBERS
 
-HANDOFF_GENERATION: 50
+HANDOFF_GENERATION: 51
 HANDOFF_REVISION: 3
 UPDATED: 2026-09-27
 STATUS: LIVE BOOK EDGE. THIS FILE IS THE CURRENT BOOK-PROJECT MIRROR.
@@ -30,6 +30,10 @@ Before changing a page, verify the resting formatting and make sure nothing has 
 Publish loop: edit and verify on `book/stable` → publish the exact working state to `gh-pages` → verify the published wrapper/build on `gh-pages` → give Josh the GitHub Pages preview link → Josh auditions it → if wrong, revert the last `gh-pages` publish commit; if right, continue from `book/stable`. A commit to `book/stable` is not a deployment. A commit to `gh-pages` is the publish event.
 
 Every hot handoff must explicitly state the current version label. Current label: **SPINE v1.34 · GLYPH MIGRATION AUDITION**.
+
+## PAGE NUMBER SYSTEM
+
+Locked design decision: page numbers are part of the House's architecture, not decorative UI. The base form is a tiny doorway enclosure, e.g. `| 03 |`. Page numbers are **static** on entry: no entrance animation and no exit animation. They should remain quiet and non-attention-seeking while the page itself carries the motion. The doorway geometry may evolve globally over the book, including walls opening, separating, or eventually allowing the number to move beyond the page boundary. The first implementation begins on **Page 3 of the Foreword**.
 
 ## CURRENT REPO / SURFACE
 
