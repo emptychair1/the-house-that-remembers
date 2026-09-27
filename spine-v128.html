@@ -1,0 +1,27 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Loading Spine v1.28…</title><style>html,body{margin:0;background:#000;color:#fff;font:12px ui-monospace,monospace}.boot{position:fixed;inset:0;display:grid;place-items:center;opacity:.5}</style></head><body><div class="boot">SPINE v1.28</div><script>
+(async()=>{
+ const src=await fetch('./spine-v127.html?v=127',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('v1.27 fetch '+r.status);return r.text()});
+ let s=src.replaceAll('Spine v1.26s','Spine v1.28').replaceAll('SPINE v1.26s','SPINE v1.28');
+ const choreography=`<style id="foreword-bite2">
+.choreo-distance{display:inline-flex}.choreo-distance span{display:inline-block}.choreo-distance.choreo-live span{animation:forewordDistance 3.8s cubic-bezier(.2,.7,.2,1) forwards}@keyframes forewordDistance{to{transform:translateX(calc((var(--i) - 13.5) * 5px))}}
+.choreo-fall span{display:inline-block}.choreo-fall.choreo-live span{animation:forewordFall var(--d) cubic-bezier(.45,.02,.8,.3) var(--delay) forwards}@keyframes forewordFall{to{transform:translate(var(--x),130px) rotate(var(--r));opacity:0}}
+</style><script id="foreword-bite2-js">(()=>{
+ const wrapLetters=(text,cls,styler)=>'<span class="'+cls+'">'+[...text].map((ch,i)=>'<span style="'+styler(i,ch)+'">'+(ch===' '?'&nbsp;':ch)+'</span>').join('')+'</span>';
+ const paragraphs=[...document.querySelectorAll('p')];
+ const distP=paragraphs.find(p=>p.textContent.trim()==='I have not solved consciousness.');
+ const fallP=paragraphs.find(p=>p.textContent.trim()==='But that may be the problem.');
+ if(!distP||!fallP)return;
+ distP.innerHTML=wrapLetters('I have not solved consciousness.','choreo-distance',(i)=>'--i:'+i);
+ fallP.innerHTML=wrapLetters('But that may be the problem.','choreo-fall',(i)=>{const x=((i*17)%29)-14,r=((i*23)%67)-33,delay=(.04+((i*7)%38)/100).toFixed(2),d=(.78+((i*11)%50)/100).toFixed(2);return '--delay:'+delay+'s;--d:'+d+'s;--x:'+x+'px;--r:'+r+'deg'});
+ const distance=distP.querySelector('.choreo-distance'),fall=fallP.querySelector('.choreo-fall');
+ let active=false,timers=[];
+ const visible=()=>{const r=distP.getBoundingClientRect();return r.width>0&&r.height>0&&r.bottom>0&&r.top<innerHeight};
+ const clear=()=>{timers.forEach(clearTimeout);timers=[];distance.classList.remove('choreo-live');fall.classList.remove('choreo-live');void distance.offsetWidth;void fall.offsetWidth};
+ const start=()=>{clear();timers.push(setTimeout(()=>distance.classList.add('choreo-live'),7200));timers.push(setTimeout(()=>fall.classList.add('choreo-live'),12400))};
+ const watch=()=>{const now=visible();if(now&&!active){active=true;start()}else if(!now&&active){active=false;clear()}};
+ setInterval(watch,120);requestAnimationFrame(watch);
+})();<\/script>`;
+ s=s.replace('</body>',choreography+'</body>');
+ document.open();document.write(s);document.close();
+})().catch(e=>{document.body.innerHTML='<pre style="padding:24px;color:#fff">SPINE v1.28 BOOT ERROR\\n'+String(e)+'</pre>'});
+</script></body></html>
