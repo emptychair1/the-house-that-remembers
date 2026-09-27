@@ -1,0 +1,18 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>The House That Remembers — Spine v1.44</title><style>html,body,iframe{margin:0;width:100%;height:100%;border:0;background:#000;overflow:hidden}iframe{display:block}</style></head><body><iframe id="book" src="./spine-v143.html?base=143" title="The House That Remembers"></iframe><script>
+const LABEL='SPINE v1.44 · PAGE 3 CHOREOGRAPHY';
+function descend(win){let cur=win;for(let i=0;i<14;i++){const d=cur.document;if(!d)return null;const n=d.querySelector('#book');if(!n||!n.contentWindow)return {w:cur,d};cur=n.contentWindow;}return {w:cur,d:cur.document};}
+const root=document.querySelector('#book');root.addEventListener('load',()=>setTimeout(()=>{const leaf=descend(root.contentWindow);if(!leaf)return;const {w,d}=leaf;if(d.getElementById('p3-144'))return;const marker=d.createElement('meta');marker.id='p3-144';d.head.appendChild(marker);
+const organic=d.querySelector('.p3-organic'),diag=d.querySelector('.p3-diag'),change=d.querySelector('.p3-change'),less=d.querySelector('.p3-fall'),shared=d.querySelector('.p3-love'),good=d.querySelector('.p3-cross'),piper=d.querySelector('.p3-glint'),current=d.querySelector('.p3-current');
+const timers=[];const later=(fn,ms)=>{const h=w.setTimeout(fn,ms);timers.push(h);return h};
+if(organic){delete organic.dataset.p3done;}
+if(diag){diag.dataset.p3done='1';later(()=>{delete diag.dataset.p3done},3900)}
+[change,less,shared,good,piper].forEach(x=>{if(x)x.dataset.p3done='1'});
+later(()=>{if(change){delete change.dataset.p3done}},11200);
+later(()=>{if(less){delete less.dataset.p3done}},13100);
+later(()=>{if(shared){delete shared.dataset.p3done}},14600);
+later(()=>{if(good){delete good.dataset.p3done}},15800);
+later(()=>{if(piper){delete piper.dataset.p3done}},18800);
+if(piper&&current){const oldAdd=piper.classList.add.bind(piper.classList);piper.classList.add=(...names)=>{if(!names.includes('p3-live'))return oldAdd(...names);later(()=>{const r=piper.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;[...current.children].forEach((g,i)=>{const a=(i/Math.max(1,current.children.length))*Math.PI*2-.5,rx=Math.max(24,r.width*.72),ry=Math.max(18,r.height*1.5);g.style.setProperty('--cx',(cx+Math.cos(a)*rx)+'px');g.style.setProperty('--cy',(cy+Math.sin(a)*ry)+'px')});current.classList.add('notice');later(()=>oldAdd('p3-live'),1150);later(()=>current.classList.remove('notice'),4300)},650)};}
+const badge=d.querySelector('.version-badge');if(badge)badge.textContent=LABEL;
+},850));
+</script></body></html>
